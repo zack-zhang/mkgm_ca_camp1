@@ -115,7 +115,17 @@ $(function(){
 
         $(window).on('touchmove.scroll', function (e) {e.preventDefault();});
         $(window).on('scroll.scroll',function (e) {e.preventDefault();});
+    //字体自适应
+    function adaptive(){
+    var w = $(".g-doc").width();
 
+    var h = $(".g-doc").height();
+    console.log(w);
+    $("#top_component").css("height",h*0.6418);
+    $("#bottom_component").css("top",h*0.6418);
+    $("#bottom_component").css("height",h*0.3582);
+    $("body").css("font-size", 62.5 * deviceWidth / 640+"%");
+}
     
     // 加载页
 
@@ -127,7 +137,7 @@ $(function(){
      */
     var weixin = 0,
         firstA = 0;
-        firstPrize = 1,
+        firstPrize = 0,
         usedNumber = 0;
 
     var pics = new Array();
@@ -227,7 +237,9 @@ $(function(){
     var count7 = parseInt(count%10);
     var numPics = ["images/0.png","images/1.png","images/2.png","images/3.png","images/4.png","images/5.png","images/6.png","images/7.png","images/8.png","images/9.png"];
     // var numUrl = changeNum(countN);
-
+    // 字体自适应
+    $("body").css("font-size", 62.5 * deviceWidth / 320+"%");
+    
     function changeNum(countN){
       
       return numPics[countN];
