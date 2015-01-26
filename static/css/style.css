@@ -507,7 +507,7 @@ body .page2_phoneNumber{
 body #input-mobile{
     /*font-color: #A19586;*/
     position:absolute;
-    font-size: 1.7em;
+    font-size: 1.5em;
     text-align: center;
     color: #A19684;
     background-color: transparent;
@@ -517,7 +517,7 @@ body #input-mobile{
     top: 7%;
     width: 100%;
     height: 56%;
-    font-weight: 500;
+    font-weight: 600;
 
     
 }
@@ -862,7 +862,7 @@ body .page4_guide{
 
 body .page4_wishTitle{
     position: absolute;
-    top: 54%;
+    top: 55%;
     width: 64%;
     height: 25%;
     left: 18%;
@@ -879,6 +879,8 @@ body #wishTitle1_2{
     font-size: 1.5em;
     text-align: center;
     font-weight: 500;
+    margin-top: -1%;
+    margin-bottom: 1%;
 }
 
 body #wish1_2{
@@ -1067,6 +1069,23 @@ body .usedBtn{
     position: absolute;
     width: 54.69%;/*350px*/
     top: 75%;
+    left: 22.7%;
+    z-index: 10005;
+}
+
+/*礼包抢完了*/
+body .lateInfo{
+    position: absolute;
+    width: 100%;
+    top: 0%;
+    z-index: 10005;
+    
+}
+
+body .lateBtn{
+    position: absolute;
+    width: 54.69%;/*350px*/
+    top: 65%;
     left: 22.7%;
     z-index: 10005;
 }

@@ -137,7 +137,7 @@ $(function(){
      */
     var weixin = 0,
         firstA = 0;
-        firstPrize = 0,
+        firstPrize = 1,
         usedNumber = 0;
 
     var pics = new Array();
