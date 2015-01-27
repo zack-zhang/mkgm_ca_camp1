@@ -74,7 +74,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser("MKGM-CA-CAMPAIGN-9588"));
 
+/*
 
+app.option("/iamalive", function(req, res, next){
+    return res.json({
+        success: true,
+        message: 'iamalive'
+    });    
+});
+*/
 
 //app.use('/', routes);
 app.use(express.static(path.join(__dirname, 'static')));
