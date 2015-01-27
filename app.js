@@ -6,7 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');
 var urlencode = require('urlencode');
+var crypto = require('crypto');
 var url = require('url');
+
 
 var config = require("./config")();
 var conString = config.dbConStr;
@@ -22,6 +24,11 @@ var routes = require('./routes/index');
 var html_dir = './static/';
 var app = express();
 
+global.access_token = null;
+global.jsticket = null;
+global.expires_at = 0; // getTime() a int represent time in seconds since 1970
+global.retriev_lock = 0; //lock the process to retriev ticket
+
 var authFilter = function(req, res, next){
     var pathname = url.parse(req.url).pathname;
     console.log("Request for " + pathname + " received.");
@@ -36,7 +43,7 @@ var authFilter = function(req, res, next){
     if(!openid){        
         return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
             + config.wxAppId + "&redirect_uri=" 
-            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=http://campaign.canda.cn/users")
+            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
             +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
     }
     
@@ -87,9 +94,80 @@ app.option("/iamalive", function(req, res, next){
 //app.use('/', routes);
 app.use(express.static(path.join(__dirname, 'static')));
 
+//get jsticket api
+app.get('/jsticket', function(req, res){
+    if((!global.jsticket || !global.expires_at 
+        || (global.expires_at - Date.now()/1000) < (60 * 5)) && !global.retriev_lock ){
+        global.retriev_lock = 1;
+        console.log("get jsapikey from remote");
+        
+        //refresh jsapi ticket 5 minutes before its expiration
+        //get global access token and jsapi ticket first
+        var globalTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
+                + config.wxAppId + "&secret=" + config.wxAppSecret;
+                
+        request.get(globalTokenUrl, function(err, response, body){
+            if(err){
+                console.log("ERROR when try to get global access token");
+                global.retriev_lock = 0;
+                return next(err);
+            }
+            var resData = JSON.parse(body);
+            var getJsapiUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" 
+                            + resData.access_token+ "&type=jsapi"; 
+            request.get(getJsapiUrl, function(err, response, body){
+                if(err){
+                    console.log("ERROR when try to get jsapi ticket");
+                    global.retriev_lock = 0;
+                    return next(err);
+                }
+                var apiInfo = JSON.parse(body);
+                global.jsticket = apiInfo.ticket;
+                global.expires_at = Date.now()/1000 + parseInt(apiInfo.expires_in); // 7200 seconds = 2hrs
+                global.retriev_lock = 0;
+                return res.json({
+                    jsticket: global.jsticket,
+                    expires_at: global.expires_at
+                });
+            });
+        });
+    }else{
+        console.log("get jsapikey from global cache");
+        return res.json({
+            jsticket: global.jsticket,
+            expires_at: global.expires_at
+        });
+    }
+    
+})
+
 app.use(authFilter);
-app.get('/', function(req, res) {
-    res.sendfile(html_dir + 'home.html');
+app.get('/', function(req, res, next) {
+    var jsTicketUrl = "http://" + config.jsTicketHost + ":" + app.get('port') + "/jsticket";
+    request.get(jsTicketUrl, function(err, response, body){
+        if(err){
+            console.error("Failed to get jsapi ticket information");
+            return next(err);
+        }
+        var ticketInfo = JSON.parse(body);
+        
+        //signature string
+        var now = Date.now();
+        var nonceStr = '123456790';
+        var rawSig = "jsapi_ticket=" + ticketInfo.jsticket 
+                    + "&noncestr=" + nonceStr
+                    + "&timestamp=" + now
+                    + "&url=" + req.url;
+        var shasum = crypto.createHash('sha1');
+        var signature = shasum.update(rawSig.toLowerCase()).digest('hex');
+        
+        console.log("get the signature : " + signature);
+        var jsticketCookie = config.wxAppId + "," + now + "," + nonceStr + "," + signature;
+        
+        res.cookie('jsticket', jsticketCookie, { maxAge: 60 * 1000 });
+        
+        res.sendFile(html_dir + 'home.html');
+    });
 });
 
 
