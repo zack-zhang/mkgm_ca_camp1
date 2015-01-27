@@ -100,7 +100,7 @@ app.get('/wxoauth_callback', function(req, res, next){
     console.log("Callback request query: " + req.query);
     
     var accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" 
-        + config.wxAppId + "&secret=" + config.wxAppSecret 
+        + config.wxAppId + "&secret=iii" + config.wxAppSecret 
         + "&code=" + req.query.code + "&grant_type=authorization_code";
     
     request.get(accessTokenUrl, function(err, response, bd){
@@ -108,9 +108,22 @@ app.get('/wxoauth_callback', function(req, res, next){
             console.log("ERROR ocurred when request for access token : " + err);
             return next(err);
         }
-        console.log("auth token response : " + JSON.stringify(bd);
-        res.cookie('openid', '1234567890', { maxAge: 60 * 1000 });
-        return res.redirect('/users');
+        console.log("auth token response : " + JSON.stringify(bd));
+	if(bd.errcode){
+		var error = new Error(bd.errmsg);
+		error.status = 500;
+		return next(error);
+	}else{
+		var access_token = bd.access_token;
+		var refresh_token = bd.refresh_token;
+		var openid = bd.openid;
+	
+		//upsert openid, access_token, refresh_token, expires_in into database
+	
+		//set the openid in cookie
+        	res.cookie('openid', openid, { maxAge: 60 * 1000 });
+        	return res.redirect('/users');
+	}
     });
 })
 
