@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var request = require('request');
 var config = require("./config")();
 var conString = config.dbConStr;
 
@@ -18,7 +19,10 @@ var routes = require('./routes/index');
 var html_dir = './static/';
 var app = express();
 
-
+var authFilter = function(req, res, next){
+    console.log("Got a request!");
+    next();
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,6 +35,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'static')));
+app.use(authFilter);
 
 //app.use('/', routes);
 
@@ -39,6 +44,14 @@ app.get('/', function(req, res) {
 });
 
 
+app.put('/users', function(req, res, next){
+    console.log(req.body);
+    
+    res.json({
+        success: true,
+        mobile: req.body
+    });
+});
 
 app.get('/users', function(req, res, next){
     /*
@@ -73,6 +86,22 @@ pg.connect(conString, function(err, client, done) {
             mobile: rows[0].mobile,
             name: rows[0].name
         }
+        //call message api to send sms
+        var sms = config.smsNormal;
+        sms = sms.replace("【变量1】", '50');
+        sms = sms.replace("【变量2】", '55555555');
+        request.post({
+                    url:'http://121.199.16.178/webservice/sms.php?method=Submit', 
+                    form: { 
+                        account: 'cf_obizsoft',
+                        password: 'a123456',
+                        mobile: '13764211365',
+                        content: sms
+                    }
+                }, function(err, res, bd){
+                    console.log(bd);
+                }
+        );
         res.json(r);
     });
 });
