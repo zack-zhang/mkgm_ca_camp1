@@ -108,7 +108,7 @@ app.get('/wxoauth_callback', function(req, res, next){
             console.log("ERROR ocurred when request for access token : " + err);
             return next(err);
         }
-        console.log("auth token response : " + response);
+        console.log("auth token response : " + JSON.stringify(bd);
         res.cookie('openid', '1234567890', { maxAge: 60 * 1000 });
         return res.redirect('/users');
     });
