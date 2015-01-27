@@ -140,6 +140,8 @@ app.get('/wxoauth_callback', function(req, res, next){
                       console.error('error running query', err);
                       return next(err);
                     }
+                    
+                    
                     if(rows && rows[0]){
                         //update existing field
                         db.update('auth_users', 
@@ -159,10 +161,14 @@ app.get('/wxoauth_callback', function(req, res, next){
                                   console.error('error running query', err);
                                   return next(err);
                                 }
+                                //set the openid in cookie
+                                res.cookie('openid', openid, { maxAge: 60 * 1000 });
+        	
                                 return res.redirect(req.query.redirect);
                             });
                     }else{
                         //insert new record
+                        console.log("insert new openid : " + openid);
                         db.insert('auth_users', 
                             {   
                                 openid: openid,
@@ -181,15 +187,12 @@ app.get('/wxoauth_callback', function(req, res, next){
                                   console.error('error running query', err);
                                   return next(err);
                                 }
+                                res.cookie('openid', openid, { maxAge: 60 * 1000 });
                                 return res.redirect(req.query.redirect);
                             });
                     }
                 });
             });
-    		
-    		//set the openid in cookie
-        	res.cookie('openid', openid, { maxAge: 60 * 1000 });
-        	return res.redirect('/users');
     	}
     });
 })
