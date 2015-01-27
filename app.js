@@ -100,30 +100,96 @@ app.get('/wxoauth_callback', function(req, res, next){
     console.log("Callback request query: " + req.query);
     
     var accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" 
-        + config.wxAppId + "&secret=iii" + config.wxAppSecret 
+        + config.wxAppId + "&secret=" + config.wxAppSecret 
         + "&code=" + req.query.code + "&grant_type=authorization_code";
     
     request.get(accessTokenUrl, function(err, response, bd){
         if(err){
-            console.log("ERROR ocurred when request for access token : " + err);
+            console.error("ERROR ocurred when request for access token : " + err);
             return next(err);
         }
         console.log("auth token response : " + JSON.stringify(bd));
-	if(bd.errcode){
-		var error = new Error(bd.errmsg);
-		error.status = 500;
-		return next(error);
-	}else{
-		var access_token = bd.access_token;
-		var refresh_token = bd.refresh_token;
-		var openid = bd.openid;
-	
-		//upsert openid, access_token, refresh_token, expires_in into database
-	
-		//set the openid in cookie
+    	if(bd.errcode){
+    	    console.error("some error happened when tring to get access token");
+    		var error = new Error(bd.errmsg);
+    		error.status = 500;
+    		return next(error);
+    	}else{
+    		var access_token = bd.access_token;
+    		var refresh_token = bd.refresh_token;
+    		var openid = bd.openid;
+            var getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" 
+                    + access_token + "&openid=" + openid + "&lang=zh_CN";
+            request.get(getUserInfoUrl, function(err, res, body){
+                if(err){
+                    console.error("ERROR ocurred when request for user info : " + err);
+                    return next(err);
+                }
+                var nickname = body.nickname,
+                    sex = body.sex,
+                    province = body.province,
+                    city = body.city,
+                    country = body.country,
+                    headimgurl = body.headimgurl,
+                    privilege = body.privilege,
+                    unionid = body.unionid;
+                
+                //upsert openid, access_token, refresh_token, expires_in into database
+                db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
+                    if(err) {  
+                      console.error('error running query', err);
+                      return next(err);
+                    }
+                    if(rows && rows[0]){
+                        //update existing field
+                        db.update('auth_users', 
+                            {   
+                                nickname: nickname, 
+                                sex: sex, 
+                                province: province, 
+                                city: city,
+                                country: country,
+                                headimgurl: headimgurl,
+                                privilege: privilege,
+                                unionid: unionid,
+                                access_token: access_token,
+                                refresh_token: refresh_token
+                            }).where('openid', openid).run(function(err, rows){
+                                if(err) {  
+                                  console.error('error running query', err);
+                                  return next(err);
+                                }
+                                return res.redirect(req.query.redirect);
+                            });
+                    }else{
+                        //insert new record
+                        db.insert('auth_users', 
+                            {   
+                                nickname: nickname, 
+                                sex: sex, 
+                                province: province, 
+                                city: city,
+                                country: country,
+                                headimgurl: headimgurl,
+                                privilege: privilege,
+                                unionid: unionid,
+                                access_token: access_token,
+                                refresh_token: refresh_token
+                            }).returning('*').row(function(err, row){
+                                if(err) {  
+                                  console.error('error running query', err);
+                                  return next(err);
+                                }
+                                return res.redirect(req.query.redirect);
+                            });
+                    }
+                });
+            });
+    		
+    		//set the openid in cookie
         	res.cookie('openid', openid, { maxAge: 60 * 1000 });
         	return res.redirect('/users');
-	}
+    	}
     });
 })
 
