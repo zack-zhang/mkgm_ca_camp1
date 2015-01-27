@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');
 var urlencode = require('urlencode');
+var url = require('url');
 
 var config = require("./config")();
 var conString = config.dbConStr;
@@ -22,11 +23,41 @@ var html_dir = './static/';
 var app = express();
 
 var authFilter = function(req, res, next){
-    console.log("Got a request!"); 
-    console.log(req.query);
+    var pathname = url.parse(req.url).pathname;
+    console.log("Request for " + pathname + " received.");
     
-       
-    next();
+    if(pathname && pathname.indexOf('wxoauth_callback') > -1){
+        return next();
+    }
+    
+    var openid = req.query.openid || req.cookies.openid;
+    console.log("openid = " + openid);
+    
+    if(!openid){        
+        return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
+            + config.wxAppId + "&redirect_uri=" 
+            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=http://campaign.canda.cn/users")
+            +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
+    }
+    
+    db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
+        if(err) {  
+          console.error('error running query', err);
+          next(err);
+          return;
+        }
+                
+        if(rows && rows[0] && rows[0].openid){
+            next();
+        }else{
+            console.log("could not find any record associated with this openid");
+            //else need redirect to weixin for auth
+            return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
+                + config.wxAppId + "&redirect_uri=" 
+                + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=http://campaign.canda.cn/users")
+                +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
+        }
+    });    
 }
 
 // view engine setup
@@ -41,25 +72,38 @@ app.use(bodyParser.urlencoded({ extended: false }));
 */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser("MKGM-CA-CAMPAIGN-9588"));
 
-app.use(authFilter);
+
 
 //app.use('/', routes);
-
-app.get('/', function(req, res) {
-    console.log("Home");
-    res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx891111d0998d92f5&redirect_uri=" 
-            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=http://campaign.canda.cn/users")
-            +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
-    //res.sendfile(html_dir + 'index.html');
-});
-
 app.use(express.static(path.join(__dirname, 'static')));
 
+app.use(authFilter);
+app.get('/', function(req, res) {
+    res.sendfile(html_dir + 'home.html');
+});
 
-app.get('wxoauth_callback', function(req, res, next){
+
+
+
+app.get('/wxoauth_callback', function(req, res, next){
+     
     console.log("Callback request query: " + req.query);
+    
+    var accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" 
+        + config.wxAppId + "&secret=" + config.wxAppSecret 
+        + "&code=" + req.query.code + "&grant_type=authorization_code";
+    
+    request.get(accessTokenUrl, function(err, response, bd){
+        if(err){
+            console.log("ERROR ocurred when request for access token : " + err);
+            return next(err);
+        }
+        console.log("auth token response : " + response);
+        res.cookie('openid', '1234567890', { maxAge: 60 * 1000 });
+        return res.redirect('/users');
+    });
 })
 
 app.put('/users', function(req, res, next){
@@ -75,6 +119,7 @@ app.put('/users', function(req, res, next){
 
 
 app.get('/users', function(req, res, next){
+      
     /*
 pg.connect(conString, function(err, client, done) {
         if(err) {
@@ -111,7 +156,8 @@ pg.connect(conString, function(err, client, done) {
         var sms = config.smsNormal;
         sms = sms.replace("【变量1】", '50');
         sms = sms.replace("【变量2】", '55555555');
-        request.post({
+        /*
+request.post({
                     url:'http://121.199.16.178/webservice/sms.php?method=Submit', 
                     form: { 
                         account: 'cf_obizsoft',
@@ -123,6 +169,7 @@ pg.connect(conString, function(err, client, done) {
                     console.log(bd);
                 }
         );
+*/
         res.json(r);
     });
 });
