@@ -119,19 +119,19 @@ body .loading_cover{
 
 body .loading_dot1{
     position: absolute;
-    top: 51.8%;
+    top: 53.8%;
     left: 71%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot2{
     position: absolute;
-    top: 51.8%;
+    top: 53.8%;
     left: 73.2%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot3{
     position: absolute;
-    top: 51.8%;
+    top: 53.8%;
     left: 75.4%;
     width: 2.18%; /*14px*/
 }
@@ -216,7 +216,7 @@ body .page1_c1{
     position: absolute;
     width: 27.50%; /*176/640*/
     left: 17.5%;
-    top:10%;
+    top:12%;
 
 
 }
@@ -238,16 +238,16 @@ body .page1_belt{
 
 body .page1_info{
     position: absolute;
-    left: 80%;
+    left: 79%;
     width: 17.8125%; /*114/640*/
 
-    top:2%;
+    top:2.3%;
 }
 
 body .page1_fire{
     position: absolute;
     width: 88.906%;
-    top: 5%;
+    top: 10%;
     left: 5%;
 
 
@@ -315,7 +315,7 @@ body .page1_num1{
     position:absolute;
     border:0;
     left: 25.5%;
-    top: 36.5%;
+    top: 37%;
     width: 5.94%;/*38px*/
     
     
@@ -330,7 +330,7 @@ body .page1_num2{
     position:absolute;
     border:0;
     left: 32.3%;
-    top: 36.5%;
+    top: 37%;
     width: 5.94%;/*38px*/
     
 }
@@ -342,7 +342,7 @@ body .page1_num3{
     position:absolute;
     border:0;
     left: 38.7%;
-    top: 36.5%;
+    top: 37%;
     width: 5.94%;/*38px*/
    
 }
@@ -354,7 +354,7 @@ body .page1_num4{
     position:absolute;
     border:0;
     left: 45.5%;
-    top: 36.5%;
+    top: 37%;
     width: 5.94%;/*38px*/
     
 }
@@ -366,7 +366,7 @@ body .page1_num5{
     position:absolute;
     border:0;
     left: 52%;
-    top: 36.5%;
+    top: 37%;
     width: 5.94%;/*38px*/
     
 }
@@ -378,7 +378,7 @@ body .page1_num6{
     position:absolute;
     border:0;
     left: 58.8%;
-    top: 36.5%;
+    top: 37%;
     width: 5.94%;/*38px*/
     
 }
@@ -390,7 +390,7 @@ body .page1_num7{
     position:absolute;
     border:0;
     left: 65%;
-    top: 36.5%;
+    top: 37%;
     width: 5.94%;/*38px*/
     
 }
@@ -404,7 +404,7 @@ body .page0_bg{
 body .page0_bag{
     position: absolute;
     width: 24.85%;/*159/640 */
-    top: 47%;
+    top: 49%;
     left: 62.5%;
     z-index: 10001;
 
@@ -422,14 +422,14 @@ body .page0_confirmPhone{
     position: absolute;
     width: 54.69%; /*350/640*/
     left: 23.7%;
-    top: 62%;
+    top: 64%;
     z-index: 10001;
 }
 
 body .page0_light{
     position: absolute;
     width: 13.75%;/*88/640*/
-    top: 41.5%;
+    top: 44.5%;
     left: 79.5%;
     z-index: 10002;
 }
@@ -438,7 +438,7 @@ body .page0_wish{
     position: absolute;
     width: 81.72%;/*523/640*/
     left: 9.1%;
-    top: 25%;
+    top: 28%;
     z-index: 10000;
 
 }
@@ -456,13 +456,13 @@ body #input-mobile2{
     /*font-color: #A19586;*/
     position:absolute;
     border:0;
-    left: 3%;
+    left: 0%;
     top: 9.5%;
-    width: 75%;
+    width: 78%;
     height: 20%;
-    background-color: #FDFDF5;
+    background-color: transparent;
     color: #A19684;
-    font-size: 1.1em;
+    font-size: 1.2em;
     text-align: center;
     font-weight: 500;
     
@@ -475,7 +475,7 @@ body #input-mobile2{
 body .page0_phoneNumber{
     position:absolute;
     
-    top:52.2%;
+    top:54.2%;
     height: 17%;
     
     left: 17%;
@@ -495,9 +495,9 @@ body .page0_phoneNumber{
 
 body .page2_phoneNumber{
     position:absolute;
-    top:71%;
-    height: 8%;
-    left: 27%;
+    top:69.5%;
+    height: 8.5%;
+    left: 17%;
     width: 60%;
         
      
@@ -507,21 +507,20 @@ body .page2_phoneNumber{
 body #input-mobile{
     /*font-color: #A19586;*/
     position:absolute;
-    font-size: 1.1em;
+    font-size: 1.5em;
     text-align: center;
     color: #A19684;
-    background-color: #FDFDF5;
+    background-color: transparent;
   
     border:0;
     left: 2px;
     top: 7%;
-    width: 70%;
+    width: 100%;
     height: 56%;
-    font-weight: 500;
+    font-weight: 600;
 
     
 }
-
 
 
 body .m-screen1 .g-ct  #confirmPhone{
@@ -542,7 +541,7 @@ body .m-screen1 .g-ct  #confirmPhone{
 body .page2_confirm{
     position: absolute;
     width: 54.6875%; /*350/640*/
-    top:65%;
+    top:67%;
     left: 22.7%;
     z-index: 10005;
 }
@@ -559,7 +558,7 @@ body .page2_info{
 body .page2_b1{
     position: absolute;
     width: 25.31%;/*162px*/
-    top:18%;
+    top:21%;
     left: 30%    
 }
 
@@ -636,7 +635,7 @@ body .page2_num1{
     position:absolute;
     border:0;
     left: 25.5%;
-    top: 13.5%;
+    top: 15.5%;
     width: 5.94%;/*38px*/
 
 }
@@ -650,7 +649,7 @@ body .page2_num2{
     position:absolute;
     border:0;
     left: 32.3%;
-    top: 13.5%;
+    top: 15.5%;
     width: 5.94%;/*38px*/
     
 }
@@ -662,7 +661,7 @@ body .page2_num3{
     position:absolute;
     border:0;
     left: 38.7%;
-    top: 13.5%;
+    top: 15.5%;
     width: 5.94%;/*38px*/
     
 }
@@ -674,7 +673,7 @@ body .page2_num4{
     position:absolute;
     border:0;
     left: 45.5%;
-    top: 13.5%;
+    top: 15.5%;
     width: 5.94%;/*38px*/
     
 }
@@ -686,7 +685,7 @@ body .page2_num5{
     position:absolute;
     border:0;
     left: 52%;
-    top: 13.5%;
+    top: 15.5%;
     width: 5.94%;/*38px*/
     
 }
@@ -698,7 +697,7 @@ body .page2_num6{
     position:absolute;
     border:0;
     left: 58.8%;
-    top: 13.5%;
+    top: 15.5%;
     width: 5.94%;/*38px*/
     
 }
@@ -710,7 +709,7 @@ body .page2_num7{
     position:absolute;
     border:0;
     left: 65%;
-    top: 13.5%;
+    top: 15.5%;
     width: 5.94%;/*38px*/
     
 }
@@ -729,7 +728,7 @@ body .page3_h{
 body .page3_coupon{
     position: absolute;
     width: 56.09%; /*359/640*/
-    top:19.9%;
+    top:21.9%;
     left: 28%;
 }
 
@@ -737,41 +736,85 @@ body .page3_coupon{
 body .page3_guide{
     position: absolute;
     width: 9.84%;/*63/640*/
-    top:21%;
+    top:23%;
     
     left: 18%;
 }
 
 
 
-body .page3_c2{
+
+
+
+body .page3_wishTitle{
     position: absolute;
-    width: 100%;
-    height: 100%;
+    top: 55%;
+    width: 64%;
+    height: 18%;
+    left: 18%;
 }
 
-body .page3_wish{
-    position: absolute;
+body #wishTitle1{
+    border:0;
+    left: 3%;
+    top: 9.5%;
     width: 100%;
-    height: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 2%;
 }
 
-body .page3_wish1{
-    position: absolute;
+body #wish1{
+    border:0;
+    left: 3%;
+    top: 12.5%;
     width: 100%;
-    height: 100%;
+    height: 80%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 500;
+    line-height: 160%;
+    word-break:break-all;
+    letter-spacing: -0.05em;
 }
 
-body .page3_wish2{
-    position: absolute;
+body #wish2{
+    border:0;
+    left: 3%;
+    top: 12.5%;
     width: 100%;
-    height: 100%;
+    height: 80%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 500;
+    line-height: 160%;
+    word-break:break-all;
+    word-spacing: 0em;
 }
 
-body .page3_wish3{
-    position: absolute;
+body #wish3{
+    border:0;
+    left: 3%;
+    top: 13%;
     width: 100%;
-    height: 100%;
+    height: 80%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 500;
+    line-height: 160%;
+    word-break:break-all;
+    word-spacing: 0em;
 }
 
 body .page3_arrowL{
@@ -793,9 +836,9 @@ body .page3_arrowR{
 body .page3_cus{
     position: absolute;
     width: 15%; /*96/640*/
-    top: 76%;
+    top: 74%;
     left: 42.5%;
-    
+    index:10001;
 }
 
 body .page3_gesture{
@@ -805,11 +848,26 @@ body .page3_gesture{
     left: 85%;
 }
 
-body .page3_light{
+
+body .page3_light1{
     position: absolute;
-    width: 8.437%;/*54/640*/
+    width: 2.34%;/*15/640*/
     top: 68%;
-    left: 83%;
+    left: 83.3%;
+}
+
+body .page3_light2{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 68%;
+    left: 86.3%;
+}
+
+body .page3_light3{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 68%;
+    left: 89%;
 }
 
 body .page3_button{
@@ -829,7 +887,7 @@ body .page3_share{
 body .page3_send{
     position: absolute;
     width: 54.69%; /*350/640*/
-    top:85%;
+    top:82%;
     left: 22.7%;
 }
 
@@ -838,7 +896,7 @@ body .page3_send{
 body .page4_coupon{
     position: absolute;
     width: 64.53%; /*413/640*/
-    top:19.7%;
+    top:21.7%;
     left: 27.8%;
 }
 
@@ -852,7 +910,7 @@ body .page4_bag{
 body .page4_guide{
     position: absolute;
     width: 9.84%;/*63/640*/
-    top:21%;
+    top:23%;
     
     left: 18%;
 }
@@ -863,13 +921,13 @@ body .page4_guide{
 
 body .page4_wishTitle{
     position: absolute;
-    top: 54%;
+    top: 55%;
     width: 64%;
     height: 25%;
     left: 18%;
 }
 
-body #wishTitle2{
+body #wishTitle1_2{
     border:0;
     left: 3%;
     top: 9.5%;
@@ -880,6 +938,8 @@ body #wishTitle2{
     font-size: 1.5em;
     text-align: center;
     font-weight: 500;
+    margin-top: -2%;
+    margin-bottom: 1%;
 }
 
 body #wish1_2{
@@ -969,13 +1029,29 @@ body .page4_gesture{
     left: 85%;
 }
 
-body .page4_light{
+
+
+
+body .page4_light1{
     position: absolute;
-    width: 8.437%;/*54/640*/
+    width: 2.34%;/*15/640*/
     top: 68%;
-    left: 83%;
+    left: 83.3%;
 }
 
+body .page4_light2{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 68%;
+    left: 86.3%;
+}
+
+body .page4_light3{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 68%;
+    left: 89%;
+}
 
 
 
@@ -1068,6 +1144,23 @@ body .usedBtn{
     position: absolute;
     width: 54.69%;/*350px*/
     top: 75%;
+    left: 22.7%;
+    z-index: 10005;
+}
+
+/*礼包抢完了*/
+body .lateInfo{
+    position: absolute;
+    width: 100%;
+    top: 0%;
+    z-index: 10005;
+    
+}
+
+body .lateBtn{
+    position: absolute;
+    width: 54.69%;/*350px*/
+    top: 65%;
     left: 22.7%;
     z-index: 10005;
 }

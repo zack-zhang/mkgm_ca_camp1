@@ -13,19 +13,19 @@ body .activity_info{
 
 body .loading_dot1{
     position: absolute;
-    top: 63.5%;
+    top: 65.5%;
     left: 71%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot2{
     position: absolute;
-    top: 63.5%;
+    top: 65.5%;
     left: 73.2%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot3{
     position: absolute;
-    top: 63.5%;
+    top: 65.5%;
     left: 75.4%;
     width: 2.18%; /*14px*/
 }
@@ -42,6 +42,232 @@ body .m-screen1 .g-ct  #confirmPhone{
     z-index: 10000;
 }
 
+/*微信页*/
+body .page0_bag{
+    position: absolute;
+    width: 24.85%;/*159/640 */
+    top: 47%;
+    left: 62.5%;
+    z-index: 10001;
+
+}
+
+body .page0_light{
+    position: absolute;
+    width: 13.75%;/*88/640*/
+    top: 46.5%;
+    left: 79.5%;
+    z-index: 10002;
+}
+
+/*首页*/
+body .page1_c1{
+    position: absolute;
+    width: 27.50%; /*176/640*/
+    left: 17.5%;
+    top:10%;
+
+
+}
+
+body .page1_num1{
+    /*font-color: white;
+    font-size: 2em;
+    text-align: center;*/
+    background-color: transparent;
+    background-repeat: no-repeat;
+
+    position:absolute;
+    border:0;
+    left: 25.5%;
+    top: 36.5%;
+    width: 5.94%;/*38px*/
+    
+    
+}
+
+
+body .page1_num2{
+    /*font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 32.3%;
+    top: 36.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page1_num3{
+   /* font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 38.7%;
+    top: 36.5%;
+    width: 5.94%;/*38px*/
+   
+}
+body .page1_num4{
+   /* font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 45.5%;
+    top: 36.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page1_num5{
+   /* font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 52%;
+    top: 36.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page1_num6{
+    /*font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 58.8%;
+    top: 36.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page1_num7{
+   /* font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 65%;
+    top: 36.5%;
+    width: 5.94%;/*38px*/
+    
+}
+
+/*抽奖页*/
+
+
+body .page2_num1{
+   /* font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 25.5%;
+    top: 13.5%;
+    width: 5.94%;/*38px*/
+
+}
+
+
+body .page2_num2{
+   /* font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 32.3%;
+    top: 13.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page2_num3{
+  /*  font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 38.7%;
+    top: 13.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page2_num4{
+    /*font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 45.5%;
+    top: 13.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page2_num5{
+    /*font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 52%;
+    top: 13.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page2_num6{
+    /*font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 58.8%;
+    top: 13.5%;
+    width: 5.94%;/*38px*/
+    
+}
+body .page2_num7{
+    /*font-color: white;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;*/
+    position:absolute;
+    border:0;
+    left: 65%;
+    top: 13.5%;
+    width: 5.94%;/*38px*/
+    
+}
+
+
+body .page2_phoneNumber{
+    position:absolute;
+    top:71%;
+    height: 8.5%;
+    left: 17%;
+    width: 60%;    
+
+}
+
+body .page2_b1{
+    position: absolute;
+    width: 25.31%;/*162px*/
+    top:19%;
+    left: 30%    
+}
+
+
 body .page2_confirm{
     position: absolute;
     width: 54.6875%; /*350/640*/
@@ -49,6 +275,23 @@ body .page2_confirm{
     left: 22.7%;
     z-index: 10005;
 } 
+
+/*抽奖页*/
+
+body .page3_send{
+    position: absolute;
+    width: 54.69%; /*350/640*/
+    top:75%;
+    left: 22.7%;
+}
+
+body .page4_send{
+    position: absolute;
+    width: 54.69%; /*350/640*/
+    top:75%;
+    left: 22.7%;
+}
+
 
 body .page5_back{
     position: absolute;

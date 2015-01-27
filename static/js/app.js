@@ -103,6 +103,21 @@ $(function(){
     
     var content;
 
+    //iphone4适应
+     if (IsIphone4()==true) {
+        // $(".page1_bg").css("background-image","url('images/page1_bg_origin.jpg')");
+        // $(".page2_bg").css("background-image","url('images/page2_bg_origin.jpg')");
+        $(".page0_ip4").attr("src", "images/page0_bg_origin.jpg");
+        $(".page1_ip4").attr("src", "images/page1_bg_origin.jpg");
+        $(".page2_ip4").attr("src", "images/page2_bg_origin.jpg");
+        $(".page3_ip4").attr("src", "images/page3_bg_origin2.jpg");
+        $(".page4_ip4").attr("src", "images/page3_bg_origin2.jpg");
+        $(".loading_ip4").attr("src","images/loading_image.jpg");
+        $(".campInfo_ip4").attr("src","images/campInfo_origin.jpg");
+
+
+    };
+
     // 禁止文版被拖动
         document.body.style.userSelect = 'none';
         document.body.style.mozUserSelect = 'none';
@@ -115,7 +130,17 @@ $(function(){
 
         $(window).on('touchmove.scroll', function (e) {e.preventDefault();});
         $(window).on('scroll.scroll',function (e) {e.preventDefault();});
+    //字体自适应
+    function adaptive(){
+    var w = $(".g-doc").width();
 
+    var h = $(".g-doc").height();
+    console.log(w);
+    $("#top_component").css("height",h*0.6418);
+    $("#bottom_component").css("top",h*0.6418);
+    $("#bottom_component").css("height",h*0.3582);
+    $("body").css("font-size", 62.5 * deviceWidth / 640+"%");
+}
     
     // 加载页
 
@@ -128,7 +153,8 @@ $(function(){
     var weixin = 0,
         firstA = 0;
         firstPrize = 1,
-        usedNumber = 0;
+        usedNumber = 0,
+        tooLate = 0;
 
     var pics = new Array();
     
@@ -227,7 +253,9 @@ $(function(){
     var count7 = parseInt(count%10);
     var numPics = ["images/0.png","images/1.png","images/2.png","images/3.png","images/4.png","images/5.png","images/6.png","images/7.png","images/8.png","images/9.png"];
     // var numUrl = changeNum(countN);
-
+    // 字体自适应
+    $("body").css("font-size", 62.5 * deviceWidth / 320+"%");
+    
     function changeNum(countN){
       
       return numPics[countN];
@@ -292,17 +320,18 @@ $(function(){
         }
     });
 
-    // $(".page1_belt").click(function(e){
+    $(".page1_belt").click(function(e){
          
-    //      $(".m-screen0").addClass("animated fadeOutUp1");
-    //      //$('.m-screen0').addClass("f-dn");
-    //      $('.m-screen1').removeClass("f-dn");
-    //      $(".m-screen1").addClass("animated f-ad1 fadeInUp1");   
+         $(".m-screen0").addClass("animated fadeOutUp1");
+         ga('send', 'event', 'CNY-social', 'move', 'click');
+         //$('.m-screen0').addClass("f-dn");
+         $('.m-screen1').removeClass("f-dn");
+         $(".m-screen1").addClass("animated f-ad1 fadeInUp1");   
 
 
          
-    //      $(".m-screen1").find(".animated").removeClass("f-ann")
-    // });
+         $(".m-screen1").find(".animated").removeClass("f-ann")
+    });
 
     function tearBag()
     {
@@ -369,6 +398,7 @@ $(function(){
         if(isSuccess)
         {
             tearBag();
+            ga('send', 'event', 'CNY-social', 'move', 'click');
         }
         else
         {
@@ -549,7 +579,8 @@ $(function(){
 
     })
 
-    
+    //滑动祝福语
+
 
     // 大福袋
      $(".page4_guide").click(function(e){
@@ -586,6 +617,9 @@ $(function(){
         
     })
 
+    //福袋已抢完  
+
+    //滑动祝福语
     var i = 0;
     $(".page4_arrowR").click(function(e){
         $(".")
@@ -633,7 +667,11 @@ $(function(){
     }
     showWaiting();
     
-    
+    $(".track_data").click(function(){
+        var track = $(this).attr("track");
+        var data = $(this).attr("track-data");
+        ga('send','event','CNY-social',track,data);
+    })
 
     // $(".g-ct1").css("opacity",0);
     // $("#slide5").css("opacity",0);
