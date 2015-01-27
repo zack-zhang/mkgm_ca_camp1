@@ -103,6 +103,21 @@ $(function(){
     
     var content;
 
+    //iphone4适应
+     if (IsIphone4()==true) {
+        // $(".page1_bg").css("background-image","url('images/page1_bg_origin.jpg')");
+        // $(".page2_bg").css("background-image","url('images/page2_bg_origin.jpg')");
+        $(".page0_ip4").attr("src", "images/page0_bg_origin.jpg");
+        $(".page1_ip4").attr("src", "images/page1_bg_origin.jpg");
+        $(".page2_ip4").attr("src", "images/page2_bg_origin.jpg");
+        $(".page3_ip4").attr("src", "images/page3_bg_origin2.jpg");
+        $(".page4_ip4").attr("src", "images/page3_bg_origin2.jpg");
+        $(".loading_ip4").attr("src","images/loading_image.jpg");
+        $(".campInfo_ip4").attr("src","images/campInfo_origin.jpg");
+
+
+    };
+
     // 禁止文版被拖动
         document.body.style.userSelect = 'none';
         document.body.style.mozUserSelect = 'none';
@@ -138,7 +153,8 @@ $(function(){
     var weixin = 0,
         firstA = 0;
         firstPrize = 1,
-        usedNumber = 0;
+        usedNumber = 0,
+        tooLate = 0;
 
     var pics = new Array();
     
@@ -304,17 +320,18 @@ $(function(){
         }
     });
 
-    // $(".page1_belt").click(function(e){
+    $(".page1_belt").click(function(e){
          
-    //      $(".m-screen0").addClass("animated fadeOutUp1");
-    //      //$('.m-screen0').addClass("f-dn");
-    //      $('.m-screen1').removeClass("f-dn");
-    //      $(".m-screen1").addClass("animated f-ad1 fadeInUp1");   
+         $(".m-screen0").addClass("animated fadeOutUp1");
+         ga('send', 'event', 'CNY-social', 'move', 'click');
+         //$('.m-screen0').addClass("f-dn");
+         $('.m-screen1').removeClass("f-dn");
+         $(".m-screen1").addClass("animated f-ad1 fadeInUp1");   
 
 
          
-    //      $(".m-screen1").find(".animated").removeClass("f-ann")
-    // });
+         $(".m-screen1").find(".animated").removeClass("f-ann")
+    });
 
     function tearBag()
     {
@@ -381,6 +398,7 @@ $(function(){
         if(isSuccess)
         {
             tearBag();
+            ga('send', 'event', 'CNY-social', 'move', 'click');
         }
         else
         {
@@ -561,7 +579,8 @@ $(function(){
 
     })
 
-    
+    //滑动祝福语
+
 
     // 大福袋
      $(".page4_guide").click(function(e){
@@ -598,6 +617,9 @@ $(function(){
         
     })
 
+    //福袋已抢完  
+
+    //滑动祝福语
     var i = 0;
     $(".page4_arrowR").click(function(e){
         $(".")
@@ -645,7 +667,11 @@ $(function(){
     }
     showWaiting();
     
-    
+    $(".track_data").click(function(){
+        var track = $(this).attr("track");
+        var data = $(this).attr("track-data");
+        ga('send','event','CNY-social',track,data);
+    })
 
     // $(".g-ct1").css("opacity",0);
     // $("#slide5").css("opacity",0);
