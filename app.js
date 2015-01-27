@@ -31,14 +31,14 @@ global.retriev_lock = 0; //lock the process to retriev ticket
 
 var authFilter = function(req, res, next){
     var pathname = url.parse(req.url).pathname;
-    console.log("Request for " + pathname + " received.");
+    //console.log("Request for " + pathname + " received.");
     
     if(pathname && pathname.indexOf('wxoauth_callback') > -1){
         return next();
     }
     
     var openid = req.query.openid || req.cookies.openid;
-    console.log("openid = " + openid);
+    //console.log("openid = " + openid);
     
     if(!openid){        
         return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
