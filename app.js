@@ -165,6 +165,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                         //insert new record
                         db.insert('auth_users', 
                             {   
+                                openid: openid,
                                 nickname: nickname, 
                                 sex: sex, 
                                 province: province, 
