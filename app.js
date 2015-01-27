@@ -109,30 +109,35 @@ app.get('/wxoauth_callback', function(req, res, next){
             return next(err);
         }
         console.log("auth token response : " + JSON.stringify(bd));
-    	if(bd.errcode){
+	var resData = JSON.parse(bd);
+
+    	if(resData.errcode){
     	    console.error("some error happened when tring to get access token");
-    		var error = new Error(bd.errmsg);
+    		var error = new Error(resData.errmsg);
     		error.status = 500;
     		return next(error);
     	}else{
-    		var access_token = bd.access_token;
-    		var refresh_token = bd.refresh_token;
-    		var openid = bd.openid;
+    		console.log("body access_token: " + resData.access_token);
+		console.log("body openid: " + resData.openid);
+		var access_token = resData.access_token;
+    		var refresh_token = resData.refresh_token;
+    		var openid = resData.openid;
             var getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" 
                     + access_token + "&openid=" + openid + "&lang=zh_CN";
-            request.get(getUserInfoUrl, function(err, res, body){
+            request.get(getUserInfoUrl, function(err, response, body){
                 if(err){
                     console.error("ERROR ocurred when request for user info : " + err);
                     return next(err);
                 }
-                var nickname = body.nickname,
-                    sex = body.sex,
-                    province = body.province,
-                    city = body.city,
-                    country = body.country,
-                    headimgurl = body.headimgurl,
-                    privilege = body.privilege,
-                    unionid = body.unionid;
+		var userInfo = JSON.parse(body);
+                var nickname = userInfo.nickname,
+                    sex = userInfo.sex,
+                    province = userInfo.province,
+                    city = userInfo.city,
+                    country = userInfo.country,
+                    headimgurl = userInfo.headimgurl,
+                    privilege = userInfo.privilege,
+                    unionid = userInfo.unionid;
                 
                 //upsert openid, access_token, refresh_token, expires_in into database
                 db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
