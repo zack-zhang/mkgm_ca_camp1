@@ -63,10 +63,10 @@ var authFilter = function(req, res, next){
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+//app.use(logger('dev'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+
 /*
 app.use(bodyParser.urlencoded({ extended: false }));
 */
@@ -295,6 +295,7 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
 
 
 module.exports = app;
