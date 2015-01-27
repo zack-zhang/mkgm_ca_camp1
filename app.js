@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');
+var urlencode = require('urlencode');
+
 var config = require("./config")();
 var conString = config.dbConStr;
 
@@ -20,7 +22,10 @@ var html_dir = './static/';
 var app = express();
 
 var authFilter = function(req, res, next){
-    console.log("Got a request!");
+    console.log("Got a request!"); 
+    console.log(req.query);
+    
+       
     next();
 }
 
@@ -31,27 +36,43 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
+/*
+app.use(bodyParser.urlencoded({ extended: false }));
+*/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'static')));
+
 app.use(authFilter);
 
 //app.use('/', routes);
 
 app.get('/', function(req, res) {
-    res.sendfile(html_dir + 'index.html');
+    console.log("Home");
+    res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx891111d0998d92f5&redirect_uri=" 
+            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=http://campaign.canda.cn/users")
+            +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
+    //res.sendfile(html_dir + 'index.html');
 });
 
+app.use(express.static(path.join(__dirname, 'static')));
+
+
+app.get('wxoauth_callback', function(req, res, next){
+    console.log("Callback request query: " + req.query);
+})
 
 app.put('/users', function(req, res, next){
-    console.log(req.body);
+    var input = JSON.parse(JSON.stringify(req.body)); 
+    console.log(input);
     
     res.json({
         success: true,
-        mobile: req.body
+        mobile: input.mobile
     });
 });
+
+
 
 app.get('/users', function(req, res, next){
     /*
