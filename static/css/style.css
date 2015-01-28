@@ -410,14 +410,35 @@ body .page0_bag{
 
 }
 
-body .page0_circle{
+body .page0_circle1{
     position: absolute;
-    width: 86.87%; /*556/640*/
+    width: 16.25%; /*104/640*/
     top: 79%;
     left: 6.5%;
     z-index: 10001;
 }
 
+body .page0_circle2{
+    position: absolute;
+    width: 16.25%; /*104/640*/
+    top: 79%;
+    left: 30%;
+    z-index: 10001;
+}
+body .page0_circle3{
+    position: absolute;
+    width: 16.25%; /*104/640*/
+    top: 79%;
+    left: 53.5%;
+    z-index: 10001;
+}
+body .page0_circle4{
+    position: absolute;
+    width: 16.25%; /*104/640*/
+    top: 79%;
+    left: 77.5%;
+    z-index: 10001;
+}
 body .page0_confirmPhone{
     position: absolute;
     width: 54.69%; /*350/640*/
@@ -716,27 +737,19 @@ body .page2_num7{
 
 /*step3 普通福袋*/
 
-body .page3_h{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-
-}
-
-
-
 body .page3_coupon{
     position: absolute;
     width: 56.09%; /*359/640*/
-    top:21.9%;
-    left: 28%;
+    top:20.7%;
+    left: 27.8%;
 }
+
 
 
 body .page3_guide{
     position: absolute;
     width: 9.84%;/*63/640*/
-    top:23%;
+    top:21.7%;
     
     left: 18%;
 }
@@ -744,14 +757,52 @@ body .page3_guide{
 
 
 
-
-
-body .page3_wishTitle{
+body .page3_wishTitle1{
     position: absolute;
     top: 55%;
     width: 64%;
-    height: 18%;
+    height: 25%;
     left: 18%;
+}
+
+body .page3_wishTitle2{
+    position: absolute;
+    top: 55%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page3_wishTitle3{
+    position: absolute;
+    top: 55%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page3_wishTitleC{
+    position: absolute;
+    top: 54%;
+    width: 60%;
+    height: 25%;
+    left: 20%;
+}
+
+body #wishC{
+    border:0;
+    left: 3%;
+    top: 12.5%;
+    width: 100%;
+    height: 80%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 500;
+    line-height: 160%;
+    word-break:break-all;
+    letter-spacing: -0.05em;
 }
 
 body #wishTitle1{
@@ -765,9 +816,40 @@ body #wishTitle1{
     font-size: 1.5em;
     text-align: center;
     font-weight: 500;
-    margin-top: -3%;
-    margin-bottom: 2%;
+    margin-top: -2%;
+    margin-bottom: -2%;
 }
+
+body #wishTitle2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -2%;
+    margin-bottom: -2%;
+}
+
+body #wishTitle3{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -2%;
+    margin-bottom: -2%;
+}
+
 
 body #wish1{
     border:0;
@@ -817,6 +899,12 @@ body #wish3{
     word-spacing: 0em;
 }
 
+
+
+
+
+
+
 body .page3_arrowL{
     position: absolute;
     width: 4.375%; /*28/640*/
@@ -836,9 +924,9 @@ body .page3_arrowR{
 body .page3_cus{
     position: absolute;
     width: 15%; /*96/640*/
-    top: 74%;
+    top: 76%;
     left: 42.5%;
-    index:10001;
+    
 }
 
 body .page3_gesture{
@@ -847,6 +935,8 @@ body .page3_gesture{
     top: 71%;
     left: 85%;
 }
+
+
 
 
 body .page3_light1{
@@ -870,24 +960,14 @@ body .page3_light3{
     left: 89%;
 }
 
-body .page3_button{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
 
-body .page3_share{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
 
 
 
 body .page3_send{
     position: absolute;
     width: 54.69%; /*350/640*/
-    top:82%;
+    top:85%;
     left: 22.7%;
 }
 
@@ -900,12 +980,7 @@ body .page4_coupon{
     left: 27.8%;
 }
 
-body .page4_bag{
-    position: absolute;
-    width: 21.56%; /*138/640*/
-    top: 13%;
-    left: 66%;
-}
+
 
 body .page4_guide{
     position: absolute;

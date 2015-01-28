@@ -676,10 +676,19 @@ $(function(){
         y:0
     }
 
+    var wishSwiper2 = document.getElementById("wishSwiper2");
+    wishSwiper2.addEventListener("touchstart",swipeEvent2);
+    wishSwiper2.addEventListener("touchmove",swipeEvent2);
+    wishSwiper2.addEventListener("touchend",swipeEvent2);
+
+    // var wishSwiper = document.getElementById("wishSwiper");
+    // wishSwiper.addEventListener("touchstart",swipeEvent);
+    // wishSwiper.addEventListener("touchmove",swipeEvent);
+    // wishSwiper.addEventListener("touchend",swipeEvent);
     //自定义祝福语
 
 
-    var swipeDirection = function(tsPoint,tePoint){
+    var swipeDirection2 = function(tsPoint,tePoint){
         var distanceX = tePoint.x - tsPoint.x
         wishIndex = wishIndex%maxIndex;
         console.log(wishIndex);
@@ -704,7 +713,7 @@ $(function(){
         if(distanceX > minDistance){
             console.log("往右滑");
             
-            if(wishIndex<0){
+            if(-100<wishIndex<0){
                 wishIndex = wishIndex+maxIndex;
             }
             switch(wishIndex){
@@ -819,22 +828,44 @@ $(function(){
         }
     }
 
-    var swpieDistance = function(point1,point2){
-        var distanceX = tePoint.x - tsPoint.x;
-        var distanceY = tePoint.y - tsPoint.y;
+    // var swpieDistance = function(point1,point2){
+    //     var distanceX = tePoint.x - tsPoint.x;
+    //     var distanceY = tePoint.y - tsPoint.y;
          
    
 
-        if(wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-        }
+      
 
-        console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
+    //     console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
         
-    }
+    // }
 
-    var swipeEvent = function(e){
+    // var swipeEvent = function(e){
         
+    //     var type = e.type;
+    //     var touch = e.touches[0];
+    //     switch(type){
+    //         case "touchstart":
+    //             tsPoint.x = touch.pageX
+    //             tsPoint.y = touch.pageY
+    //             break;
+
+    //         case "touchend":
+              
+    //             swipeDirection(tsPoint,tePoint);
+    //             //swpieDistance(tsPoint,tePoint);
+    //             break;
+    //         case "touchmove":
+    //             tePoint.x=touch.pageX
+    //             tePoint.y=touch.pageY
+    //             break;
+
+    //     }
+        
+
+    // }
+       var swipeEvent2 = function(e){
+        console.log(e)
         var type = e.type;
         var touch = e.touches[0];
         switch(type){
@@ -845,8 +876,8 @@ $(function(){
 
             case "touchend":
               
-                swipeDirection(tsPoint,tePoint);
-                swpieDistance(tsPoint,tePoint);
+                swipeDirection2(tsPoint,tePoint);
+                //swpieDistance(tsPoint,tePoint);
                 break;
             case "touchmove":
                 tePoint.x=touch.pageX
@@ -858,13 +889,150 @@ $(function(){
 
     }
 
-    var wishSwiper2 = document.getElementById("wishSwiper2");
-    wishSwiper2.addEventListener("touchstart",swipeEvent);
-    wishSwiper2.addEventListener("touchmove",swipeEvent);
-    wishSwiper2.addEventListener("touchend",swipeEvent);
-
-
    
+
+  
+    // var swipeDirection = function(tsPoint,tePoint){
+    //     var distanceX = tePoint.x - tsPoint.x
+    //     wishIndex = wishIndex%maxIndex;
+    //     console.log(wishIndex);
+
+    //         $(".page3_wishTitle1").removeClass("animated fadeOutRight1");
+    //         $(".page3_wishTitle1").removeClass("animated fadeInLeft1");
+    //         $(".page3_wishTitle2").removeClass("animated fadeOutRight1");
+    //         $(".page3_wishTitle2").removeClass("animated fadeInLeft1");
+    //         $(".page3_wishTitle3").removeClass("animated fadeOutRight1");
+    //         $(".page3_wishTitle3").removeClass("animated fadeInLeft1");
+    //         $(".page3_wishTitleC").removeClass("animated fadeOutRight1");
+    //         $(".page3_wishTitleC").removeClass("animated fadeInLeft1");
+
+    //         $(".page3_wishTitle1").removeClass("animated fadeOutLeft1");
+    //         $(".page3_wishTitle1").removeClass("animated fadeInRight1");
+    //         $(".page3_wishTitle2").removeClass("animated fadeOutLeft1");
+    //         $(".page3_wishTitle2").removeClass("animated fadeInRight1");
+    //         $(".page3_wishTitle3").removeClass("animated fadeOutLeft1");
+    //         $(".page3_wishTitle3").removeClass("animated fadeInRight1");
+    //         $(".page3_wishTitleC").removeClass("animated fadeOutLeft1");
+    //         $(".page3_wishTitleC").removeClass("animated fadeInRight1");
+
+    //     if(-100<wishIndex<0){
+    //             wishIndex = wishIndex+maxIndex;
+    //         }
+    //     if(distanceX > minDistance){
+    //         console.log("往右滑");
+            
+            
+    //         switch(wishIndex){
+    //             case 0:    
+
+    //                 $(".page3_wishTitle1").addClass("animated fadeOutRight1");
+                    
+
+    //                 $(".page3_wishTitle2").removeClass("f-ann");
+    //                 $(".page3_wishTitle2").addClass("animated fadeInLeft1");
+    //                 $(".page3_wishTitle3").addClass("f-ann");
+    //                 $(".page3_wishTitleC").addClass("f-ann");
+                    
+    //                 wishIndex++;
+
+                               
+    //                 break;
+
+    //             case 1:
+
+    //                 $(".page3_wishTitle2").addClass("animated fadeOutRight1");
+                
+    //                 $(".page3_wishTitle3").removeClass("f-ann");
+    //                 $(".page3_wishTitle3").addClass("animated fadeInLeft1");
+    //                 $(".page3_wishTitle1").addClass("f-ann");
+    //                 $(".page3_wishTitleC").addClass("f-ann");
+                    
+    //                 wishIndex++;
+                    
+    //                 break;
+
+    //             case 2:
+
+    //                 $(".page3_wishTitle3").addClass("animated fadeOutRight1");
+                   
+    //                 $(".page3_wishTitle1").removeClass("f-ann");
+    //                 $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+    //                 $(".page3_wishTitle2").addClass("f-ann");
+    //                 $(".page3_wishTitleC").addClass("f-ann");
+                   
+    //                 wishIndex++;
+    //                 break;
+
+    //             default:
+    //                 $(".page3_wishTitleC").addClass("animated fadeOutRight1");
+    //                 $(".page3_wishTitle1").removeClass("f-ann");
+    //                 $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                    
+                    
+    //                 wishIndex =0;
+    //                 break;
+
+
+    //         }
+
+            
+
+
+            
+           
+
+            
+    //     }else if (distanceX < minDistance*(-1)){//往左滑
+    //         console.log("往左滑");
+
+    //         if(-100<wishIndex<0){
+    //             wishIndex = wishIndex+maxIndex;
+    //         }
+
+    //         switch(wishIndex){
+    //             case 0:
+    //                 $(".page3_wishTitle1").addClass("animated fadeOutLeft1");
+    //                 $(".page3_wishTitle2").addClass("f-ann");
+    //                 $(".page3_wishTitle3").removeClass("f-ann");
+    //                 $(".page3_wishTitle3").addClass("animated fadeInRight1");
+    //                 $(".page3_wishTitleC").addClass("f-ann");
+    //                 wishIndex--;
+    //                 break;
+
+    //             case 1:
+    //                  $(".page3_wishTitle2").addClass("animated fadeOutLeft1");
+    //                  $(".page3_wishTitle3").addClass("f-ann");
+    //                 $(".page3_wishTitle1").removeClass("f-ann");
+    //                 $(".page3_wishTitle1").addClass("animated fadeInRight1");
+    //                 $(".page3_wishTitleC").addClass("f-ann");
+
+    //                 wishIndex--;
+    //                 break;
+
+    //             case 2:
+    //                 $(".page3_wishTitle3").addClass("animated fadeOutLeft1");
+    //                 $(".page3_wishTitle1").addClass("f-ann");
+    //                 $(".page3_wishTitle2").removeClass("f-ann");
+    //                 $(".page3_wishTitle2").addClass("animated fadeInRight1");
+    //                 $(".page3_wishTitleC").addClass("f-ann");
+
+    //                 wishIndex--;
+    //                 break;
+
+    //             case 3:
+    //                 $(".page3_wishTitleC").addClass("animated fadeOutLeft1");
+    //                 $(".page3_wishTitle1").removeClass("f-ann");
+    //                 $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                    
+    //                 wishIndex = 0;
+                    
+    //                 break;
+
+    //         }
+
+           
+    //     }
+    // }
   
 
 
@@ -933,11 +1101,17 @@ $(function(){
     $(".confirmWish_Btn").click(function(e){
         $(".wish-screen").addClass("f-dn");
         $("#wishC_2").html($("#input_wishcus").val()); 
+        $("#wishC").html($("#input_wishcus").val());
         //console.log($("#wishC_2").html());
+        $(".page3_wishTitle1").addClass("f-ann");
+        $(".page3_wishTitle2").addClass("f-ann");
+        $(".page3_wishTitle3").addClass("f-ann");
+        $(".page3_wishTitleC").removeClass("f-ann");
         $(".page4_wishTitle1").addClass("f-ann");
         $(".page4_wishTitle2").addClass("f-ann");
         $(".page4_wishTitle3").addClass("f-ann");
         $(".page4_wishTitleC").removeClass("f-ann");
+
         WishIndex=-100;
       
 
