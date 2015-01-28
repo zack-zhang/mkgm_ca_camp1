@@ -945,10 +945,10 @@ body .page4_wishTitle3{
 
 body .page4_wishTitleC{
     position: absolute;
-    top: 55%;
-    width: 64%;
+    top: 54%;
+    width: 60%;
     height: 25%;
-    left: 18%;
+    left: 20%;
 }
 
 body #wishC_2{
@@ -1208,7 +1208,7 @@ body .input_wishCus{
     width: 60%;
     height: 35%;
     left: 22%;
-    border:0;
+    border: 0;
     background-color: transparent;
     overflow: hidden;
     color: #fff;
@@ -1217,8 +1217,9 @@ body .input_wishCus{
     font-weight: 500;
     line-height: 200%;
     
-    text-indent: 2em;
+    text-indent: 0;
     letter-spacing: -0.05em;
+
 
 }
 

@@ -191,6 +191,7 @@ $(function(){
         $(".page4_ip4").attr("src", "images/page3_bg_origin2.jpg");
         $(".loading_ip4").attr("src","images/loading_image.jpg");
         $(".campInfo_ip4").attr("src","images/campInfo_origin.jpg");
+        $(".confirmWish_ip4").attr("src","images/confirmWish_origin.png");
 
 
     };
@@ -752,8 +753,8 @@ $(function(){
                     $(".page4_wishTitle1").removeClass("f-ann");
                     $(".page4_wishTitle1").addClass("animated fadeInLeft1");
                     
-                    wishIndex=0;
-                    maxIndex=3;
+                    
+                    wishIndex =0;
                     break;
 
 
@@ -769,7 +770,7 @@ $(function(){
         }else if (distanceX < minDistance*(-1)){//往左滑
             console.log("往左滑");
 
-            if(wishIndex<0){
+            if(-100<wishIndex<0){
                 wishIndex = wishIndex+maxIndex;
             }
 
@@ -804,8 +805,12 @@ $(function(){
                     break;
 
                 case 3:
-
-                    wishIndex--;
+                    $(".page4_wishTitleC").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInRight1");
+                    
+                    wishIndex = 0;
+                    
                     break;
 
             }
@@ -923,10 +928,19 @@ $(function(){
 
     $("#wishC_2").html($("#input_wishcus").val()); 
 
-    console.log($("#wishC_2").html);
+    
 
     $(".confirmWish_Btn").click(function(e){
         $(".wish-screen").addClass("f-dn");
+        $("#wishC_2").html($("#input_wishcus").val()); 
+        //console.log($("#wishC_2").html());
+        $(".page4_wishTitle1").addClass("f-ann");
+        $(".page4_wishTitle2").addClass("f-ann");
+        $(".page4_wishTitle3").addClass("f-ann");
+        $(".page4_wishTitleC").removeClass("f-ann");
+        WishIndex=-100;
+      
+
     })
 
     $(".confirmWish_quit").click(function(e){

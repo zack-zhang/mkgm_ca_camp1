@@ -43,21 +43,65 @@ body .m-screen1 .g-ct  #confirmPhone{
 }
 
 /*微信页*/
+
+
+
+
 body .page0_bag{
     position: absolute;
     width: 24.85%;/*159/640 */
-    top: 47%;
+    top: 43%;
     left: 62.5%;
     z-index: 10001;
 
 }
 
+
+
+body .page0_confirmPhone{
+    position: absolute;
+    width: 54.69%; /*350/640*/
+    left: 23.7%;
+    top: 58%;
+    z-index: 10001;
+}
+
+body .page0_phoneNumber{
+    position:absolute;
+    
+    top:48.2%;
+    height: 17%;
+    
+    left: 17%;
+    width: 62.66%;
+    /*border-width: thick;
+    border-style: solid;
+    
+    border-color:#F2D340;*/
+}
+
 body .page0_light{
     position: absolute;
     width: 13.75%;/*88/640*/
-    top: 46.5%;
+    top: 37.5%;
     left: 79.5%;
     z-index: 10002;
+}
+
+body .page0_wish{
+    position: absolute;
+    width: 81.72%;/*523/640*/
+    left: 9.1%;
+    top: 25%;
+    z-index: 10000;
+
+}
+body .page0_circle{
+    position: absolute;
+    width: 86.87%; /*556/640*/
+    top: 70%;
+    left: 6.5%;
+    z-index: 10001;
 }
 
 /*首页*/
@@ -293,6 +337,116 @@ body .page4_send{
 }
 
 
+
+/*step3 888时尚大福袋*/
+body .page4_coupon{
+    position: absolute;
+    width: 64.53%; /*413/640*/
+    top:19.7%;
+    left: 27.8%;
+}
+
+
+
+body .page4_guide{
+    position: absolute;
+    width: 9.84%;/*63/640*/
+    top:21%;
+    
+    left: 18%;
+}
+
+
+
+
+
+body .page4_wishTitle1{
+    position: absolute;
+    top: 53%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page4_wishTitle2{
+    position: absolute;
+    top: 53%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page4_wishTitle3{
+    position: absolute;
+    top: 53%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page4_wishTitleC{
+    position: absolute;
+    top: 53%;
+    width: 60%;
+    height: 25%;
+    left: 20%;
+}
+
+body .page4_arrowL{
+    position: absolute;
+    width: 4.375%; /*28/640*/
+    top: 60%;
+    left: 8%
+
+}
+
+body .page4_arrowR{
+    position: absolute;
+    width: 4.375%; /*28/640*/
+    top: 60%;
+    left: 85%;
+    
+}
+
+body .page4_gesture{
+    position: absolute;
+    width: 10.47%; /*67/640*/
+    top: 69%;
+    left: 85%;
+}
+
+
+
+
+body .page4_light1{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 66%;
+    left: 83.3%;
+}
+
+body .page4_light2{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 66%;
+    left: 86.3%;
+}
+
+body .page4_light3{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 66%;
+    left: 89%;
+}
+
+body .page4_cus{
+    position: absolute;
+    width: 15%; /*96/640*/
+    top: 71%;
+    left: 42.5%;
+    
+}
+/*888福袋返回*/
 body .page5_back{
     position: absolute;
     width: 54.69%; /*350/640*/
@@ -306,6 +460,17 @@ body .page6_back{
     top: 73%;
     left: 22.7%;
 }
+
+/*祝福语*/
+body .confirmWish_Btn{
+    position: absolute;
+    width: 60.15%;/*350/640*/
+    top: 71%;
+    left: 20%;
+}
+
+
+
 
 body .usedBtn{
     position: absolute;
@@ -325,62 +490,7 @@ index: 10001;
 
 
 
-body .page0_bag{
-    position: absolute;
-    width: 24.85%;/*159/640 */
-    top: 43%;
-    left: 62.5%;
-    z-index: 10001;
 
-}
-
-
-
-body .page0_confirmPhone{
-    position: absolute;
-    width: 54.69%; /*350/640*/
-    left: 23.7%;
-    top: 58%;
-    z-index: 10001;
-}
-
-body .page0_phoneNumber{
-    position:absolute;
-    
-    top:48.2%;
-    height: 17%;
-    
-    left: 17%;
-    width: 62.66%;
-    /*border-width: thick;
-    border-style: solid;
-    
-    border-color:#F2D340;*/
-}
-
-body .page0_light{
-    position: absolute;
-    width: 13.75%;/*88/640*/
-    top: 37.5%;
-    left: 79.5%;
-    z-index: 10002;
-}
-
-body .page0_wish{
-    position: absolute;
-    width: 81.72%;/*523/640*/
-    left: 9.1%;
-    top: 25%;
-    z-index: 10000;
-
-}
-body .page0_circle{
-    position: absolute;
-    width: 86.87%; /*556/640*/
-    top: 70%;
-    left: 6.5%;
-    z-index: 10001;
-}
 
 
 body .g-doc .g-bd .swiper-container .swiper-slide .m-screen0 .g-ct{
