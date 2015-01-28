@@ -83,7 +83,7 @@ $(function(){
 
     var localUrl = location.href,
         shareid = openid+"_"+ Date.parse(new Date()),
-        shareUrl = localUrl.match('?') != null ? localUrl+"&shareid="+ shareid : localUrl+"?shareid="+shareid,
+        shareUrl = localUrl.match("?") != null ? localUrl+"&shareid="+ shareid : localUrl+"?shareid="+shareid,
         shareImg = "http://" + window.location.host + '/images/page1_bg.jpg';
 
     
