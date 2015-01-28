@@ -154,7 +154,7 @@ app.get('/jsticket', function(req, res){
     
 })
 
-//app.use(authFilter);
+app.use(authFilter);
 app.get('/', function(req, res, next) {
     var jsTicketUrl = "http://" + config.jsTicketHost + ":" + app.get('port') + "/jsticket";
     request.get(jsTicketUrl, function(err, response, body){
@@ -171,6 +171,7 @@ app.get('/', function(req, res, next) {
                     + "&noncestr=" + nonceStr
                     + "&timestamp=" + now
                     + "&url=" + req.url;
+        console.log("signature request url : " + req.url);
         var shasum = crypto.createHash('sha1');
         var signature = shasum.update(rawSig.toLowerCase()).digest('hex');
         
