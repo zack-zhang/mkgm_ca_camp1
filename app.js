@@ -113,6 +113,7 @@ app.get('/jsticket', function(req, res){
                 return next(err);
             }
             var resData = JSON.parse(body);
+            console.log("global access token body: " + JSON.stringify(resData));
             var getJsapiUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" 
                             + resData.access_token+ "&type=jsapi"; 
             request.get(getJsapiUrl, function(err, response, body){
@@ -122,6 +123,9 @@ app.get('/jsticket', function(req, res){
                     return next(err);
                 }
                 var apiInfo = JSON.parse(body);
+                
+                console.log("global jsapi_ticket body: " + JSON.stringify(apiInfo));
+                
                 global.jsticket = apiInfo.ticket;
                 global.expires_at = Date.now()/1000 + parseInt(apiInfo.expires_in); // 7200 seconds = 2hrs
                 global.retriev_lock = 0;
