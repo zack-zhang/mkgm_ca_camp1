@@ -105,7 +105,8 @@ app.get('/jsticket', function(req, res){
         //get global access token and jsapi ticket first
         var globalTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
                 + config.wxAppId + "&secret=" + config.wxAppSecret;
-                
+        console.log("app secret : " + config.wxAppSecret);
+        
         request.get(globalTokenUrl, function(err, response, body){
             if(err){
                 console.log("ERROR when try to get global access token");
@@ -113,6 +114,10 @@ app.get('/jsticket', function(req, res){
                 return next(err);
             }
             var resData = JSON.parse(body);
+            if(body.errcode){
+                var error = new Error(resData.errmsg);
+                return next(error);
+            }
             console.log("global access token body: " + JSON.stringify(resData));
             var getJsapiUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" 
                             + resData.access_token+ "&type=jsapi"; 
@@ -123,7 +128,11 @@ app.get('/jsticket', function(req, res){
                     return next(err);
                 }
                 var apiInfo = JSON.parse(body);
-                
+                if(body.errcode){
+                    var error = new Error(apiInfo.errmsg);
+                    return next(error);
+                }
+            
                 console.log("global jsapi_ticket body: " + JSON.stringify(apiInfo));
                 
                 global.jsticket = apiInfo.ticket;
