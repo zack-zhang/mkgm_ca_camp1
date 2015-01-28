@@ -177,7 +177,7 @@ app.get('/', function(req, res, next) {
         console.log("get the signature : " + signature);
         var jsticketCookie = config.wxAppId + "," + now + "," + nonceStr + "," + signature;
         
-        res.cookie('jsticket', jsticketCookie, { maxAge: 60 * 1000 });
+        res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
         
         res.sendFile(path.join(__dirname, html_dir, 'home.html'));
     });
@@ -258,7 +258,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                   return next(err);
                                 }
                                 //set the openid in cookie
-                                res.cookie('openid', openid, { maxAge: 60 * 1000 });
+                                res.cookie('openid', openid, { maxAge: 365 * 24 * 60 * 60 * 1000 }); //Save openid for 365 days
         	
                                 return res.redirect(req.query.redirect);
                             });
@@ -283,7 +283,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                   console.error('error running query', err);
                                   return next(err);
                                 }
-                                res.cookie('openid', openid, { maxAge: 60 * 1000 });
+                                res.cookie('openid', openid, { maxAge: 365 * 24 * 60 * 60 * 1000  });
                                 return res.redirect(req.query.redirect);
                             });
                     }
