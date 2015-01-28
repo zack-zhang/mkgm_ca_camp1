@@ -50,81 +50,83 @@ function hideWeiXinHint(){
 }
 
 $(function(){
-    var jsapiTicket = $.cookie("jsticket"),
-        openid = $.cookie("openid"),
-        jsapiElements = jsapiTicket.split(","),
-        jsapiAppId = jsapiElements[0],
-        jsapiTimestamp = parseInt(jsapiElements[1]),
-        jsapiNonceStr = jsapiElements[2],
-        jsapiSignature = jsapiElements[3];
+    // var jsapiElements = jsapiTicket.split(","),
+    //     jsapiAppId = jsapiElements[0],
+    //     jsapiTimestamp = parseInt(jsapiElements[1]),
+    //     jsapiNonceStr = jsapiElements[2],
+    //     jsapiSignature = jsapiElements[3];
+    //     jsapiTicket = $.cookie("jsticket"),
+    //     openid = $.cookie("openid"),
         
         
-    wx.config({
-	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-	    appId: jsapiAppId, // 必填，公众号的唯一标识
-	    timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
-	    nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
-	    signature: jsapiSignature,// 必填，签名，见附录1
-	    jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-	});
-    var random = Math.random();
-    var title = random<0.5?"1":"2";
-    wx.ready(function(){
+ //    wx.config({
+	//     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	//     appId: jsapiAppId, // 必填，公众号的唯一标识
+	//     timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
+	//     nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
+	//     signature: jsapiSignature,// 必填，签名，见附录1
+	//     jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	// });
+ //    var random = Math.random();
+ //    var title = random<0.5?"福袋已打包送到，我真的只能帮你到这儿了…":"福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~";
+  //   wx.ready(function(){
 
-		wx.onMenuShareAppMessage({
-		    title: title, // 分享标题
-		    desc: 'wx js-sdk test', // 分享描述
-		    link: location.href, // 分享链接
-		    imgUrl: "http://" + window.location.host + '/images/icon.jpg', // 分享图标
-		    success: function () { 
-		        // 用户确认分享后执行的回调函数
-		    },
-		    cancel: function () { 
-		        // 用户取消分享后执行的回调函数
-		    }
-		});
+		// wx.onMenuShareAppMessage({
+		//     title: title, // 分享标题
+		//     desc: 'wx js-sdk test', // 分享描述
+		//     link: location.href, // 分享链接
+		//     imgUrl: "http://" + window.location.host + '/images/icon.jpg', // 分享图标
+		//     success: function () { 
+		//         // 用户确认分享后执行的回调函数
+  //               ga('send', 'event', 'CNY-social', 'success', 'click');
+		//     },
+		//     cancel: function () { 
+		//         // 用户取消分享后执行的回调函数
+		//     }
+		// });
 
-		wx.onMenuShareTimeline({
+		// wx.onMenuShareTimeline({
 
-		    title:title, // 分享标题
-		    desc:'朋友圈desc',
-		    link: location.href, // 分享链接
-		    imgUrl: "http://" + window.location.host + '/images/icon.jpg', // 分享图标
-		    success: function () { 
-		        // 用户确认分享后执行的回调函数
-		    },
-		    cancel: function () { 
-		        // 用户取消分享后执行的回调函数
-		    }
-		});
+		//     title:title, // 分享标题
+		//     desc:'朋友圈desc',
+		//     link: location.href, // 分享链接
+		//     imgUrl: "http://" + window.location.host + '/images/icon.jpg', // 分享图标
+		//     success: function () { 
+		//         // 用户确认分享后执行的回调函数
+  //               ga('send', 'event', 'CNY-social', 'success', 'click');
+		//     },
+		//     cancel: function () { 
+		//         // 用户取消分享后执行的回调函数
+		//     }
+		// });
 
-		var serverId;
-		$("#chooseImg").click(function(){
-			wx.chooseImage({
-		    success: function (res) {
-		        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-		        wx.uploadImage({
-				    localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
-				    isShowProgressTips: 1, // 默认为1，显示进度提示
-				    success: function (res) {
-				        serverId = res.serverId; // 返回图片的服务器端ID
-				    }
-				});
-		    }
-			});
-		});
+		// var serverId;
+		// $("#chooseImg").click(function(){
+		// 	wx.chooseImage({
+		//     success: function (res) {
+		//         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+		//         wx.uploadImage({
+		// 		    localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+		// 		    isShowProgressTips: 1, // 默认为1，显示进度提示
+		// 		    success: function (res) {
+		// 		        serverId = res.serverId; // 返回图片的服务器端ID
+		// 		    }
+		// 		});
+		//     }
+		// 	});
+		// });
 
-		$("#downloadImg").click(function(){
-			wx.downloadImage({
-			    serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-			    isShowProgressTips: 1, // 默认为1，显示进度提示
-			    success: function (res) {
-			        var localId = res.localId; // 返回图片下载后的本地ID
-			    }
-			});
-		})
+		// $("#downloadImg").click(function(){
+		// 	wx.downloadImage({
+		// 	    serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+		// 	    isShowProgressTips: 1, // 默认为1，显示进度提示
+		// 	    success: function (res) {
+		// 	        var localId = res.localId; // 返回图片下载后的本地ID
+		// 	    }
+		// 	});
+		// })
 
-	});
+	// });
     var imgURL = "",
         baseUrl = getHostUrl(),
         userMobile = "",
@@ -655,7 +657,14 @@ $(function(){
 
     })
 
+
+
+
     //滑动祝福语
+    var wishIndex = 0,
+        maxIndex=3,
+        minDistance = 30;
+
     var tsPoint = {
         x:0,
         y:0
@@ -666,9 +675,7 @@ $(function(){
         y:0
     }
 
-    var wishIndex = 0,
-        maxIndex=3,
-        minDistance = 30;
+    //自定义祝福语
 
 
     var swipeDirection = function(tsPoint,tePoint){
@@ -741,9 +748,10 @@ $(function(){
                     break;
 
                 default:
-                    $(".page4_wishTitleC")addClass("animated fadeOutRight1");
+                    $(".page4_wishTitleC").addClass("animated fadeOutRight1");
                     $(".page4_wishTitle1").removeClass("f-ann");
                     $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+                    
                     wishIndex=0;
                     maxIndex=3;
                     break;
@@ -892,11 +900,12 @@ $(function(){
 
     //福袋已抢完  
 
+
     //滑动祝福语
     var i = 0;
-    $(".page4_arrowR").click(function(e){
-        $(".")
-    })
+    // $(".page4_arrowR").click(function(e){
+    //     $(".")
+    // })
     
     $(".page4_send").click(function(e){
         $(".share-screen").removeClass("f-dn");
@@ -912,7 +921,9 @@ $(function(){
         $(".wish-screen").removeClass("f-dn");
     })
 
+    $("#wishC_2").html($("#input_wishcus").val()); 
 
+    console.log($("#wishC_2").html);
 
     $(".confirmWish_Btn").click(function(e){
         $(".wish-screen").addClass("f-dn");
