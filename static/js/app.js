@@ -49,24 +49,37 @@ function hideWeiXinHint(){
     $("#weixin_hint").addClass("f-dn");
 }
 
+function wxShareSuccess(title,content){
+    $.ajax({
+        url: '/shareInfos',
+        type: 'put',
+        dataType: 'json',
+        data: { openid : '',
+                shareid : '',
+                title : title,
+                content : content
+            }
+        }); 
+}
+
 $(function(){
-    var jsapiTicket = $.cookie("jsticket"),
-        openid = $.cookie("openid"),
-        jsapiElements = jsapiTicket.split(","),
-        jsapiAppId = jsapiElements[0],
-        jsapiTimestamp = parseInt(jsapiElements[1]),
-        jsapiNonceStr = jsapiElements[2],
-        jsapiSignature = jsapiElements[3];
+ //    var jsapiTicket = $.cookie("jsticket"),
+ //        openid = $.cookie("openid"),
+ //        jsapiElements = jsapiTicket.split(","),
+ //        jsapiAppId = jsapiElements[0],
+ //        jsapiTimestamp = parseInt(jsapiElements[1]),
+ //        jsapiNonceStr = jsapiElements[2],
+ //        jsapiSignature = jsapiElements[3];
         
         
-    wx.config({
-	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-	    appId: jsapiAppId, // 必填，公众号的唯一标识
-	    timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
-	    nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
-	    signature: jsapiSignature,// 必填，签名，见附录1
-	    jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-	});
+ //    wx.config({
+	//     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	//     appId: jsapiAppId, // 必填，公众号的唯一标识
+	//     timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
+	//     nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
+	//     signature: jsapiSignature,// 必填，签名，见附录1
+	//     jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	// });
     
     wx.ready(function(){
 		wx.onMenuShareAppMessage({
@@ -76,6 +89,7 @@ $(function(){
 		    imgUrl: "http://" + window.location.host + '/images/page1_bg.jpg', // 分享图标
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
+                // wxShareSuccess('分享给好友','wx js-sdk test');
 		    },
 		    cancel: function () { 
 		        // 用户取消分享后执行的回调函数
@@ -315,8 +329,8 @@ $(function(){
 
     // 首页
 
-    var count = 8034541;
-    var count1 = parseInt(count/1000000) ;
+    var count = parseInt($(".luckybag").html().trim());
+    var count1 = parseInt(count/1000000);
     var count2 = parseInt(count/100000)%10;
     var count3 = parseInt(count/10000)%10;
     var count4 = parseInt(count/1000)%10;
@@ -540,19 +554,41 @@ $(function(){
         var phone = $("#input-mobile").val();
        
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-        console.log(phone);
 
-         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
+        if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
-             }
-
-        else if(usedNumber ==1 ){
-            $('.usedNumber').removeClass("f-dn");
-            $('.usedBtn').removeClass("f-dn");
-        }else{
-            $('.page2_confirm').removeClass("f-dn");
-            $('.page2_info').removeClass("f-dn");
         }
+        $.ajax({
+            url: '/lottery',
+            type: 'put',
+            dataType: 'json',
+            data: { mobile: phone,
+                    openid:'',
+                    sharedby:''},
+            success:function(data){
+                if (data.success) 
+                {
+                    console.log("value: "+data.data.value + "code: "+data.data.code);
+                    if (data.data.value == 888) 
+                    {
+                        firstPrize = 1;
+                    }
+                    else{
+                        firstPrize = 0;
+                    }
+                    $('.page2_confirm').removeClass("f-dn");
+                    $('.page2_info').removeClass("f-dn");
+                }
+                else{
+                    if (data.errorCode == 'PHONE_USED') 
+                    {
+                        $('.usedNumber').removeClass("f-dn");
+                        $('.usedBtn').removeClass("f-dn");
+                    }
+
+                }
+            }
+        });  
   
 
     }); 
@@ -575,9 +611,6 @@ $(function(){
                 $('.page2_confirm').removeClass("f-dn");
                 $('.page2_info').removeClass("f-dn");    
             }
-            
-
-
     }); 
 
     $('.usedBtn').click(function(e){
@@ -714,6 +747,8 @@ $(function(){
 
 
     $(".confirmWish_Btn").click(function(e){
+        var wishStr = $(".wishText").val();
+        console.log(wishStr);
         $(".wish-screen").addClass("f-dn");
     })
 
@@ -780,7 +815,7 @@ $(function(){
     //         } 
     //     });
         
-    
+
   
     
    

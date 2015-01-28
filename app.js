@@ -353,6 +353,7 @@ app.get('/wxoauth_callback', function(req, res, next){
     });
 })
 
+//提交手机号码
 app.put('/lottery', function(req, res, next){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(req.body);
@@ -365,6 +366,7 @@ app.put('/lottery', function(req, res, next){
         }
 
         if (rows.length > 0){
+            console.log('phone used');
         	res.json({
 		        success: false,
 		        message: "已经参与过抽奖",
@@ -383,6 +385,7 @@ app.put('/lottery', function(req, res, next){
                 var rows = result.rows;
                 
     	        if(rows.length == 0){
+                    console.log('over');
     	        	return res.json({
     			        success: false,
     			        message: "本轮抽奖已经全部结束",
@@ -396,18 +399,18 @@ app.put('/lottery', function(req, res, next){
                     var sms = config.smsNormal;
                     sms = sms.replace("【变量1】", rows[0].value);
                     sms = sms.replace("【变量2】", rows[0].code);
-                    request.post({
-                                url:'http://121.199.16.178/webservice/sms.php?method=Submit',
-                                form: {
-                                    account: 'cf_obizsoft',
-                                    password: 'a123456',
-                                    mobile: '13764211365',
-                                    content: sms
-                                }
-                            }, function(err, res, bd){
-                                console.log(bd);
-                            }
-                    );
+                    // request.post({
+                    //             url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                    //             form: {
+                    //                 account: 'cf_obizsoft',
+                    //                 password: 'a123456',
+                    //                 mobile: '13764211365',
+                    //                 content: sms
+                    //             }
+                    //         }, function(err, res, bd){
+                    //             console.log(bd);
+                    //         }
+                    // );
                 }else{
     
                 }

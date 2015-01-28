@@ -200,7 +200,19 @@ body .percent_symbol{
 /*首页*/
 
 
-
+.wishText{
+    position: absolute;
+width: 50%;
+top: 36%;
+height: 30%;
+left: 25%;
+line-height: 1.5;
+border-width: 0px;
+font-size: 2em;
+color: #fff;
+background: transparent;
+overflow: hidden;
+}
 
 body .page1_h1{
     position: absolute;
