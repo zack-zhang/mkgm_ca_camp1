@@ -49,13 +49,13 @@ function hideWeiXinHint(){
     $("#weixin_hint").addClass("f-dn");
 }
 
-function wxShareSuccess(title,content){
+function wxShareSuccess(title,content,shareid){
     $.ajax({
         url: '/shareInfos',
         type: 'put',
         dataType: 'json',
         data: { openid : openid,
-                shareid : openid+"_"+ Date.parse(new Date()),
+                shareid : shareid,
                 title : title,
                 content : content
             }
@@ -70,8 +70,8 @@ $(function(){
         jsapiTimestamp = parseInt(jsapiElements[1]),
         jsapiNonceStr = jsapiElements[2],
         jsapiSignature = jsapiElements[3];
-        
-        
+
+    
     wx.config({
 	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 	    appId: jsapiAppId, // 必填，公众号的唯一标识
@@ -80,16 +80,22 @@ $(function(){
 	    signature: jsapiSignature,// 必填，签名，见附录1
 	    jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 	});
+
+    var localUrl = location.href,
+        shareid = openid+"_"+ Date.parse(new Date()),
+        shareUrl = localUrl.match('?') != null ? localUrl+"&shareid="+ shareid : localUrl+"?shareid="+shareid,
+        shareImg = "http://" + window.location.host + '/images/page1_bg.jpg';
+
     
     wx.ready(function(){
 		wx.onMenuShareAppMessage({
 		    title: '分享给好友', // 分享标题
 		    desc: 'wx js-sdk test', // 分享描述
-		    link: location.href, // 分享链接
-		    imgUrl: "http://" + window.location.host + '/images/page1_bg.jpg', // 分享图标
+		    link: shareUrl, // 分享链接
+		    imgUrl: shareImg, // 分享图标
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
-                // wxShareSuccess('分享给好友','wx js-sdk test');
+                wxShareSuccess('分享给好友','wx js-sdk test',shareid);
 		    },
 		    cancel: function () { 
 		        // 用户取消分享后执行的回调函数
@@ -99,10 +105,11 @@ $(function(){
 		wx.onMenuShareTimeline({
 		    title: 'test 朋友圈', // 分享标题
 		    desc:'朋友圈desc',
-		    link: location.href, // 分享链接
-		    imgUrl: '../icon.jpg', // 分享图标
+		    link: shareUrl, // 分享链接
+		    imgUrl:shareImg, // 分享图标
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
+                wxShareSuccess('分享到朋友圈','wx js-sdk test',shareid);
 		    },
 		    cancel: function () { 
 		        // 用户取消分享后执行的回调函数

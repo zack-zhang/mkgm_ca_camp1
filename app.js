@@ -437,6 +437,7 @@ app.put('/shareInfos', function(req, res, next) {
         title : input.title,
         content : input.content
     }
+    console.log(data);
 
     db.insert('share_info', data).returning('*').row(function(err, rows){
         if(err) {
@@ -444,7 +445,6 @@ app.put('/shareInfos', function(req, res, next) {
             next(err);
             return;
         }
-
         res.json({
             success: true,
             data: rows
