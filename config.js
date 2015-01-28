@@ -21,6 +21,7 @@ module.exports = function(){
             
         case 'production':
             return {
+                debug: false,
                 jsTicketHost: '10.171.254.62',
                 wxAppId: 'wx891111d0998d92f5',
                 wxAppSecret: '00033763ef83d362d3e00a14f576b963',
@@ -30,6 +31,7 @@ module.exports = function(){
             };
         default:
             return {
+                debug: true,
                 jsTicketHost: 'localhost',
                 wxAppId: 'wx891111d0998d92f5',
                 wxAppSecret: '00033763ef83d362d3e00a14f576b963',
