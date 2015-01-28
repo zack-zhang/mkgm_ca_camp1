@@ -67,13 +67,15 @@ $(function(){
 	    signature: jsapiSignature,// 必填，签名，见附录1
 	    jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 	});
-    
+    var random = Math.random();
+    var title = random<0.5?"1":"2";
     wx.ready(function(){
+
 		wx.onMenuShareAppMessage({
-		    title: '分享给好友', // 分享标题
+		    title: title, // 分享标题
 		    desc: 'wx js-sdk test', // 分享描述
 		    link: location.href, // 分享链接
-		    imgUrl: "http://" + window.location.host + '/images/page1_bg.jpg', // 分享图标
+		    imgUrl: "http://" + window.location.host + '/images/icon.jpg', // 分享图标
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
 		    },
@@ -83,10 +85,11 @@ $(function(){
 		});
 
 		wx.onMenuShareTimeline({
-		    title: 'test 朋友圈', // 分享标题
+
+		    title:title, // 分享标题
 		    desc:'朋友圈desc',
 		    link: location.href, // 分享链接
-		    imgUrl: '../icon.jpg', // 分享图标
+		    imgUrl: "http://" + window.location.host + '/images/icon.jpg', // 分享图标
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
 		    },
@@ -283,6 +286,7 @@ $(function(){
              //console.log(w);
               var per = parseInt(w);
                 //console.log(per);
+                $(".m-progress").removeClass("f-dn");
                 $(".loading_num").html(w);
                 $(".loading_page").find(".animated").removeClass("f-dn");
 
@@ -652,6 +656,203 @@ $(function(){
     })
 
     //滑动祝福语
+    var tsPoint = {
+        x:0,
+        y:0
+    }
+
+    var tePoint = {
+        x:0,
+        y:0
+    }
+
+    var wishIndex = 0,
+        maxIndex=3,
+        minDistance = 30;
+
+
+    var swipeDirection = function(tsPoint,tePoint){
+        var distanceX = tePoint.x - tsPoint.x
+        wishIndex = wishIndex%maxIndex;
+        console.log(wishIndex);
+            $(".page4_wishTitle1").removeClass("animated fadeOutRight1");
+            $(".page4_wishTitle1").removeClass("animated fadeInLeft1");
+            $(".page4_wishTitle2").removeClass("animated fadeOutRight1");
+            $(".page4_wishTitle2").removeClass("animated fadeInLeft1");
+            $(".page4_wishTitle3").removeClass("animated fadeOutRight1");
+            $(".page4_wishTitle3").removeClass("animated fadeInLeft1");
+            $(".page4_wishTitleC").removeClass("animated fadeOutRight1");
+            $(".page4_wishTitleC").removeClass("animated fadeInLeft1");
+
+            $(".page4_wishTitle1").removeClass("animated fadeOutLeft1");
+            $(".page4_wishTitle1").removeClass("animated fadeInRight1");
+            $(".page4_wishTitle2").removeClass("animated fadeOutLeft1");
+            $(".page4_wishTitle2").removeClass("animated fadeInRight1");
+            $(".page4_wishTitle3").removeClass("animated fadeOutLeft1");
+            $(".page4_wishTitle3").removeClass("animated fadeInRight1");
+            $(".page4_wishTitleC").removeClass("animated fadeOutLeft1");
+            $(".page4_wishTitleC").removeClass("animated fadeInRight1");
+
+        if(distanceX > minDistance){
+            console.log("往右滑");
+            
+            if(wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            switch(wishIndex){
+                case 0:    
+
+                    $(".page4_wishTitle1").addClass("animated fadeOutRight1");
+                    
+
+                    $(".page4_wishTitle2").removeClass("f-ann");
+                    $(".page4_wishTitle2").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle3").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+
+                               
+                    break;
+
+                case 1:
+
+                    $(".page4_wishTitle2").addClass("animated fadeOutRight1");
+                    
+                    $(".page4_wishTitle3").removeClass("f-ann");
+                    $(".page4_wishTitle3").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle1").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+                    
+                    break;
+
+                case 2:
+
+                    $(".page4_wishTitle3").addClass("animated fadeOutRight1");
+                   
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle2").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                   
+                    wishIndex++;
+                    break;
+
+                default:
+                    $(".page4_wishTitleC")addClass("animated fadeOutRight1");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+                    wishIndex=0;
+                    maxIndex=3;
+                    break;
+
+
+            }
+
+            
+
+
+            
+           
+
+            
+        }else if (distanceX < minDistance*(-1)){//往左滑
+            console.log("往左滑");
+
+            if(wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+
+            switch(wishIndex){
+                case 0:
+                    $(".page4_wishTitle1").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle2").addClass("f-ann");
+                    $(".page4_wishTitle3").removeClass("f-ann");
+                    $(".page4_wishTitle3").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    wishIndex--;
+                    break;
+
+                case 1:
+                     $(".page4_wishTitle2").addClass("animated fadeOutLeft1");
+                     $(".page4_wishTitle3").addClass("f-ann");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                case 2:
+                    $(".page4_wishTitle3").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle1").addClass("f-ann");
+                    $(".page4_wishTitle2").removeClass("f-ann");
+                    $(".page4_wishTitle2").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                case 3:
+
+                    wishIndex--;
+                    break;
+
+            }
+
+           
+        }
+    }
+
+    var swpieDistance = function(point1,point2){
+        var distanceX = tePoint.x - tsPoint.x;
+        var distanceY = tePoint.y - tsPoint.y;
+         
+   
+
+        if(wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+        }
+
+        console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
+        
+    }
+
+    var swipeEvent = function(e){
+        
+        var type = e.type;
+        var touch = e.touches[0];
+        switch(type){
+            case "touchstart":
+                tsPoint.x = touch.pageX
+                tsPoint.y = touch.pageY
+                break;
+
+            case "touchend":
+              
+                swipeDirection(tsPoint,tePoint);
+                swpieDistance(tsPoint,tePoint);
+                break;
+            case "touchmove":
+                tePoint.x=touch.pageX
+                tePoint.y=touch.pageY
+                break;
+
+        }
+        
+
+    }
+
+    var wishSwiper2 = document.getElementById("wishSwiper2");
+    wishSwiper2.addEventListener("touchstart",swipeEvent);
+    wishSwiper2.addEventListener("touchmove",swipeEvent);
+    wishSwiper2.addEventListener("touchend",swipeEvent);
+
+
+   
+  
 
 
     // 大福袋

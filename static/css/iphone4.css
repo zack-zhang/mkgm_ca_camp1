@@ -13,19 +13,19 @@ body .activity_info{
 
 body .loading_dot1{
     position: absolute;
-    top: 65.5%;
+    top: 66.5%;
     left: 71%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot2{
     position: absolute;
-    top: 65.5%;
+    top: 66.5%;
     left: 73.2%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot3{
     position: absolute;
-    top: 65.5%;
+    top: 66.5%;
     left: 75.4%;
     width: 2.18%; /*14px*/
 }

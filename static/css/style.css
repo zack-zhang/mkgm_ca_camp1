@@ -119,19 +119,19 @@ body .loading_cover{
 
 body .loading_dot1{
     position: absolute;
-    top: 53.8%;
+    top: 54.5%;
     left: 71%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot2{
     position: absolute;
-    top: 53.8%;
+    top: 54.5%;
     left: 73.2%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot3{
     position: absolute;
-    top: 53.8%;
+    top: 54.5%;
     left: 75.4%;
     width: 2.18%; /*14px*/
 }
@@ -919,12 +919,52 @@ body .page4_guide{
 
 
 
-body .page4_wishTitle{
+body .page4_wishTitle1{
     position: absolute;
     top: 55%;
     width: 64%;
     height: 25%;
     left: 18%;
+}
+
+body .page4_wishTitle2{
+    position: absolute;
+    top: 55%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page4_wishTitle3{
+    position: absolute;
+    top: 55%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page4_wishTitleC{
+    position: absolute;
+    top: 55%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body #wishC_2{
+    border:0;
+    left: 3%;
+    top: 12.5%;
+    width: 100%;
+    height: 80%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 500;
+    line-height: 160%;
+    word-break:break-all;
+    letter-spacing: -0.05em;
 }
 
 body #wishTitle1_2{
@@ -939,8 +979,39 @@ body #wishTitle1_2{
     text-align: center;
     font-weight: 500;
     margin-top: -2%;
-    margin-bottom: 1%;
+    margin-bottom: -2%;
 }
+
+body #wishTitle2_2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -2%;
+    margin-bottom: -2%;
+}
+
+body #wishTitle3_2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -2%;
+    margin-bottom: -2%;
+}
+
 
 body #wish1_2{
     border:0;
@@ -1129,6 +1200,30 @@ body .confirmWish_quit{
     top: 24.5%;
     left: 73.5%;
 
+}
+
+body .input_wishCus{
+    position: absolute;
+    top: 55%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body #input_wishcus{
+    border:0;
+    left: 3%;
+    top: 12.5%;
+    width: 100%;
+    height: 80%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 500;
+    line-height: 160%;
+    word-break:break-all;
+    letter-spacing: -0.05em;
 }
 
 /*已注册号码*/
