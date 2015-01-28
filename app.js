@@ -154,7 +154,7 @@ app.get('/jsticket', function(req, res){
     
 })
 
-app.use(authFilter);
+//app.use(authFilter);
 app.get('/', function(req, res, next) {
     var jsTicketUrl = "http://" + config.jsTicketHost + ":" + app.get('port') + "/jsticket";
     request.get(jsTicketUrl, function(err, response, body){

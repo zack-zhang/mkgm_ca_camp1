@@ -54,8 +54,8 @@ $(function(){
         openid = $.cookie("openid"),
         jsapiElements = jsapiTicket.split(","),
         jsapiAppId = jsapiElements[0],
-        jsapiTimestamp = jsapiElement[1],
-        jsapiNonceStr = jsapiElement[2],
+        jsapiTimestamp = parseInt(jsapiElements[1]),
+        jsapiNonceStr = jsapiElements[2],
         jsapiSignature = jsapiElements[3];
         
         
