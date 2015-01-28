@@ -173,7 +173,7 @@ app.get('/', function(req, res, next) {
                     + "&timestamp=" + now
                     + "&url=" + fullUrl;
         
-        console.log("signature request url : " + fullUrl);
+        console.log("signature request url : " + rawSig);
         var shasum = crypto.createHash('sha1');
         var signature = shasum.update(rawSig.toLowerCase()).digest('hex');
         
