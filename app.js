@@ -166,12 +166,14 @@ app.get('/', function(req, res, next) {
         
         //signature string
         var now = Date.now();
+        var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
         var nonceStr = '123456790';
         var rawSig = "jsapi_ticket=" + ticketInfo.jsticket 
                     + "&noncestr=" + nonceStr
                     + "&timestamp=" + now
-                    + "&url=" + req.url;
-        console.log("signature request url : " + req.url);
+                    + "&url=" + fullUrl;
+        
+        console.log("signature request url : " + fullUrl);
         var shasum = crypto.createHash('sha1');
         var signature = shasum.update(rawSig.toLowerCase()).digest('hex');
         
