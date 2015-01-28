@@ -50,6 +50,11 @@ function hideWeiXinHint(){
 }
 
 $(function(){
+    var jsapiTicket = $.cookie("jsticket"),
+        openid = $.cookie("openid");
+        
+    alert(jsapiTicket + "   " + openid);
+    
     var imgURL = "",
         baseUrl = getHostUrl(),
         userMobile = "",
