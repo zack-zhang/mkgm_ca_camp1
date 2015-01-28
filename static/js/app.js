@@ -102,8 +102,8 @@ $(function(){
                     dataType: 'json',
                     data: { openid : openid,
                             shareid : shareid,
-                            title : '分享给好友',
-                            content : 'wx js-sdk test'
+                            title : "分享给好友",
+                            content : "wx js-sdk test"
                         }
                     }); 
 		    },

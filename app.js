@@ -430,7 +430,7 @@ app.put('/lottery', function(req, res, next){
 
 app.put('/shareInfos', function(req, res, next) {
     var input = JSON.parse(JSON.stringify(req.body));
-
+    console.log("input=" + input);
     var data = {
         openid : input.openid,
         shareid : input.shareid,
