@@ -165,7 +165,7 @@ app.get('/', function(req, res, next) {
         var ticketInfo = JSON.parse(body);
         
         //signature string
-        var now = Date.now();
+        var now = Math.round(Date.now()/1000);
         var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
         var nonceStr = '123456790';
         var rawSig = "jsapi_ticket=" + ticketInfo.jsticket 
