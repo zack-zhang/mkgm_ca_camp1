@@ -100,9 +100,9 @@ $(function(){
                     url: '/shareInfos',
                     type: 'put',
                     dataType: 'json',
-                    data: { openid : openid,
-                            shareid : shareid,
-                            title : "分享给好友",
+                    data: { openid : '',
+                            shareid : '',
+                            title : "title test",
                             content : "wx js-sdk test"
                         }
                     }); 
