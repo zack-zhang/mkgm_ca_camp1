@@ -70,10 +70,10 @@ $(function(){
     
     wx.ready(function(){
 		wx.onMenuShareAppMessage({
-		    title: 'test', // 分享标题
+		    title: '分享给好友', // 分享标题
 		    desc: 'wx js-sdk test', // 分享描述
 		    link: location.href, // 分享链接
-		    imgUrl: '../icon.jpg', // 分享图标
+		    imgUrl: "http://" + window.location.host + '/images/page1_bg.jpg', // 分享图标
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
 		    },
