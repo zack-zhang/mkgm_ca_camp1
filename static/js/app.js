@@ -51,10 +51,77 @@ function hideWeiXinHint(){
 
 $(function(){
     var jsapiTicket = $.cookie("jsticket"),
-        openid = $.cookie("openid");
+        openid = $.cookie("openid"),
+        jsapiElements = jsapiTicket.split(","),
+        jsapiAppId = jsapiElements[0],
+        jsapiTimestamp = jsapiElement[1],
+        jsapiNonceStr = jsapiElement[2],
+        jsapiSignature = jsapiElements[3];
         
-    alert(jsapiTicket + "   " + openid);
+        
+    wx.config({
+	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	    appId: jsapiAppId, // 必填，公众号的唯一标识
+	    timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
+	    nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
+	    signature: jsapiSignature,// 必填，签名，见附录1
+	    jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
     
+    wx.ready(function(){
+		wx.onMenuShareAppMessage({
+		    title: 'test', // 分享标题
+		    desc: 'wx js-sdk test', // 分享描述
+		    link: location.href, // 分享链接
+		    imgUrl: '../icon.jpg', // 分享图标
+		    success: function () { 
+		        // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () { 
+		        // 用户取消分享后执行的回调函数
+		    }
+		});
+
+		wx.onMenuShareTimeline({
+		    title: 'test 朋友圈', // 分享标题
+		    desc:'朋友圈desc',
+		    link: location.href, // 分享链接
+		    imgUrl: '../icon.jpg', // 分享图标
+		    success: function () { 
+		        // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () { 
+		        // 用户取消分享后执行的回调函数
+		    }
+		});
+
+		var serverId;
+		$("#chooseImg").click(function(){
+			wx.chooseImage({
+		    success: function (res) {
+		        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+		        wx.uploadImage({
+				    localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+				    isShowProgressTips: 1, // 默认为1，显示进度提示
+				    success: function (res) {
+				        serverId = res.serverId; // 返回图片的服务器端ID
+				    }
+				});
+		    }
+			});
+		});
+
+		$("#downloadImg").click(function(){
+			wx.downloadImage({
+			    serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+			    isShowProgressTips: 1, // 默认为1，显示进度提示
+			    success: function (res) {
+			        var localId = res.localId; // 返回图片下载后的本地ID
+			    }
+			});
+		})
+
+	});
     var imgURL = "",
         baseUrl = getHostUrl(),
         userMobile = "",
