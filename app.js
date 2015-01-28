@@ -21,7 +21,7 @@ db.pg.defaults.poolSize = 20;
 //pg.defaults.poolSize = 20;
 
 var routes = require('./routes/index');
-var html_dir = './static/';
+var html_dir = './static';
 var app = express();
 
 global.access_token = null;
@@ -179,7 +179,7 @@ app.get('/', function(req, res, next) {
         
         res.cookie('jsticket', jsticketCookie, { maxAge: 60 * 1000 });
         
-        res.sendFile(html_dir + 'home.html');
+        res.sendFile(path.join(__dirname, html_dir, 'home.html'));
     });
 });
 
