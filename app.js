@@ -69,7 +69,7 @@ var authFilter = function(req, res, next){
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 //app.use(logger('dev'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -154,8 +154,17 @@ app.get('/jsticket', function(req, res){
     
 })
 
-app.use(authFilter);
+//app.use(authFilter);
+var luckybagSeed = 8034540;
+
+/*
+    params:
+        1. sharedby - the initiators open id
+        2. shareid - sharing identification used to get title and content
+*/
 app.get('/', function(req, res, next) {
+    var sharedby = req.query.sharedby;
+    
     var jsTicketUrl = "http://" + config.jsTicketHost + ":" + app.get('port') + "/jsticket";
     request.get(jsTicketUrl, function(err, response, body){
         if(err){
@@ -182,9 +191,36 @@ app.get('/', function(req, res, next) {
         console.log("get the signature : " + signature);
         var jsticketCookie = config.wxAppId + "," + now + "," + nonceStr + "," + signature;
         
-        res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
         
-        res.sendFile(path.join(__dirname, html_dir, 'home.html'));
+        res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
+        db.run(function (client,  getTotalLuckyBagNumberCb){
+            // client is a node-postgres client object
+            client.query("select count(*) from lottery_record where used=$1", [true], function(err, result){
+                var luckybagNumber = luckybagSeed;
+                if(err){
+                    //doesn't matter, we just give a number
+                    
+                }else{
+                    console.log("query result callback : " + result.rows);
+                    luckybagNumber += parseInt(result.rows[0].count);
+                }
+                
+                client.query("select nickname, headimgurl, a.openid from auth_users a join lottery_record b on a.openid=b.openid where b.sharedby=$1", [sharedby], function(err, result){
+                    var friends = false;
+                    if(err || result.rows.length === 0){
+                        //doen't matter
+                    }else{
+                        friends = result.rows;
+                    }
+                    
+                    console.log("query friends result callback : " + result.rows);
+                    
+                    res.render('index', { luckybagNumber : luckybagNumber, friends: friends});
+                });                
+            });
+        
+        });
+        
     });
 });
 
