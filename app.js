@@ -175,7 +175,9 @@ app.get('/', function(req, res, next) {
         
         console.log("signature request url : " + rawSig);
         var shasum = crypto.createHash('sha1');
-        var signature = shasum.update(rawSig.toLowerCase()).digest('hex');
+        shasum.update(rawSig.toLowerCase());
+        
+        var signature = shasum.digest('hex');
         
         console.log("get the signature : " + signature);
         var jsticketCookie = config.wxAppId + "," + now + "," + nonceStr + "," + signature;
