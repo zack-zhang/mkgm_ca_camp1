@@ -95,7 +95,17 @@ $(function(){
 		    imgUrl: shareImg, // 分享图标
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
-                wxShareSuccess('分享给好友','wx js-sdk test',shareid);
+                // wxShareSuccess('分享给好友','wx js-sdk test',shareid);
+                $.ajax({
+                    url: '/shareInfos',
+                    type: 'put',
+                    dataType: 'json',
+                    data: { openid : openid,
+                            shareid : shareid,
+                            title : '分享给好友',
+                            content : 'wx js-sdk test'
+                        }
+                    }); 
 		    },
 		    cancel: function () { 
 		        // 用户取消分享后执行的回调函数
@@ -570,7 +580,7 @@ $(function(){
             type: 'put',
             dataType: 'json',
             data: { mobile: phone,
-                    openid:'',
+                    openid:openid,
                     sharedby:''},
             success:function(data){
                 if (data.success) 
