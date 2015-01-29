@@ -71,8 +71,12 @@ $(function(){
         firstPrize = 1,
         usedNumber = 0,
         tooLate = 0;
-
+    var wishIndex = 0;
     var pics = new Array();
+     //自定义祝福语
+    var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”",""];
+
+    var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
 
     var Request = new Object();
         Request = GetRequest();
@@ -118,20 +122,21 @@ $(function(){
     {
         shareUrl = shareUrl + "?shareid="+shareid;
     }
-    var shareData = {
-                    openid:openid,
-                    shareid:shareid,
-                    title:title,
-                    content:'test'
-                };
+
     
     wx.ready(function(){
         
-        
+        var arrayIndex = wishIndex==-100?3:wishIndex;
+        var shareData = {
+                    openid:openid,
+                    shareid:shareid,
+                    title:wishTitleContent[arrayIndex],
+                    content:wishContent[arrayIndex]
+                };
 
 		wx.onMenuShareAppMessage({
 		    title: title, // 分享标题
-		    desc: 'wx js-sdk test', // 分享描述
+		    desc: wishContent[arrayIndex], // 分享描述
 		    link: shareUrl, // 分享链接
 		    imgUrl: shareImg, // 分享图标
 		    success: function () { 
@@ -156,7 +161,7 @@ $(function(){
 
 		wx.onMenuShareTimeline({
 		    title: title, // 分享标题
-		    desc:'朋友圈desc',
+		    desc:wishContent[arrayIndex],
 		    link: shareUrl, // 分享链接
 		    imgUrl:shareImg, // 分享图标
 		    success: function () { 
@@ -757,8 +762,8 @@ $(function(){
     })
 
     //滑动祝福语
-        var wishIndex = 0,
-        maxIndex=3,
+        
+        var maxIndex=3,
         minDistance = 30;
 
     var tsPoint = {
@@ -822,11 +827,7 @@ $(function(){
 
     
 
-    //自定义祝福语
-    var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”"];
-
-    console.log(wishTitleContent[0]);
-    var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
+   
 
 
 
