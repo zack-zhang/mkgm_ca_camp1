@@ -62,18 +62,7 @@ function hideWeiXinHint(){
     $("#weixin_hint").addClass("f-dn");
 }
 
-function wxShareSuccess(title,content,shareid){
-    $.ajax({
-        url: '/shareInfos',
-        type: 'put',
-        dataType: 'json',
-        data: { openid : openid,
-                shareid : shareid,
-                title : title,
-                content : content
-            }
-        }); 
-}
+
 
 $(function(){
 
@@ -116,9 +105,13 @@ $(function(){
 
     var localUrl = location.href,
         shareid = openid+"_"+ Date.parse(new Date()),
-        shareUrl = localUrl+"?shareid="+shareid,
+        shareUrl = localUrl,
         shareImg = "http://" + window.location.host + '/images/page1_bg.jpg';
 
+    if (weixin == 1) 
+    {
+        shareUrl.replace(shareBy,shareid);
+    };
     
     wx.ready(function(){
 
@@ -142,7 +135,7 @@ $(function(){
                         openid:openid,
                         shareid:shareid,
                         title:title,
-                        content:"test"
+                        content:'test'
                     },
                     success:function(responseObj){
                         alert(response.success);
@@ -155,13 +148,26 @@ $(function(){
 		});
 
 		wx.onMenuShareTimeline({
-		    title: 'test 朋友圈', // 分享标题
+		    title: title, // 分享标题
 		    desc:'朋友圈desc',
 		    link: shareUrl, // 分享链接
 		    imgUrl:shareImg, // 分享图标
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
-                wxShareSuccess('分享到朋友圈','wx js-sdk test',shareid);
+                $.ajax({
+                    url: '/shareInfos',
+                    type: 'put',
+                    dataType: 'json',
+                    data: {
+                        openid:openid,
+                        shareid:shareid,
+                        title:title,
+                        content:"test"
+                    },
+                    success:function(responseObj){
+                        alert(response.success);
+                    }
+                });
 		    },
 		    cancel: function () { 
 		        // 用户取消分享后执行的回调函数
@@ -611,7 +617,22 @@ $(function(){
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
         }
-        $.ajax({
+       
+  
+
+    }); 
+
+    $(".page0_confirmPhone").click(function(e){
+
+        var phone = $("#input-mobile2").val();
+       
+        var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
+        console.log(phone);
+
+        if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
+                    alert("您输入的手机号有误")
+        }
+         $.ajax({
             url: '/lottery',
             type: 'put',
             dataType: 'json',
@@ -642,28 +663,6 @@ $(function(){
                 }
             }
         });  
-  
-
-    }); 
-
-    $(".page0_confirmPhone").click(function(e){
-
-        var phone = $("#input-mobile2").val();
-       
-        var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-        console.log(phone);
-
-        if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
-                    alert("您输入的手机号有误")
-        }
-            else if(usedNumber==1){
-                $('.usedNumber').removeClass("f-dn");
-                $('.usedBtn').removeClass("f-dn");
-
-            }else{
-                $('.page2_confirm').removeClass("f-dn");
-                $('.page2_info').removeClass("f-dn");    
-            }
     }); 
 
     $('.usedBtn').click(function(e){
