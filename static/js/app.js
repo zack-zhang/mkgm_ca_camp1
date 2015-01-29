@@ -622,8 +622,11 @@ $(function(){
 
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
+
         }
-        $.ajax({
+        else
+        {
+            $.ajax({
             url: '/lottery',
             type: 'post',
             dataType: 'json',
@@ -658,6 +661,8 @@ $(function(){
                 }
             }
         });  
+        }
+        
   
 
     }); 
@@ -672,7 +677,8 @@ $(function(){
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
         }
-         $.ajax({
+        else{
+            $.ajax({
             url: '/lottery',
             type: 'post',
             dataType: 'json',
@@ -706,7 +712,8 @@ $(function(){
 
                 }
             }
-        });  
+        });
+        }  
     }); 
 
     $('.usedBtn').click(function(e){
@@ -990,7 +997,7 @@ $(function(){
            
         }
 
-        if(-100<wishIndex<0){
+        if(wishIndex>-100 && wishIndex<0){
                 wishIndex = wishIndex+maxIndex;
         }
 
@@ -1181,7 +1188,7 @@ $(function(){
 
            
         }
-        if(-100<wishIndex<0){
+        if(wishIndex>-100 && wishIndex<0){
                 wishIndex = wishIndex+maxIndex;
             }
         weixinShare();
