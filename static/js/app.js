@@ -97,7 +97,7 @@ $(function(){
                         title : "title test",
                         content: "wx test"
                     };
-        alert(shareData);
+        alert(shareData.title);
 
 		wx.onMenuShareAppMessage({
 		    title: '分享给好友', // 分享标题
@@ -111,12 +111,11 @@ $(function(){
                     url: '/shareInfos',
                     type: 'put',
                     dataType: 'json',
-                    data: { openid : '',
-                            shareid : '',
-                            title : "title test",
-                            content : "wx js-sdk test"
-                        }
-                    }); 
+                    data: shareData,
+                    success:function(responseObj){
+
+                    }
+                }); 
 		    },
 		    cancel: function () { 
 		        // 用户取消分享后执行的回调函数
