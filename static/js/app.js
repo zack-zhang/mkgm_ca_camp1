@@ -113,8 +113,8 @@ $(function(){
         shareData = {
                         openid : openid,
                         shareid : shareid,
-                        title : "title test",
-                        content: "wx test"
+                        title : "titletest",
+                        content: "wxtest"
                     };
         alert(shareData.title);
 
