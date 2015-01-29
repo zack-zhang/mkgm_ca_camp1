@@ -31,14 +31,14 @@ global.retriev_lock = 0; //lock the process to retriev ticket
 
 var authFilter = function(req, res, next){
     var pathname = url.parse(req.url).pathname;
-    //console.log("Request for " + pathname + " received.");
+    console.log("Request for " + pathname + " received.");
     
     if(pathname && pathname.indexOf('wxoauth_callback') > -1){
         return next();
     }
     
-    var openid = req.query.openid || req.cookies.openid;
-    //console.log("openid = " + openid);
+    var openid = config.debug ? 'test1' : req.query.openid || req.cookies.openid;
+    console.log("openid = " + openid);
     
     if(!openid){        
         return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
@@ -69,7 +69,7 @@ var authFilter = function(req, res, next){
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 //app.use(logger('dev'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -154,8 +154,19 @@ app.get('/jsticket', function(req, res){
     
 })
 
+
 app.use(authFilter);
+var luckybagSeed = 8034540;
+
+/*
+    params:
+        1. sharedby - the initiators open id
+        2. shareid - sharing identification used to get title and content
+*/
 app.get('/', function(req, res, next) {
+    var sharedby = req.query.sharedby,
+        shareid = req.query.shareid; //the unique shareing id that can help us to get shared content and title
+    
     var jsTicketUrl = "http://" + config.jsTicketHost + ":" + app.get('port') + "/jsticket";
     request.get(jsTicketUrl, function(err, response, body){
         if(err){
@@ -182,9 +193,53 @@ app.get('/', function(req, res, next) {
         console.log("get the signature : " + signature);
         var jsticketCookie = config.wxAppId + "," + now + "," + nonceStr + "," + signature;
         
+                
         res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
+        db.run(function (client,  getTotalLuckyBagNumberCb){
+            // client is a node-postgres client object
+            client.query("select count(*) from lottery_record where used=$1", [true], function(err, result){
+                var luckybagNumber = luckybagSeed;
+                if(err){
+                    //doesn't matter, we just give a number
+                    
+                }else{
+                    console.log("query result callback : " + result.rows);
+                    luckybagNumber += parseInt(result.rows[0].count);
+                }
+                if(sharedby){
+                        client.query("select nickname, headimgurl, a.openid from auth_users a join lottery_record b on a.openid=b.openid where b.sharedby=$1", [sharedby], function(err, result){
+                        var friends = false;
+                        if(err || result.rows.length === 0){
+                            //doen't matter
+                        }else{
+                            friends = result.rows;
+                        }
+                        
+                        console.log("query friends result callback : " + result.rows);
+                        
+                        client.query("select title, content from share_info where shareid=$1", 
+                                    [shareid], function(err, result){
+                            var title = '',
+                                content = '';
+                            if(err || result.rows.length === 0){
+                                //now result, should provide a default
+                            }else{
+                                title = result.rows[0].title;
+                                content = result.rows[0].content;
+                            }
+                            res.render('index', { luckybagNumber : luckybagNumber, 
+                                    friends: friends, title: title, content: content});
+                        });
+                        
+                    }); 
+                }else{
+                    res.render('index', { luckybagNumber : luckybagNumber, friends: false, title:'', content: ''});
+                }
+                
+            });
         
-        res.sendFile(path.join(__dirname, html_dir, 'home.html'));
+        });
+        
     });
 });
 
@@ -205,7 +260,7 @@ app.get('/wxoauth_callback', function(req, res, next){
             return next(err);
         }
         console.log("auth token response : " + JSON.stringify(bd));
-	var resData = JSON.parse(bd);
+        var resData = JSON.parse(bd);
 
     	if(resData.errcode){
     	    console.error("some error happened when tring to get access token");
@@ -214,8 +269,8 @@ app.get('/wxoauth_callback', function(req, res, next){
     		return next(error);
     	}else{
     		console.log("body access_token: " + resData.access_token);
-		console.log("body openid: " + resData.openid);
-		var access_token = resData.access_token;
+            console.log("body openid: " + resData.openid);
+            var access_token = resData.access_token;
     		var refresh_token = resData.refresh_token;
     		var openid = resData.openid;
             var getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" 
@@ -225,7 +280,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                     console.error("ERROR ocurred when request for user info : " + err);
                     return next(err);
                 }
-		var userInfo = JSON.parse(body);
+                var userInfo = JSON.parse(body);
                 var nickname = userInfo.nickname,
                     sex = userInfo.sex,
                     province = userInfo.province,
@@ -298,13 +353,99 @@ app.get('/wxoauth_callback', function(req, res, next){
     });
 })
 
-app.put('/users', function(req, res, next){
-    var input = JSON.parse(JSON.stringify(req.body)); 
-    console.log(input);
+app.put('/lottery', function(req, res, next){
+    var input = JSON.parse(JSON.stringify(req.body));
+    console.log(req.body);
+
+	db.select().from('lottery_record').where('mobile', input.mobile).rows(function(err, rows){
+        if(err) {  
+          console.error('error running query', err);
+          next(err);
+          return;
+        }
+
+        if (rows.length > 0){
+        	res.json({
+		        success: false,
+		        message: "已经参与过抽奖",
+		        errorCode: "PHONE_USED"
+		    });
+		    return;
+        }
+        
+        db.run(function(client, callback){
+            client.query('update lottery_record set mobile = $1::text,used = true,openid = $2::text,sharedby = $3::text where id = (select id from lottery_record where used = false limit 1) returning *',
+                [input.mobile, input.openid, input.sharedby],function(err, result){
+    	        if(err) {  
+    	          console.error('error running query', err);
+    	          return;
+    	        }
+                var rows = result.rows;
+                
+    	        if(rows.length == 0){
+    	        	return res.json({
+    			        success: false,
+    			        message: "本轮抽奖已经全部结束",
+    			        errorCode: "OVER"
+    			    });
+    	        }
+                    
+                
+                //call message api to send sms
+                if (rows[0].value != 888) {
+                    var sms = config.smsNormal;
+                    sms = sms.replace("【变量1】", rows[0].value);
+                    sms = sms.replace("【变量2】", rows[0].code);
+                    request.post({
+                                url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                                form: {
+                                    account: 'cf_obizsoft',
+                                    password: 'a123456',
+                                    mobile: '13764211365',
+                                    content: sms
+                                }
+                            }, function(err, res, bd){
+                                console.log(bd);
+                            }
+                    );
+                }else{
     
-    res.json({
-        success: true,
-        mobile: input.mobile
+                }
+    
+                res.json({
+                    success: true,
+                    data: rows[0]
+                });
+    	    });
+
+        });
+        
+        
+        
+    });
+});
+
+app.put('/shareInfos', function(req, res, next) {
+    var input = JSON.parse(JSON.stringify(req.body));
+
+    var data = {
+        openid : input.openid,
+        shareid : input.shareid,
+        title : input.title,
+        content : input.content
+    }
+
+    db.insert('share_info', data).returning('*').row(function(err, rows){
+        if(err) {
+            console.error('error running query', err);
+            next(err);
+            return;
+        }
+
+        res.json({
+            success: true,
+            data: rows
+        });
     });
 });
 
