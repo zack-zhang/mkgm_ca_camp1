@@ -61,7 +61,7 @@ var authFilter = function(req, res, next){
             //else need redirect to weixin for auth
             return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
                 + config.wxAppId + "&redirect_uri=" 
-                + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=http://campaign.canda.cn/users")
+                + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
                 +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
         }
     });    
@@ -273,6 +273,9 @@ app.get('/wxoauth_callback', function(req, res, next){
             var access_token = resData.access_token;
     		var refresh_token = resData.refresh_token;
     		var openid = resData.openid;
+    		
+    		res.cookie('openid', openid, { maxAge: 365 * 24 * 60 * 60 * 1000 }); //Save openid for 365 days
+    		
             var getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" 
                     + access_token + "&openid=" + openid + "&lang=zh_CN";
             request.get(getUserInfoUrl, function(err, response, body){
@@ -318,8 +321,8 @@ app.get('/wxoauth_callback', function(req, res, next){
                                   return next(err);
                                 }
                                 //set the openid in cookie
-                                res.cookie('openid', openid, { maxAge: 365 * 24 * 60 * 60 * 1000 }); //Save openid for 365 days
-        	
+                                console.log("Reset openid in cookie : " + openid);
+                                
                                 return res.redirect(req.query.redirect);
                             });
                     }else{
@@ -343,7 +346,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                   console.error('error running query', err);
                                   return next(err);
                                 }
-                                res.cookie('openid', openid, { maxAge: 365 * 24 * 60 * 60 * 1000  });
+                                
                                 return res.redirect(req.query.redirect);
                             });
                     }
