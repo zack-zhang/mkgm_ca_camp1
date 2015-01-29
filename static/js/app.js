@@ -1260,6 +1260,7 @@ $(function(){
         console.log(wishContent[3]);
 
         wishIndex=-100;
+        weixinShare();
     })
 
     $(".confirmWish_quit").click(function(e){
