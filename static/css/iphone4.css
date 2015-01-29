@@ -13,19 +13,19 @@ body .activity_info{
 
 body .loading_dot1{
     position: absolute;
-    top: 65.5%;
+    top: 66.5%;
     left: 71%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot2{
     position: absolute;
-    top: 65.5%;
+    top: 66.5%;
     left: 73.2%;
     width: 2.18%; /*14px*/
 }
 body .loading_dot3{
     position: absolute;
-    top: 65.5%;
+    top: 66.5%;
     left: 75.4%;
     width: 2.18%; /*14px*/
 }
@@ -43,21 +43,143 @@ body .m-screen1 .g-ct  #confirmPhone{
 }
 
 /*微信页*/
+
+
+
+
 body .page0_bag{
     position: absolute;
     width: 24.85%;/*159/640 */
-    top: 47%;
+    top: 43%;
     left: 62.5%;
     z-index: 10001;
 
 }
 
+
+
+body .page0_confirmPhone{
+    position: absolute;
+    width: 54.69%; /*350/640*/
+    left: 23.7%;
+    top: 58%;
+    z-index: 10001;
+}
+
+body .page0_phoneNumber{
+    position:absolute;
+    
+    top:48.2%;
+    height: 17%;
+    
+    left: 17%;
+    width: 62.66%;
+    /*border-width: thick;
+    border-style: solid;
+    
+    border-color:#F2D340;*/
+}
+
+body .page0_wishText{
+    position: absolute;
+    top: 31.3%;
+    width: 46%;
+    height: 15%;
+    z-index: 20000;
+    font-size: 0.6em;
+    left: 37%;
+}
+
+body .page0_wishT{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #766D64;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 700;
+    margin-top: -2%;
+    margin-bottom: -2%;
+}
+
+
+body .page0_wishContent{
+    border: 0;
+    left: 6%;
+    top: 16.5%;
+    position: absolute;
+    width: 88%;
+    height: 80%;
+    background-color: transparent;
+    color:  #766D64;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 700;
+    line-height: 180%;
+    word-break: break-all;
+    letter-spacing: -0.05em;
+}
+
+body .page0_cash{
+    position: absolute;
+    top: 21%;
+    left: 40.7%;
+    width: 12%;
+    height: 10%;
+    background-color: transparent;
+    color: #901401;
+    font-size: 2.2em;
+    font-weight: 600;
+    text-align: center;
+    
+}
+
 body .page0_light{
     position: absolute;
     width: 13.75%;/*88/640*/
-    top: 46.5%;
+    top: 37.5%;
     left: 79.5%;
     z-index: 10002;
+}
+
+body .page0_wish{
+    position: absolute;
+    width: 81.72%;/*523/640*/
+    left: 9.1%;
+    top: 25%;
+    z-index: 10000;
+
+}
+body .page0_circle1{
+    position: absolute;
+    width: 16.25%; /*104/640*/
+    top: 70%;
+    left: 6.5%;
+    z-index: 10001;
+}
+body .page0_circle2{
+    position: absolute;
+    width: 16.25%; /*104/640*/
+    top: 70%;
+    left: 30%;
+    z-index: 10001;
+}
+body .page0_circle3{
+    position: absolute;
+    width: 16.25%; /*104/640*/
+    top: 70%;
+    left: 53.5%;
+    z-index: 10001;
+}
+body .page0_circle4{
+    position: absolute;
+    width: 16.25%; /*104/640*/
+    top: 70%;
+    left: 77.5%;
+    z-index: 10001;
 }
 
 /*首页*/
@@ -281,18 +403,359 @@ body .page2_confirm{
 body .page3_send{
     position: absolute;
     width: 54.69%; /*350/640*/
-    top:75%;
+    top:78%;
     left: 22.7%;
 }
 
 body .page4_send{
     position: absolute;
     width: 54.69%; /*350/640*/
-    top:75%;
+    top:78%;
     left: 22.7%;
 }
 
 
+/*step3 普通福袋*/
+body .page3_coupon{
+    position: absolute;
+    width: 56.09%; /*413/640*/
+    top:16.9%;
+    left: 28.3%;
+}
+
+body .page3_cash1{
+    position: absolute;
+    top: 20%;
+    left: 33%;
+    width: 40%;
+    font-size: 4em;
+    font-weight: 600;
+
+    color: #fff;
+    text-align: center;
+
+}
+
+body .page3_cash2{
+    position: absolute;
+    top: 35%;
+    left: 39.5%;
+    width: 15%;
+    font-size: 2.3em;
+    font-weight: 600;
+    color: #7E1B14;
+    text-align: center;
+}   
+
+body .page3_guide{
+    position: absolute;
+    width: 9.84%;/*63/640*/
+    top:18%;
+    
+    left: 18%;
+}
+
+
+
+
+
+body .page3_wishTitle1{
+    position: absolute;
+    top: 52.5%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page3_wishTitle2{
+    position: absolute;
+    top: 52.5%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page3_wishTitle3{
+    position: absolute;
+    top: 52.5%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page3_wishTitleC{
+    position: absolute;
+    top: 50.5%;
+    width: 60%;
+    height: 25%;
+    left: 20%;
+}
+
+body .page3_arrowL{
+    position: absolute;
+    width: 4.375%; /*28/640*/
+    top: 58%;
+    left: 8%
+
+}
+
+body .page3_arrowR{
+    position: absolute;
+    width: 4.375%; /*28/640*/
+    top: 58%;
+    left: 85%;
+    
+}
+
+body .page3_gesture{
+    position: absolute;
+    width: 10.47%; /*67/640*/
+    top: 67%;
+    left: 85%;
+}
+
+
+
+
+body .page3_light1{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 64%;
+    left: 83.3%;
+}
+
+body .page3_light2{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 64%;
+    left: 86.3%;
+}
+
+body .page3_light3{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 64%;
+    left: 89%;
+}
+
+body .page3_cus{
+    position: absolute;
+    width: 15%; /*96/640*/
+    top: 73%;
+    left: 42.5%;
+    
+}
+
+
+body #wishTitle1{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body #wishTitle2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body #wishTitle3{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+/*step3 888时尚大福袋*/
+body .page4_coupon{
+    position: absolute;
+    width: 64.53%; /*413/640*/
+    top:16.7%;
+    left: 27.8%;
+}
+
+body .page4_cash{
+    position: absolute;
+    top: 35%;
+    left: 39.5%;
+    width: 15%;
+    font-size: 2.3em;
+    font-weight: 600;
+    color: #7E1B14;
+    text-align: center;
+}  
+
+
+body .page4_guide{
+    position: absolute;
+    width: 9.84%;/*63/640*/
+    top:18%;
+    
+    left: 18%;
+}
+
+
+
+
+
+body .page4_wishTitle1{
+    position: absolute;
+    top: 52.5%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page4_wishTitle2{
+    position: absolute;
+    top: 52.5%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page4_wishTitle3{
+    position: absolute;
+    top: 52.5%;
+    width: 64%;
+    height: 25%;
+    left: 18%;
+}
+
+body .page4_wishTitleC{
+    position: absolute;
+    top: 50.5%;
+    width: 60%;
+    height: 25%;
+    left: 20%;
+}
+
+body #wishTitle1_2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body #wishTitle2_2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body #wishTitle3_2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body .page4_arrowL{
+    position: absolute;
+    width: 4.375%; /*28/640*/
+    top: 58%;
+    left: 8%
+
+}
+
+body .page4_arrowR{
+    position: absolute;
+    width: 4.375%; /*28/640*/
+    top: 58%;
+    left: 85%;
+    
+}
+
+body .page4_gesture{
+    position: absolute;
+    width: 10.47%; /*67/640*/
+    top: 67%;
+    left: 85%;
+}
+
+
+
+
+body .page4_light1{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 64%;
+    left: 83.3%;
+}
+
+body .page4_light2{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 64%;
+    left: 86.3%;
+}
+
+body .page4_light3{
+    position: absolute;
+    width: 2.34%;/*15/640*/
+    top: 64%;
+    left: 89%;
+}
+
+body .page4_cus{
+    position: absolute;
+    width: 15%; /*96/640*/
+    top: 73%;
+    left: 42.5%;
+    
+}
+/*888福袋返回*/
 body .page5_back{
     position: absolute;
     width: 54.69%; /*350/640*/
@@ -306,6 +769,37 @@ body .page6_back{
     top: 73%;
     left: 22.7%;
 }
+
+/*祝福语*/
+body .confirmWish_Btn{
+    position: absolute;
+    width: 60.15%;/*350/640*/
+    top: 76%;
+    left: 20%;
+}
+
+
+body .input_wishCus{
+    position: absolute;
+    top: 36%;
+    width: 60%;
+    height: 35%;
+    left: 22%;
+    border: 0;
+    background-color: transparent;
+    overflow: hidden;
+    color: #fff;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 500;
+    line-height: 200%;
+    
+    text-indent: 0;
+    letter-spacing: -0.05em;
+
+
+}
+
 
 body .usedBtn{
     position: absolute;
@@ -325,265 +819,7 @@ index: 10001;
 
 
 
-body .page0_bag{
-    position: absolute;
-    width: 24.85%;/*159/640 */
-    top: 43%;
-    left: 62.5%;
-    z-index: 10001;
-
-}
 
 
 
-body .page0_confirmPhone{
-    position: absolute;
-    width: 54.69%; /*350/640*/
-    left: 23.7%;
-    top: 58%;
-    z-index: 10001;
-}
 
-body .page0_phoneNumber{
-    position:absolute;
-    
-    top:48.2%;
-    height: 17%;
-    
-    left: 17%;
-    width: 62.66%;
-    /*border-width: thick;
-    border-style: solid;
-    
-    border-color:#F2D340;*/
-}
-
-body .page0_light{
-    position: absolute;
-    width: 13.75%;/*88/640*/
-    top: 37.5%;
-    left: 79.5%;
-    z-index: 10002;
-}
-
-body .page0_wish{
-    position: absolute;
-    width: 81.72%;/*523/640*/
-    left: 9.1%;
-    top: 25%;
-    z-index: 10000;
-
-}
-body .page0_circle{
-    position: absolute;
-    width: 86.87%; /*556/640*/
-    top: 70%;
-    left: 6.5%;
-    z-index: 10001;
-}
-
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen0 .g-ct{
-    background: url('../images/bg01_1.jpg');
-    background-size: 100% 100%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen1 .g-ct #b-yh{
-    position:absolute;
-    left:14.06%;
-    top: 37.9%;
-    width: 71.87%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen1 .g-ct #b-zy{
-    position:absolute;
-    left:14.06%;
-    top: 53.1811%;
-    width: 71.87%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen1 .g-ct #b-my{
-    position:absolute;
-    left:14.06%;
-    top: 68.4622%;
-    width: 71.87%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen1 .g-ct #b-miyou{
-    position:absolute;
-    left:14.06%;
-    top: 83.7433%;
-    width: 71.87%;
-}
-
-
-body  #slide5 .m-screen5 .g-ct .bg_image{
-    width: 80%;
-	height: 70%;
-    position:absolute;
-    top:1%;left:10%;
-	
-}
-
-body  #slide5 .m-screen5 .g-ct .btn_first{
-    width: 25%;
-    position:absolute;
-    top:72%;left:37.5%;
-}
-
-body  #slide5 .m-screen5 .g-ct .btn_second{
-    width: 38.7%;
-    position:absolute;
-    top:89.4%;left:10%;
-}
-
-body  #slide5 .m-screen5 .g-ct .btn_third{
-    width: 38.7%;
-    position:absolute;
-     top:89.4%;left:51%;
-}
-
-body  #slide5 .m-screen5 .g-ct .btn_forth{
-     width: 38.7%;
-    position:absolute;
-    top:77%;left:10%;
-}
-
-
-body  #slide5 .m-screen5 .g-ct .btn_five{
-       width: 38.7%;
-    position:absolute;
-     top:77%;left:51%;
-}
-
-body  #slide5 .m-screen5 .g-ct .bg_image{
-    width: 80%;
-    position:absolute;
-    top:2%;left:10%;
-	
-}
-
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen0 .g-ct .slideup-hint{
-    position:absolute;
-    left:0;
-    top: 75%;
-	width: 100%;
-	height: 25%;
-	background: url('../images/slideup01.png');
-	background-size:100% 100%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen0 .g-ct .slideup-hint .slide-arrow{
-    position:absolute;
-    left: 38.7037%;
-    top:78%;
-    width: 22.5926%;
-    height: 18.9245%;
-    background: url('../images/redarrow.png');
-    background-size: cover;
-}
-
-
-/*body .g-doc .g-bd .swiper-container .swiper-slide .m-screen1 .g-ct #b-yh{
-    position:absolute;
-    left:14%;
-    top: 180px;
-    width: 72%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen1 .g-ct #b-zy{
-    position:absolute;
-    left:14%;
-    top: 236px;
-    width: 72%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen1 .g-ct #b-my{
-    position:absolute;
-    left:14%;
-    top: 292px;
-    width: 72%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen1 .g-ct #b-miyou{
-    position:absolute;
-    left:14%;
-    top: 348px;
-    width: 72%;
-}*/
-/*
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen01 .g-ct{
-    background: url('../images/bg_product_ip4.jpg');
-    background-size: 100% 100%;
-}*/
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen2 .g-ct #bg-yh{
-    position:absolute;
-	background: url('../images/bg_youhuo_ip4_new.jpg');
-	background-size: cover;
-}
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen2 .g-ct #bg-zy{
-    position:absolute;
-	background: url('../images/bg_ziyou_ip4.jpg');
-	background-size: cover;
-}
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen2 .g-ct #bg-my{
-    position:absolute;
-	background: url('../images/bg_manya_ip4.jpg');
-	background-size: cover;
-}
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen2 .g-ct #bg-miyou{
-    position:absolute;
-	background: url('../images/bg_miyou_ip4_v2.jpg');
-	background-size: cover;
-}
-
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen2 .g-ct .slideup-hint{
-    position:absolute;
-    left: 35.3906%;
-    top: 92.55%;
-	width: 29.2188%;
-	height: 7.45%;
-	background: url('../images/whiteHint.png');
-	background-size: cover;
-}
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen2 .g-ct .slideup-hint .slide-arrow{
-    position:absolute;
-    left: 5%;
-    top: 36%;
-    width: 90%;
-    height: 63%;
-    background: url('../images/whiteArrow.png');
-    background-size: cover;
-}
-
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen3 .g-ct #promotion{
-    position:absolute;
-    top:75.18%;
-    left: 0%;
-    width:100%;
-    height:6%;
-	background: url('../images/04_promotion.png');
-	background-size: cover;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen3 .g-ct .bbar{
-    position:absolute;
-    top:83.18%;
-    left: 0%;
-    width:100%;
-    height:16.82%;
-}
-
-body .g-doc .g-bd .swiper-container .swiper-slide .m-screen4 .g-ct .pick-btn{
-    position:absolute;
-    top: 73%;
-    left: 19.38%;
-    width: 58%;
-    height: 10%;
-    background: url('../images/05_pick_btn.png');
-	background-size: 100% 100%;
-}

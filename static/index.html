@@ -13,9 +13,9 @@
         media="only screen and (device-width:320px) and (device-height:480px)" href="css/iphone4.css" />
     <!-- build:js js/jq.min.js -->
     <script src="js/jquery-1.11.1.js"></script>
-    <script src="js/jquery.cookie.js"></script>
     <!-- endbuild -->
-    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
 </head>
 
 
@@ -106,7 +106,16 @@
                 <div class="page0_bag">
                   <img src="images/page0_bag.png" width="100%" alt="">
                 </div>
-                <div class="page0_circle">
+                <div class="page0_circle1">
+                  <img src="images/page0_circle.png" width="100%" alt="">
+                </div>
+                <div class="page0_circle2">
+                  <img src="images/page0_circle.png" width="100%" alt="">
+                </div>
+                <div class="page0_circle3">
+                  <img src="images/page0_circle.png" width="100%" alt="">
+                </div>
+                <div class="page0_circle4">
                   <img src="images/page0_circle.png" width="100%" alt="">
                 </div>
                 <div class="page0_confirmPhone"> 
@@ -118,6 +127,15 @@
                 <div class="page0_wish">
                   <img src="images/page0_wish.png" width="100%" alt="">
                 </div>
+                <div class="page0_wishText">
+                    <div class = "page0_wishT" id ="page0_wishTitle">"袋你任性袋你壕"</div>
+                        <div class="page0_wishContent" id="page0_wish">虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!</div>
+                </div>
+                <div class="page0_cash">200</div>
+                <div class ="page0_wishCus">
+                    <div class="page0_cus" id="page0_wishC"></div>
+                </div>
+
                 <div class="page0_firstA f-dn">
                   <img src="images/page0_firstA.png" width="100%"alt="">
                 </div>
@@ -192,7 +210,8 @@
                     </div>
 
                     <div class="page2_phoneNumber" >
-                       <input type="text"  id="input-mobile" value="输入手机号马上抢福袋!">   
+                      <!-- value="输入手机号马上抢福袋!" -->
+                       <input type="text"  id="input-mobile"  value="13800000000">   
                        <div id="validateCode"></div>
                             <span type="text" name="phone" id="txt"></span>                      
                     </div>
@@ -238,31 +257,7 @@
                   <div class="page3_bg">
                     <img class="preload page3_ip4" src="images/page3_bg.jpg" width="100%" alt="">
                   </div>
-                  <!-- <div class="page3_h">
-                    <img src="images/page3_h.png" alt="">
-                  </div> -->
-                   <!--  <div class="page3_coupon">
-                      <img src="images/page3_coupon.png" alt="">
-                    </div> -->
-                 <!--    <div class="input_wish1">
-                       <input type="text"  id="input-wish1" value="虽然我不是土豪，可今天我就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!">
-                      
-                    </div>
-                      <div class="input_wish2">
-                       <input type="text"  id="input-wish2" value="每逢佳节抢福袋？？别闹，我只想静静做一只霸道又任性的福袋。">
-                      
-                    </div>
-                      <div class="input_wish3">
-                       <input type="text"  id="input-wish3" value="大喊三声：抢~福~袋~，你敢不敢应?">
-                      
-                    </div>
- -->                    <!-- <div class="input_wishCus">
-                       <input type="text"  id="input_wishcus" value="">                 
-                    </div class="confirm"> -->
-
-                    <!-- <div class="page3_c1">
-                      <img src="images/page3_c1.png" alt="">
-                    </div> -->
+                  
                     <div class="page3_guide track_data" track='usage' track-data='click'>
                       <img src="images/page3_guide.jpg" width="100%" alt="">
                     </div>
@@ -290,18 +285,31 @@
                     <div class="page3_light3 animated bounceInUp12 f-ad5 f-ann f-anii">
                       <img src="images/page3_light3.png" width="100%" alt="">
                     </div>
+                    <div class="page3_cash1">200</div>
+                    <div class="page3_cash2">150</div>
 
   
 
-                    <div class="page3_wishTitle">
-                      <div class = "page3_wishT1" id ="wishTitle1">"袋你任性袋你壕"</div>
-                      <div class="page3_wish1" id="wish1">虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!</div>
+                    <div id="wishSwiper">
+                      <div class="page3_wishTitle1">
+                        <div class = "page3_wishT1" id ="wishTitle1">"袋你任性袋你壕"</div>
+                        <div class="page3_wish1" id="wish1">虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!</div>
+                      </div>
 
-                      <div class="page3_wishT2 f-ann" id="withTitle2">"Fun抢福袋我最拼"</div>
-                      <div class="page3_wish2 f-ann" id="wish2">为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！</div>
+                      <div class="page3_wishTitle2 f-ann">
+                        <div class="page3_wishT2" id="wishTitle2">"Fun抢福袋我最拼"</div>
+                      <div class="page3_wish2" id="wish2">为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！</div>
+                      </div>
 
-                      <div class ="page3_wishT3 f-ann" id="withTitle3">“默默抢福袋 低调送祝福”</div>
-                      <div class="page3_wish3 f-ann" id="wish3">C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！</div>
+                      <div class="page3_wishTitle3 f-ann">
+                          <div class ="page3_wishT3" id="wishTitle3">“默默抢福袋 低调送祝福”</div>
+                         <div class="page3_wish3" id="wish3">C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！</div>
+                      </div> 
+                    
+                     <div class= "page3_wishTitleC f-ann">
+                        <!-- <div class ="page4_wishTC" id="wishTitle3_2"> </div> -->
+                         <div class="page3_wishC" id="wishC"></div>
+                     </div>
                     </div>
 
                 
@@ -335,16 +343,17 @@
                     <div class="page4_arrowR animated arrowR f-ann f-anii">
                       <img src="images/page3_arrowR.png" width="100%" alt="">
                     </div>
+                    <div class="page4_cash">150</div>
                     
                     <div id="wishSwiper2">
                     <div class="page4_wishTitle1" >
                     
-                      <div class = "page4_wishT1" id ="wishTitle1_2">"袋你任性袋你壕"</div>
+                      <div class = "page4_wishT1" id ="wishTitle1_2">“袋你任性袋你壕”</div>
                       <div class="page4_wish1" id="wish1_2">虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!</div>
                     </div> 
 
                       <div class= "page4_wishTitle2 f-ann">
-                          <div class="page4_wishT2 " id="wishTitle2_2">"Fun抢福袋我最拼"</div>
+                          <div class="page4_wishT2 " id="wishTitle2_2">“Fun抢福袋我最拼”</div>
                           <div class="page4_wish2 " id="wish2_2">为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！</div>
                      </div>
 
@@ -375,9 +384,8 @@
                     <div class="page4_light3 animated bounceInUp12 f-ad5 f-ann f-anii">
                       <img src="images/page3_light3.png" width="100%" alt="">
                     </div>
-                   <!-- <div class="page4_bag">
-                     <img src="images/page4_bag.png" width="100%" alt="">
-                   </div> -->
+                   
+                  
                     
                     <div class="page4_send track_data" track='share' track-data='click'>
                       <img src="images/page3_send.png" width="100%" alt="">
@@ -396,6 +404,7 @@
                     <div class="page5_back track_data" track='return' track-data='click'>
                       <img src="images/page5_back.png" width="100%" alt="">
                     </div>
+                    <div class="page5_cash" >150</div>
                                                     
                 </div>               
             </div>
@@ -427,7 +436,7 @@
              <div class="m-screen wish-screen f-dn">
             <div class="g-ct">
                     <div class="confirmWish">
-                      <img class="preload" src="images/confirmWish.png" width="100%" alt="">
+                      <img class="preload confirmWish_ip4" src="images/confirmWish.png" width="100%" alt="">
                     </div>
                     <div class="confirmWish_Btn">
                       <img src="images/confirmWish_Btn.png" width="100%"alt="">
@@ -435,9 +444,7 @@
                     <div class="confirmWish_quit">
                       <img src="images/confirmWish_quit.png" width="100%" alt="">
                     </div>
-                     <div class="input_wishCus">
-                       <input type="text"  id="input_wishcus" value="">                 
-                    </div>      
+                     <textarea autofocus class="input_wishCus"  id="input_wishcus" maxlength="52"></textarea>      
                                                                                                              
                 </div>               
             </div>
