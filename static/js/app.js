@@ -159,7 +159,7 @@ $(function(){
 
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
-                desc:wishContent[wishIndex<=-100?3:wishIndex],
+                desc:wishContent[arrayIndex],
                 link: shareUrl, // 分享链接
                 imgUrl:shareImg, // 分享图标
                 success: function () { 
