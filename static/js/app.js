@@ -125,12 +125,6 @@ $(function(){
 
         var random = Math.random();
         var title = random<0.5?'福袋已打包送到，我真的只能帮你到这儿了…':'福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~';
-        shareData = {
-                        openid : openid,
-                        shareid : shareid,
-                        title : title,
-                        content: "test"
-                    };
 
 		wx.onMenuShareAppMessage({
 		    title: title, // 分享标题
@@ -144,7 +138,12 @@ $(function(){
                     url: '/shareInfos',
                     type: 'put',
                     dataType: 'json',
-                    data: shareData,
+                    data: {
+                        openid:openid,
+                        shareid:shareid,
+                        title:title,
+                        content:"test"
+                    },
                     success:function(responseObj){
                         alert(response.success);
                     }
