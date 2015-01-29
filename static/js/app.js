@@ -124,16 +124,19 @@ $(function(){
     }
 
     function weixinShare(){
-
+        var arrayIndex = wishIndex;
+        if (arrayIndex<=-100) 
+        {
+            arrayIndex = 3;
+        };
         wx.onMenuShareAppMessage({
                 title: title, // 分享标题
-                desc: wishContent[wishIndex<=-100?3:wishIndex], // 分享描述
+                desc: wishContent[arrayIndex], // 分享描述
                 link: shareUrl, // 分享链接
                 imgUrl: shareImg, // 分享图标
                 success: function () { 
                     // 用户确认分享后执行的回调函数
                     // wxShareSuccess('分享给好友','wx js-sdk test',shareid);
-                   alert(wishIndex+"array indext = "+ wishIndex<=-100?3:wishIndex);
                     $.ajax({
                         url: '/shareInfos',
                         type: 'post',
@@ -183,7 +186,7 @@ $(function(){
     }
 
 
-    
+
     wx.ready(function(){
         
         // var arrayIndex = ;
