@@ -129,6 +129,7 @@ $(function(){
         {
             arrayIndex = 3;
         };
+        alert("index = "+ arrayIndex + "content="+ wishContent[arrayIndex]);
         wx.onMenuShareAppMessage({
                 title: title, // 分享标题
                 desc: wishContent[arrayIndex], // 分享描述
