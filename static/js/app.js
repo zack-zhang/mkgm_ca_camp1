@@ -867,8 +867,6 @@ $(function(){
                 case 0:    
 
                     $(".page4_wishTitle1").addClass("animated fadeOutRight1");
-                    
-
                     $(".page4_wishTitle2").removeClass("f-ann");
                     $(".page4_wishTitle2").addClass("animated fadeInLeft1");
                     $(".page4_wishTitle3").addClass("f-ann");
@@ -960,7 +958,7 @@ $(function(){
                     wishIndex--;
                     break;
 
-                case 3:
+                default:
                     $(".page4_wishTitleC").addClass("animated fadeOutLeft1");
                     $(".page4_wishTitle1").removeClass("f-ann");
                     $(".page4_wishTitle1").addClass("animated fadeInRight1");
@@ -1147,7 +1145,7 @@ $(function(){
                     wishIndex--;
                     break;
 
-                case 3:
+                default:
                     $(".page3_wishTitleC").addClass("animated fadeOutLeft1");
                     $(".page3_wishTitle1").removeClass("f-ann");
                     $(".page3_wishTitle1").addClass("animated fadeInRight1");
@@ -1239,7 +1237,7 @@ $(function(){
         
         console.log(wishContent[3]);
 
-        WishIndex=-100;
+        wishIndex=-100;
     })
 
     $(".confirmWish_quit").click(function(e){
