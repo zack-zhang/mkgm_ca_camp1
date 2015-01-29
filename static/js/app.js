@@ -62,7 +62,63 @@ function hideWeiXinHint(){
     $("#weixin_hint").addClass("f-dn");
 }
 
+function weixinShare(){
+    wx.onMenuShareAppMessage({
+            title: title, // 分享标题
+            desc: wishContent[wishIndex<=-100?3:wishIndex], // 分享描述
+            link: shareUrl, // 分享链接
+            imgUrl: shareImg, // 分享图标
+            success: function () { 
+                // 用户确认分享后执行的回调函数
+                // wxShareSuccess('分享给好友','wx js-sdk test',shareid);
+               alert(wishIndex+"array indext = "+ wishIndex<=-100?3:wishIndex);
+                $.ajax({
+                    url: '/shareInfos',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                    openid:openid,
+                    shareid:shareid,
+                    title:wishTitleContent[wishIndex<=-100?3:wishIndex],
+                    content:wishContent[wishIndex<=-100?3:wishIndex]
+                },
+                    success:function(responseObj){
+                        // alert(response.success);
+                    }
+                }); 
+            },
+            cancel: function () { 
+                // 用户取消分享后执行的回调函数
+            }
+        });
 
+        wx.onMenuShareTimeline({
+            title: title, // 分享标题
+            desc:wishContent[wishIndex<=-100?3:wishIndex],
+            link: shareUrl, // 分享链接
+            imgUrl:shareImg, // 分享图标
+            success: function () { 
+                // 用户确认分享后执行的回调函数
+                $.ajax({
+                    url: '/shareInfos',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                    openid:openid,
+                    shareid:shareid,
+                    title:wishTitleContent[wishIndex<=-100?3:wishIndex],
+                    content:wishContent[wishIndex<=-100?3:wishIndex]
+                },
+                    success:function(responseObj){
+                        // alert(response.success);
+                    }
+                });
+            },
+            cancel: function () { 
+                // 用户取消分享后执行的回调函数
+            }
+        });
+}
 
 $(function(){
 
@@ -122,8 +178,6 @@ $(function(){
     {
         shareUrl = shareUrl + "?shareid="+shareid;
     }
-
-    var string = "test"
     wx.ready(function(){
         
         // var arrayIndex = ;
@@ -133,63 +187,8 @@ $(function(){
         //             title:wishTitleContent[wishIndex<=-100?3:wishIndex],
         //             content:wishContent[wishIndex<=-100?3:wishIndex]
         //         };
+        weixinShare();
 
-		wx.onMenuShareAppMessage({
-		    title: title, // 分享标题
-		    desc: string, // 分享描述
-		    link: shareUrl, // 分享链接
-		    imgUrl: shareImg, // 分享图标
-		    success: function () { 
-		        // 用户确认分享后执行的回调函数
-                // wxShareSuccess('分享给好友','wx js-sdk test',shareid);
-               alert(wishIndex+"array indext = "+ wishIndex<=-100?3:wishIndex);
-                $.ajax({
-                    url: '/shareInfos',
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                    openid:openid,
-                    shareid:shareid,
-                    title:wishTitleContent[wishIndex<=-100?3:wishIndex],
-                    content:wishContent[wishIndex<=-100?3:wishIndex]
-                },
-                    success:function(responseObj){
-                        // alert(response.success);
-                    }
-                }); 
-		    },
-		    cancel: function () { 
-		        // 用户取消分享后执行的回调函数
-                string = "cancel"
-		    }
-		});
-
-		wx.onMenuShareTimeline({
-		    title: title, // 分享标题
-		    desc:wishContent[wishIndex<=-100?3:wishIndex],
-		    link: shareUrl, // 分享链接
-		    imgUrl:shareImg, // 分享图标
-		    success: function () { 
-		        // 用户确认分享后执行的回调函数
-                $.ajax({
-                    url: '/shareInfos',
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                    openid:openid,
-                    shareid:shareid,
-                    title:wishTitleContent[wishIndex<=-100?3:wishIndex],
-                    content:wishContent[wishIndex<=-100?3:wishIndex]
-                },
-                    success:function(responseObj){
-                        // alert(response.success);
-                    }
-                });
-		    },
-		    cancel: function () { 
-		        // 用户取消分享后执行的回调函数
-		    }
-		});
 	});
     var imgURL = "",
         baseUrl = getHostUrl(),
@@ -981,6 +980,8 @@ $(function(){
 
            
         }
+
+        weixinShare();
     }
 
    //普通福袋祝福语
@@ -1168,6 +1169,7 @@ $(function(){
 
            
         }
+        weixinShare();
     }
 
     // 大福袋
