@@ -879,9 +879,9 @@ $(function(){
         if(distanceX > minDistance){
             console.log("往右滑");
             
-            if(-100<wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-            }
+            // if(-100<wishIndex<0){
+            //     wishIndex = wishIndex+maxIndex;
+            // }
             switch(wishIndex){
                 case 0:    
 
@@ -943,9 +943,7 @@ $(function(){
         }else if (distanceX < minDistance*(-1)){//往左滑
             console.log("往左滑");
 
-            if(-100<wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-            }
+            
 
             switch(wishIndex){
                 case 0:
@@ -988,8 +986,14 @@ $(function(){
 
             }
 
+            
            
         }
+
+        if(-100<wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+        }
+
 
         weixinShare();
     }
@@ -1061,9 +1065,9 @@ $(function(){
         }
             
 
-        if(-100<wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-            }
+        // if(-100<wishIndex<0){
+        //         wishIndex = wishIndex+maxIndex;
+        //     }
 
         if(distanceX > minDistance){
             console.log("往右滑");
@@ -1132,9 +1136,7 @@ $(function(){
         }else if (distanceX < minDistance*(-1)){//往左滑
             console.log("往左滑");
 
-            if(-100<wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-            }
+            
 
             switch(wishIndex){
                 case 0:
@@ -1179,6 +1181,9 @@ $(function(){
 
            
         }
+        if(-100<wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
         weixinShare();
     }
 
