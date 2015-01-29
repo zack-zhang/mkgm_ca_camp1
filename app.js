@@ -16,9 +16,9 @@ var conString = config.dbConStr;
 var db = require('pg-bricks').configure(conString);
 db.pg.defaults.poolSize = 20;
 
-//var pg = require('pg');
+var pg = require('pg');
 //set connection pool size to 20
-//pg.defaults.poolSize = 20;
+pg.defaults.poolSize = 1;
 
 var routes = require('./routes/index');
 var html_dir = './static';
@@ -47,7 +47,33 @@ var authFilter = function(req, res, next){
             +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
     }
     
-    db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT * from auth_users where openid=$1', [openid], function(err, result) {
+            //call `done()` to release the client back to the pool
+            done();
+            
+            if(err) {
+                return console.error('error running query', err);
+            }
+            console.log(result.rows[0].number);
+            if(result.rows.length > 0 && result.rows[0]){
+                next();
+            }else{
+                console.log("could not find any record associated with this openid");
+                //else need redirect to weixin for auth
+                return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
+                    + config.wxAppId + "&redirect_uri=" 
+                    + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
+                    +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
+            }
+        //output: 1
+        });
+    });
+    /*
+db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
         if(err) {  
           console.error('error running query', err);
           next(err);
@@ -64,7 +90,8 @@ var authFilter = function(req, res, next){
                 + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
                 +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
         }
-    });    
+    }); 
+*/   
 }
 
 // view engine setup
