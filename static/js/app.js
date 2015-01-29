@@ -80,7 +80,10 @@ $(function(){
     var Request = new Object();
         Request = GetRequest();
     var shareBy = Request['shareid'] == undefined?'':Request['shareid'];
-
+    if (shareBy.length>0) 
+    {
+        weixin = 1;
+    };
 
     var jsapiTicket = $.cookie("jsticket"),
         openid = $.cookie("openid"),
