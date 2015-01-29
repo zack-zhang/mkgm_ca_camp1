@@ -123,6 +123,16 @@ body .page0_wishContent{
     letter-spacing: -0.05em;
 }
 
+body .page0_wishCus{
+    position: absolute;
+    top: 28.5%;
+    width: 46%;
+    height: 15%;
+    z-index: 20000;
+    font-size: 0.6em;
+    left: 37%;
+}
+
 body .page0_cash{
     position: absolute;
     top: 21%;

@@ -49,84 +49,162 @@ function hideWeiXinHint(){
     $("#weixin_hint").addClass("f-dn");
 }
 
+function GetRequest() {
+   var url = location.search; //获取url中"?"符后的字串
+   var theRequest = new Object();
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+      }
+   }
+   return theRequest;
+}
+
 $(function(){
-    // var jsapiElements = jsapiTicket.split(","),
-    //     jsapiAppId = jsapiElements[0],
-    //     jsapiTimestamp = parseInt(jsapiElements[1]),
-    //     jsapiNonceStr = jsapiElements[2],
-    //     jsapiSignature = jsapiElements[3];
-    //     jsapiTicket = $.cookie("jsticket"),
-    //     openid = $.cookie("openid"),
+
+
+    var weixin = 0,
+        firstA = 0;
+        firstPrize = 1,
+        usedNumber = 0,
+        tooLate = 0;
+
+    var wishIndex = 0;
+    var pics = new Array();
+     //自定义祝福语
+    var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”",""];
+
+    var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
+
+    //获取url中 shareid参数作为shareby
+    var Request = new Object();
+        Request = GetRequest();
+    var shareBy = Request['shareid'] == undefined?'':Request['shareid'];
+    //如果有shareid话说明是分享进去的
+    if (shareBy.length>0) 
+    {
+        weixin = 1;
+    };
+    //cookie中获取微信config需要的参数，后台给
+    var jsapiTicket = $.cookie("jsticket"),
+        openid = $.cookie("openid"),
+        jsapiElements = jsapiTicket.split(","),
+        jsapiAppId = jsapiElements[0],
+        jsapiTimestamp = parseInt(jsapiElements[1]),
+        jsapiNonceStr = jsapiElements[2],
+        jsapiSignature = jsapiElements[3];
+    //微信config
+    wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: jsapiAppId, // 必填，公众号的唯一标识
+        timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
+        nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
+        signature: jsapiSignature,// 必填，签名，见附录1
+        jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+    //分享各个参数初始化
+    var localUrl = location.href,
+        shareid = openid+"_"+ Date.parse(new Date()),
+        shareUrl = localUrl,
+        shareImg = "http://" + window.location.host + '/images/page1_bg.jpg',
+        random = Math.random(),
+        title = random<0.5?'福袋已打包送到，我真的只能帮你到这儿了…':'福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~';
+    if (shareBy.length>0) 
+    {
+        weixin = 1;
+    };
+    // 替换url中shareid为自己的id
+    if (weixin == 1) 
+    {
+        shareUrl = shareUrl.replace(shareBy,shareid);
+    }
+    else
+    {
+        shareUrl = shareUrl + "?shareid="+shareid;
+    }
+
+    //微信分享朋友，分享朋友圈逻辑
+    function weixinShare(){
+        var arrayIndex = wishIndex;
+        if (arrayIndex<=-100) 
+        {
+            arrayIndex = 3;
+        };
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: wishContent[arrayIndex], // 分享描述
+                link: shareUrl, // 分享链接
+                imgUrl: shareImg, // 分享图标
+                success: function () { 
+                    // 用户确认分享后执行的回调函数
+                    //分享成功后调用后台接口
+                    $.ajax({
+                        url: '/shareInfos',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                        openid:openid,
+                        shareid:shareid,
+                        title:wishTitleContent[wishIndex<=-100?3:wishIndex],
+                        content:wishContent[wishIndex<=-100?3:wishIndex]
+                    },
+                        success:function(responseObj){
+                            // alert(response.success);
+                        }
+                    }); 
+                },
+                cancel: function () { 
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //分享给朋友圈
+            wx.onMenuShareTimeline({
+                title: title, // 分享标题
+                desc:wishContent[wishIndex<=-100?3:wishIndex],
+                link: shareUrl, // 分享链接
+                imgUrl:shareImg, // 分享图标
+                success: function () { 
+                    // 用户确认分享后执行的回调函数
+                    $.ajax({
+                        url: '/shareInfos',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                        openid:openid,
+                        shareid:shareid,
+                        title:wishTitleContent[wishIndex<=-100?3:wishIndex],
+                        content:wishContent[wishIndex<=-100?3:wishIndex]
+                    },
+                        success:function(responseObj){
+                            // alert(response.success);
+                        }
+                    });
+                },
+                cancel: function () { 
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+    }
+
+
+    //微信接口初始化
+    wx.ready(function(){
         
-        
- //    wx.config({
-	//     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-	//     appId: jsapiAppId, // 必填，公众号的唯一标识
-	//     timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
-	//     nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
-	//     signature: jsapiSignature,// 必填，签名，见附录1
-	//     jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-	// });
- //    var random = Math.random();
- //    var title = random<0.5?"福袋已打包送到，我真的只能帮你到这儿了…":"福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~";
-  //   wx.ready(function(){
+        // var arrayIndex = ;
+        // var shareData = {
+        //             openid:openid,
+        //             shareid:shareid,
+        //             title:wishTitleContent[wishIndex<=-100?3:wishIndex],
+        //             content:wishContent[wishIndex<=-100?3:wishIndex]
+        //         };
+        weixinShare();
 
-		// wx.onMenuShareAppMessage({
-		//     title: title, // 分享标题
-		//     desc: 'wx js-sdk test', // 分享描述
-		//     link: location.href, // 分享链接
-		//     imgUrl: "http://" + window.location.host + '/images/icon.jpg', // 分享图标
-		//     success: function () { 
-		//         // 用户确认分享后执行的回调函数
-  //               ga('send', 'event', 'CNY-social', 'success', 'click');
-		//     },
-		//     cancel: function () { 
-		//         // 用户取消分享后执行的回调函数
-		//     }
-		// });
+    });
 
-		// wx.onMenuShareTimeline({
 
-		//     title:title, // 分享标题
-		//     desc:'朋友圈desc',
-		//     link: location.href, // 分享链接
-		//     imgUrl: "http://" + window.location.host + '/images/icon.jpg', // 分享图标
-		//     success: function () { 
-		//         // 用户确认分享后执行的回调函数
-  //               ga('send', 'event', 'CNY-social', 'success', 'click');
-		//     },
-		//     cancel: function () { 
-		//         // 用户取消分享后执行的回调函数
-		//     }
-		// });
-
-		// var serverId;
-		// $("#chooseImg").click(function(){
-		// 	wx.chooseImage({
-		//     success: function (res) {
-		//         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-		//         wx.uploadImage({
-		// 		    localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
-		// 		    isShowProgressTips: 1, // 默认为1，显示进度提示
-		// 		    success: function (res) {
-		// 		        serverId = res.serverId; // 返回图片的服务器端ID
-		// 		    }
-		// 		});
-		//     }
-		// 	});
-		// });
-
-		// $("#downloadImg").click(function(){
-		// 	wx.downloadImage({
-		// 	    serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-		// 	    isShowProgressTips: 1, // 默认为1，显示进度提示
-		// 	    success: function (res) {
-		// 	        var localId = res.localId; // 返回图片下载后的本地ID
-		// 	    }
-		// 	});
-		// })
-
-	// });
     var imgURL = "",
         baseUrl = getHostUrl(),
         userMobile = "",
@@ -135,42 +213,6 @@ $(function(){
         deviceHeight = $(window).height(),
         trackingCampaign = "color_riche" ;
 
-//set body height according to the device width
-    
-        
-    // var mySwiper, bgWidth = 640,
-    //     mpImage,
-    //     maxImageWidth = 640, 
-    //     canvasWidth = 1440,
-    //     canvasHeight = 1920,
-    //     currentThemeId = themeYH,
-    //     bgHeight = 1016,
-    //     deviceWidth = $(window).width(),
-    //     deviceHeight = $(window).height(),
-    //     infoMasked = !1,
-    //     showTip = !0,
-    //     pickThemeSwiper,
-    //     pickThemeSwiper2,
-    //     ptSwiperTop = deviceWidth/640 * 96, 
-    //     ptSwiperHeight = deviceWidth/640 * 588,
-    //     ptSlideHeight = deviceWidth/640 * 492,
-    //     ptSlideWidth = 327.5 * deviceWidth/640,
-    //     ptScreenLeft = (640-327.5)/2 * deviceWidth/640,
-    //     ptScreenWidth = 299 * ptSlideHeight/476,
-    //     ptScreenLeft = (ptSlideWidth - ptScreenWidth)/2
-    //     peditorWidth = 450 * deviceWidth/640, //Editor at slide6
-    //     peditorLeft = (deviceWidth - peditorWidth)/2, 
-    //     peditorHeight = ( 599 / 450) * peditorWidth,
-    //     peditorTop = deviceWidth/640 * 120;
-        
-    //     if(deviceHeight<=450){
-        
-    //     ptSwiperTop = deviceWidth/640 * 80, 
-    //     ptSwiperHeight = deviceWidth/640 * 480,
-    //     ptSlideHeight = deviceWidth/640 * 392;
- 
-            
-    //         }
 
     var  infoMasked = !1;
         
@@ -228,13 +270,7 @@ $(function(){
      * progressCallBack 加载中回调函数
      * completeCallback 图片加载完成回调函数
      */
-    var weixin = 0,
-        firstA = 0;
-        firstPrize = 0,
-        usedNumber = 0,
-        tooLate = 0;
-
-    var pics = new Array();
+  
     
     $(document).find(".preload").each(function(e){
         
@@ -322,7 +358,7 @@ $(function(){
 
     // 首页
 
-    var count = 8034541;
+    var count = parseInt($(".luckybag").html().trim());
     var count1 = parseInt(count/1000000) ;
     var count2 = parseInt(count/100000)%10;
     var count3 = parseInt(count/10000)%10;
@@ -340,6 +376,11 @@ $(function(){
       return numPics[countN];
 
     }
+
+    var shareTitle = $(".sharedTitle").html().trim();
+    var shareContent = $(".sharedContent").html().trim();
+
+    console.log("title = " + shareTitle + " content = " + shareContent);
 
 
    // $("#num1").html(count1.toString());
@@ -547,19 +588,48 @@ $(function(){
         var phone = $("#input-mobile").val();
        
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-        console.log(phone);
 
-         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
+        if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
-             }
-
-        else if(usedNumber ==1 ){
-            $('.usedNumber').removeClass("f-dn");
-            $('.usedBtn').removeClass("f-dn");
-        }else{
-            $('.page2_confirm').removeClass("f-dn");
-            $('.page2_info').removeClass("f-dn");
         }
+        else{
+            $.ajax({
+            url: '/lottery',
+            type: 'post',
+            dataType: 'json',
+            data: { mobile: phone,
+                    openid:openid,
+                    sharedby:shareBy},
+            success:function(data){
+                if (data.success) 
+                {
+                    console.log("value: "+data.data.value + "code: "+data.data.code);
+                    if (data.data.value == 888) 
+                    {
+                        firstPrize = 1;
+                    }
+                    else{
+                        firstPrize = 0;
+                    }
+                    $('.page2_confirm').removeClass("f-dn");
+                    $('.page2_info').removeClass("f-dn");
+                }
+                else{
+                    if (data.errorCode == 'PHONE_USED') 
+                    {
+                        $('.usedNumber').removeClass("f-dn");
+                        $('.usedBtn').removeClass("f-dn");
+                    }
+                    else if (data.errorCode == 'OVER') 
+                    {
+                        //活动结束
+                    };
+
+                }
+            }
+        });  
+        }
+        
   
 
     }); 
@@ -573,18 +643,46 @@ $(function(){
 
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
-        }
-            else if(usedNumber==1){
-                $('.usedNumber').removeClass("f-dn");
-                $('.usedBtn').removeClass("f-dn");
+        }else{
+            $.ajax({
+            url: '/lottery',
+            type: 'post',
+            dataType: 'json',
+            data: { mobile: phone,
+                    openid:openid,
+                    sharedby:shareBy},
+            success:function(data){
+                if (data.success) 
+                {
+                    console.log("value: "+data.data.value + "code: "+data.data.code);
+                    if (data.data.value == 888) 
+                    {
+                        firstPrize = 1;
+                    }
+                    else{
+                        firstPrize = 0;
+                        $(".page3_cash1").html(parseInt(data.data.value));
+                        $(".page3_cash2").html(200-parseInt(data.data.value));
+                    }
+                    $('.page2_confirm').removeClass("f-dn");
+                    $('.page2_info').removeClass("f-dn");
+                }
+                else{
+                    if (data.errorCode == 'PHONE_USED') 
+                    {
+                        $('.usedNumber').removeClass("f-dn");
+                        $('.usedBtn').removeClass("f-dn");
+                    }
+                    else if (data.errorCode == 'OVER') 
+                    {
+                        //活动结束
+                    };
 
-            }else{
-                $('.page2_confirm').removeClass("f-dn");
-                $('.page2_info').removeClass("f-dn");    
+                }
             }
-            
-
-
+        });
+        }
+           
     }); 
 
     $('.usedBtn').click(function(e){
@@ -662,8 +760,7 @@ $(function(){
 
 
     //滑动祝福语
-    var wishIndex = 0,
-        maxIndex=3,
+    var maxIndex=3,
         minDistance = 30;
 
     var tsPoint = {
@@ -728,10 +825,10 @@ $(function(){
     
 
     //自定义祝福语
-    var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”",""];
+    // var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”",""];
 
-    console.log(wishTitleContent[0]);
-    var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
+    // console.log(wishTitleContent[0]);
+    // var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
 
 
 
@@ -764,9 +861,7 @@ $(function(){
         if(distanceX > minDistance){
             console.log("往右滑");
             
-            if(-100<wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-            }
+            
             switch(wishIndex){
                 case 0:    
 
@@ -830,9 +925,7 @@ $(function(){
         }else if (distanceX < minDistance*(-1)){//往左滑
             console.log("往左滑");
 
-            if(-100<wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-            }
+            
 
             switch(wishIndex){
                 case 0:
@@ -877,6 +970,10 @@ $(function(){
 
            
         }
+        if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+         weixinShare();//重新初始化分享接口，动态改变分享描述
     }
 
    //普通福袋祝福语
@@ -946,9 +1043,7 @@ $(function(){
         }
             
 
-        if(-100<wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-            }
+        
 
         if(distanceX > minDistance){
             console.log("往右滑");
@@ -1017,9 +1112,7 @@ $(function(){
         }else if (distanceX < minDistance*(-1)){//往左滑
             console.log("往左滑");
 
-            if(-100<wishIndex<0){
-                wishIndex = wishIndex+maxIndex;
-            }
+            // if(-100<wishIndex<
 
             switch(wishIndex){
                 case 0:
@@ -1064,6 +1157,11 @@ $(function(){
 
            
         }
+        if (wishIndex>-100&&wishIndex<0) 
+        {
+            wishIndex += maxIndex;
+        };
+        weixinShare();//重新初始化分享接口，动态改变分享描述
     }
   
 
@@ -1150,7 +1248,7 @@ $(function(){
         console.log(wishContent[3]);
 
         wishIndex=-100;
-      
+        weixinShare();
 
     })
 
