@@ -111,10 +111,10 @@ $(function(){
     wx.ready(function(){
 
         shareData = {
-                        openid : openid,
-                        shareid : shareid,
-                        title : "titletest",
-                        content: "wxtest"
+                        openid : encodeURIComponent(openid),
+                        shareid : encodeURIComponent(shareid),
+                        title : encodeURIComponent("title test"),
+                        content: encodeURIComponent("wx test")
                     };
         alert(shareData.title);
 

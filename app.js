@@ -431,6 +431,7 @@ app.put('/lottery', function(req, res, next){
 
 app.put('/shareInfos', function(req, res, next) {
     var input = JSON.parse(JSON.stringify(req.body));
+    console.log(req.body);
 
     var data = {
         openid : input.openid,
@@ -439,7 +440,7 @@ app.put('/shareInfos', function(req, res, next) {
         content : input.content
     }
     console.log(data);
-    console.log(util.inspect(input));
+    // console.log(util.inspect(input));
 
     db.insert('share_info', data).returning('*').row(function(err, rows){
         if(err) {
