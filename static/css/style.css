@@ -108,6 +108,7 @@ body .loading_cover{
     left:38.1%;
     width: 23%;/*150px*/
     z-index: 1000000;
+
     border-radius: 50px;
 
 
@@ -403,7 +404,18 @@ body .page0_bg{
 
 
 /*#5E080F /金额*/
+body .page0_shareId{
+    position: absolute;
+    top: 17%;
+    left: 25%;
+    width: 50%;
+    height: 10%;
+    font-size: 1.5em;
+    font-weight: 800;
+    color: #8D8378;
+    text-align: center;
 
+}
 body .page0_wishText{
     position: absolute;
     top: 34%;
@@ -434,6 +446,33 @@ body .page0_wishContent{
     border: 0;
     left: 6%;
     top: 16.5%;
+    position: absolute;
+    width: 88%;
+    height: 80%;
+    background-color: transparent;
+    color:  #766D64;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 700;
+    line-height: 180%;
+    word-break: break-all;
+    letter-spacing: -0.05em;
+}
+
+body .page0_wishCus{
+    position: absolute;
+    top: 31%;
+    width: 46%;
+    height: 15%;
+    z-index: 20000;
+    font-size: 0.6em;
+    left: 37%;
+}
+
+body .page0_cus{
+    border: 0;
+    left: 6%;
+    top: 16%;
     position: absolute;
     width: 88%;
     height: 80%;
@@ -1316,17 +1355,17 @@ body .page5_guide{
 
 body .page5_cash{
     position: absolute;
-    top: 23%;
-    left: 25%;
+    top: 22%;
+    left: 23%;
     width: 40%;
-    font-size: 4em;
+    font-size: 4.5em;
     font-weight: 600;
 
     color: #fff;
     text-align: center;
 
-    -webkit-transform: rotate3d(0, 0, 1, -14deg);
-            transform: rotate3d(0, 0, 1, -14deg);
+    -webkit-transform: rotate3d(0, 0, 1, -14.5deg);
+            transform: rotate3d(0, 0, 1, -14.5deg);
     -webkit-transform-origin: top right;
             transform-origin: top right;
 }
