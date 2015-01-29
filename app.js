@@ -8,6 +8,7 @@ var request = require('request');
 var urlencode = require('urlencode');
 var crypto = require('crypto');
 var url = require('url');
+var util = require('util');
 
 
 var config = require("./config")();
@@ -430,7 +431,7 @@ app.put('/lottery', function(req, res, next){
 
 app.put('/shareInfos', function(req, res, next) {
     var input = JSON.parse(JSON.stringify(req.body));
-    console.log(util.inspect(input));
+
     var data = {
         openid : input.openid,
         shareid : input.shareid,
@@ -438,6 +439,7 @@ app.put('/shareInfos', function(req, res, next) {
         content : input.content
     }
     console.log(data);
+    console.log(util.inspect(input));
 
     db.insert('share_info', data).returning('*').row(function(err, rows){
         if(err) {
