@@ -112,8 +112,6 @@ $(function(){
     {
         weixin = 1;
     };
-    var shareUrl = location.href,
-        shareid = Date.parse(new Date());
     console.log(shareid);
     if (weixin == 1) 
     {
