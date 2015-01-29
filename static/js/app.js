@@ -1221,9 +1221,24 @@ $(function(){
 
 
     $(".confirmWish_Btn").click(function(e){
-        var wishStr = $(".wishText").val();
-        console.log(wishStr);
-        $(".wish-screen").addClass("f-dn");
+         $(".wish-screen").addClass("f-dn");
+        $("#wishC_2").html($("#input_wishcus").val()); 
+        $("#wishC").html($("#input_wishcus").val());
+
+        //console.log($("#wishC_2").html());
+        $(".page3_wishTitle1").addClass("f-ann");
+        $(".page3_wishTitle2").addClass("f-ann");
+        $(".page3_wishTitle3").addClass("f-ann");
+        $(".page3_wishTitleC").removeClass("f-ann");
+        $(".page4_wishTitle1").addClass("f-ann");
+        $(".page4_wishTitle2").addClass("f-ann");
+        $(".page4_wishTitle3").addClass("f-ann");
+        $(".page4_wishTitleC").removeClass("f-ann");
+        wishContent[3]=$("#input_wishcus").val();
+        
+        console.log(wishContent[3]);
+
+        WishIndex=-100;
     })
 
     $(".confirmWish_quit").click(function(e){
