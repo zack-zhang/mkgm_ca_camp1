@@ -42,6 +42,19 @@ function getHostUrl(){
     return  href;
 }
 
+function GetRequest() {
+   var url = location.search; //获取url中"?"符后的字串
+   var theRequest = new Object();
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+      }
+   }
+   return theRequest;
+}
+
 function showWeiXinHint(){
     $("#weixin_hint").removeClass("f-dn");
 }
@@ -63,6 +76,12 @@ function wxShareSuccess(title,content,shareid){
 }
 
 $(function(){
+
+    var Request = new Object();
+        Request = GetRequest();
+    var shareBy = Request['shareid'] == undefined?'':Request['shareid'];
+
+
     var jsapiTicket = $.cookie("jsticket"),
         openid = $.cookie("openid"),
         jsapiElements = jsapiTicket.split(","),
@@ -71,7 +90,7 @@ $(function(){
         jsapiNonceStr = jsapiElements[2],
         jsapiSignature = jsapiElements[3];
 
-    alert("openid = "+openid);
+    
 
     
     wx.config({
@@ -113,7 +132,7 @@ $(function(){
                     dataType: 'json',
                     data: shareData,
                     success:function(responseObj){
-
+                        alert(response.success);
                     }
                 }); 
 		    },
@@ -591,7 +610,7 @@ $(function(){
             dataType: 'json',
             data: { mobile: phone,
                     openid:openid,
-                    sharedby:''},
+                    sharedby:shareBy},
             success:function(data){
                 if (data.success) 
                 {
