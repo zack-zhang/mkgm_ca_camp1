@@ -108,10 +108,21 @@ $(function(){
         shareUrl = localUrl,
         shareImg = "http://" + window.location.host + '/images/page1_bg.jpg';
 
+    if (shareBy.length>0) 
+    {
+        weixin = 1;
+    };
+    var shareUrl = location.href,
+        shareid = Date.parse(new Date());
+    console.log(shareid);
     if (weixin == 1) 
     {
-        shareUrl.replace(shareBy,shareid);
-    };
+        shareUrl = shareUrl.replace(shareBy,shareid);
+    }
+    else
+    {
+        shareUrl = shareUrl + "?shareid="+shareid;
+    }
     
     wx.ready(function(){
 
