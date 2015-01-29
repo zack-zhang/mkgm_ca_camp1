@@ -71,6 +71,8 @@ $(function(){
         jsapiNonceStr = jsapiElements[2],
         jsapiSignature = jsapiElements[3];
 
+    alert("openid = "+openid);
+
     
     wx.config({
 	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -88,6 +90,15 @@ $(function(){
 
     
     wx.ready(function(){
+
+        shareData = {
+                        openid : openid,
+                        shareid : shareid,
+                        title : "title test",
+                        content: "wx test"
+                    };
+        alert(shareData);
+
 		wx.onMenuShareAppMessage({
 		    title: '分享给好友', // 分享标题
 		    desc: 'wx js-sdk test', // 分享描述
