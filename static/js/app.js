@@ -149,16 +149,18 @@ $(function(){
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
                 // wxShareSuccess('分享给好友','wx js-sdk test',shareid);
-                $.ajax({
-                    url: '/shareInfos',
-                    type: 'put',
-                    dataType: 'json',
-                    data: {
+               var shareData = {
                         openid:openid,
                         shareid:shareid,
                         title:title,
                         content:'test'
-                    },
+                    };
+                alert(shareData.title);
+                $.ajax({
+                    url: '/shareInfos',
+                    type: 'put',
+                    dataType: 'json',
+                    data: shareData,
                     success:function(responseObj){
                         alert(response.success);
                     }
