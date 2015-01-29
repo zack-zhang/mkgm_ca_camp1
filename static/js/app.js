@@ -628,7 +628,41 @@ $(function(){
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
         }
-       
+        $.ajax({
+            url: '/lottery',
+            type: 'put',
+            dataType: 'json',
+            data: { mobile: phone,
+                    openid:openid,
+                    sharedby:shareBy},
+            success:function(data){
+                if (data.success) 
+                {
+                    console.log("value: "+data.data.value + "code: "+data.data.code);
+                    if (data.data.value == 888) 
+                    {
+                        firstPrize = 1;
+                    }
+                    else{
+                        firstPrize = 0;
+                    }
+                    $('.page2_confirm').removeClass("f-dn");
+                    $('.page2_info').removeClass("f-dn");
+                }
+                else{
+                    if (data.errorCode == 'PHONE_USED') 
+                    {
+                        $('.usedNumber').removeClass("f-dn");
+                        $('.usedBtn').removeClass("f-dn");
+                    }
+                    else if (data.errorCode == 'OVER') 
+                    {
+                        //活动结束
+                    };
+
+                }
+            }
+        });  
   
 
     }); 
@@ -670,6 +704,10 @@ $(function(){
                         $('.usedNumber').removeClass("f-dn");
                         $('.usedBtn').removeClass("f-dn");
                     }
+                    else if (data.errorCode == 'OVER') 
+                    {
+                        //活动结束
+                    };
 
                 }
             }
