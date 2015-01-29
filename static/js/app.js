@@ -126,17 +126,17 @@ $(function(){
     
     wx.ready(function(){
         
-        var arrayIndex = wishIndex==-100?3:wishIndex;
+        // var arrayIndex = ;
         var shareData = {
                     openid:openid,
                     shareid:shareid,
-                    title:wishTitleContent[arrayIndex],
-                    content:wishContent[arrayIndex]
+                    title:wishTitleContent[wishIndex<=-100?3:wishIndex],
+                    content:wishContent[wishIndex<=-100?3:wishIndex]
                 };
 
 		wx.onMenuShareAppMessage({
 		    title: title, // 分享标题
-		    desc: wishContent[arrayIndex], // 分享描述
+		    desc: wishContent[wishIndex<=-100?3:wishIndex], // 分享描述
 		    link: shareUrl, // 分享链接
 		    imgUrl: shareImg, // 分享图标
 		    success: function () { 
@@ -161,7 +161,7 @@ $(function(){
 
 		wx.onMenuShareTimeline({
 		    title: title, // 分享标题
-		    desc:wishContent[arrayIndex],
+		    desc:wishContent[wishIndex<=-100?3:wishIndex],
 		    link: shareUrl, // 分享链接
 		    imgUrl:shareImg, // 分享图标
 		    success: function () { 
