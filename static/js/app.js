@@ -123,7 +123,7 @@ $(function(){
         shareUrl = shareUrl + "?shareid="+shareid;
     }
 
-    
+    var string = "test"
     wx.ready(function(){
         
         // var arrayIndex = ;
@@ -136,7 +136,7 @@ $(function(){
 
 		wx.onMenuShareAppMessage({
 		    title: title, // 分享标题
-		    desc: wishContent[wishIndex<=-100?3:wishIndex], // 分享描述
+		    desc: string, // 分享描述
 		    link: shareUrl, // 分享链接
 		    imgUrl: shareImg, // 分享图标
 		    success: function () { 
@@ -160,6 +160,7 @@ $(function(){
 		    },
 		    cancel: function () { 
 		        // 用户取消分享后执行的回调函数
+                string = "cancel"
 		    }
 		});
 
