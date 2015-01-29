@@ -361,9 +361,9 @@ body .page4_send{
 /*step3 普通福袋*/
 body .page3_coupon{
     position: absolute;
-    width: 64.53%; /*413/640*/
-    top:16.7%;
-    left: 27.8%;
+    width: 56.09%; /*413/640*/
+    top:16.9%;
+    left: 28.3%;
 }
 
 
@@ -406,7 +406,7 @@ body .page3_wishTitle3{
 
 body .page3_wishTitleC{
     position: absolute;
-    top: 51%;
+    top: 50.5%;
     width: 60%;
     height: 25%;
     left: 20%;
@@ -467,6 +467,52 @@ body .page3_cus{
     
 }
 
+
+body #wishTitle1{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body #wishTitle2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body #wishTitle3{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
 /*step3 888时尚大福袋*/
 body .page4_coupon{
     position: absolute;
@@ -515,10 +561,55 @@ body .page4_wishTitle3{
 
 body .page4_wishTitleC{
     position: absolute;
-    top: 51%;
+    top: 50.5%;
     width: 60%;
     height: 25%;
     left: 20%;
+}
+
+body #wishTitle1_2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body #wishTitle2_2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
+}
+
+body #wishTitle3_2{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #5A5550;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -3%;
+    margin-bottom: 0%;
 }
 
 body .page4_arrowL{

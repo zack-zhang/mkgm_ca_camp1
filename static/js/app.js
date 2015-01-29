@@ -676,15 +676,57 @@ $(function(){
         y:0
     }
 
+    var swpieDistance = function(point1,point2){
+        var distanceX = tePoint.x - tsPoint.x;
+        var distanceY = tePoint.y - tsPoint.y;
+         
+   
+
+        if(wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+        }
+
+        console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
+        
+    }
+
+
+    var swipeEvent2 = function(e){
+        console.log(e)
+        var type = e.type;
+        var touch = e.touches[0];
+        switch(type){
+            case "touchstart":
+                
+                tsPoint.x = touch.pageX
+                tsPoint.y = touch.pageY
+                tePoint.x = touch.pageX
+                tePoint.y = touch.pageY
+                break;
+
+            case "touchend":
+              
+                swipeDirection2(tsPoint,tePoint);
+                swpieDistance(tsPoint,tePoint);
+                break;
+            case "touchmove":
+                tePoint.x=touch.pageX
+                tePoint.y=touch.pageY
+                break;
+
+        }
+        
+
+    }
+
+
     var wishSwiper2 = document.getElementById("wishSwiper2");
     wishSwiper2.addEventListener("touchstart",swipeEvent2);
     wishSwiper2.addEventListener("touchmove",swipeEvent2);
     wishSwiper2.addEventListener("touchend",swipeEvent2);
 
-    // var wishSwiper = document.getElementById("wishSwiper");
-    // wishSwiper.addEventListener("touchstart",swipeEvent);
-    // wishSwiper.addEventListener("touchmove",swipeEvent);
-    // wishSwiper.addEventListener("touchend",swipeEvent);
+    
+
     //自定义祝福语
 
 
@@ -692,6 +734,7 @@ $(function(){
         var distanceX = tePoint.x - tsPoint.x
         wishIndex = wishIndex%maxIndex;
         console.log(wishIndex);
+        if (distanceX > minDistance || distanceX < minDistance*(-1) ) {
             $(".page4_wishTitle1").removeClass("animated fadeOutRight1");
             $(".page4_wishTitle1").removeClass("animated fadeInLeft1");
             $(".page4_wishTitle2").removeClass("animated fadeOutRight1");
@@ -709,6 +752,8 @@ $(function(){
             $(".page4_wishTitle3").removeClass("animated fadeInRight1");
             $(".page4_wishTitleC").removeClass("animated fadeOutLeft1");
             $(".page4_wishTitleC").removeClass("animated fadeInRight1");
+        }
+            
 
         if(distanceX > minDistance){
             console.log("往右滑");
@@ -828,58 +873,30 @@ $(function(){
         }
     }
 
-    // var swpieDistance = function(point1,point2){
-    //     var distanceX = tePoint.x - tsPoint.x;
-    //     var distanceY = tePoint.y - tsPoint.y;
-         
-   
+   //普通福袋祝福语
 
-      
+  
 
-    //     console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
+    var swipeEvent = function(e){
         
-    // }
-
-    // var swipeEvent = function(e){
-        
-    //     var type = e.type;
-    //     var touch = e.touches[0];
-    //     switch(type){
-    //         case "touchstart":
-    //             tsPoint.x = touch.pageX
-    //             tsPoint.y = touch.pageY
-    //             break;
-
-    //         case "touchend":
-              
-    //             swipeDirection(tsPoint,tePoint);
-    //             //swpieDistance(tsPoint,tePoint);
-    //             break;
-    //         case "touchmove":
-    //             tePoint.x=touch.pageX
-    //             tePoint.y=touch.pageY
-    //             break;
-
-    //     }
-        
-
-    // }
-       var swipeEvent2 = function(e){
-        console.log(e)
         var type = e.type;
         var touch = e.touches[0];
         switch(type){
             case "touchstart":
+                
                 tsPoint.x = touch.pageX
                 tsPoint.y = touch.pageY
+                tePoint.x = touch.pageX
+                tePoint.y = touch.pageY
                 break;
 
             case "touchend":
               
-                swipeDirection2(tsPoint,tePoint);
-                //swpieDistance(tsPoint,tePoint);
+                swipeDirection(tsPoint,tePoint);
+                swpieDistance(tsPoint,tePoint);
                 break;
             case "touchmove":
+                
                 tePoint.x=touch.pageX
                 tePoint.y=touch.pageY
                 break;
@@ -888,92 +905,101 @@ $(function(){
         
 
     }
-
-   
+    
+    var wishSwiper = document.getElementById("wishSwiper");
+    wishSwiper.addEventListener("touchstart",swipeEvent);
+    wishSwiper.addEventListener("touchmove",swipeEvent);
+    wishSwiper.addEventListener("touchend",swipeEvent);
 
   
-    // var swipeDirection = function(tsPoint,tePoint){
-    //     var distanceX = tePoint.x - tsPoint.x
-    //     wishIndex = wishIndex%maxIndex;
-    //     console.log(wishIndex);
+    var swipeDirection = function(tsPoint,tePoint){
+        var distanceX = tePoint.x - tsPoint.x
+        wishIndex = wishIndex%maxIndex;
+        console.log(wishIndex);
+        console.log("startX:"+tsPoint.x);
+        console.log("endX:"+tePoint.x);
 
-    //         $(".page3_wishTitle1").removeClass("animated fadeOutRight1");
-    //         $(".page3_wishTitle1").removeClass("animated fadeInLeft1");
-    //         $(".page3_wishTitle2").removeClass("animated fadeOutRight1");
-    //         $(".page3_wishTitle2").removeClass("animated fadeInLeft1");
-    //         $(".page3_wishTitle3").removeClass("animated fadeOutRight1");
-    //         $(".page3_wishTitle3").removeClass("animated fadeInLeft1");
-    //         $(".page3_wishTitleC").removeClass("animated fadeOutRight1");
-    //         $(".page3_wishTitleC").removeClass("animated fadeInLeft1");
+        if (distanceX > minDistance || distanceX < minDistance*(-1) ) {
+            $(".page3_wishTitle1").removeClass("animated fadeOutRight1");
+            $(".page3_wishTitle1").removeClass("animated fadeInLeft1");
+            $(".page3_wishTitle2").removeClass("animated fadeOutRight1");
+            $(".page3_wishTitle2").removeClass("animated fadeInLeft1");
+            $(".page3_wishTitle3").removeClass("animated fadeOutRight1");
+            $(".page3_wishTitle3").removeClass("animated fadeInLeft1");
+            $(".page3_wishTitleC").removeClass("animated fadeOutRight1");
+            $(".page3_wishTitleC").removeClass("animated fadeInLeft1");
 
-    //         $(".page3_wishTitle1").removeClass("animated fadeOutLeft1");
-    //         $(".page3_wishTitle1").removeClass("animated fadeInRight1");
-    //         $(".page3_wishTitle2").removeClass("animated fadeOutLeft1");
-    //         $(".page3_wishTitle2").removeClass("animated fadeInRight1");
-    //         $(".page3_wishTitle3").removeClass("animated fadeOutLeft1");
-    //         $(".page3_wishTitle3").removeClass("animated fadeInRight1");
-    //         $(".page3_wishTitleC").removeClass("animated fadeOutLeft1");
-    //         $(".page3_wishTitleC").removeClass("animated fadeInRight1");
+            $(".page3_wishTitle1").removeClass("animated fadeOutLeft1");
+            $(".page3_wishTitle1").removeClass("animated fadeInRight1");
+            $(".page3_wishTitle2").removeClass("animated fadeOutLeft1");
+            $(".page3_wishTitle2").removeClass("animated fadeInRight1");
+            $(".page3_wishTitle3").removeClass("animated fadeOutLeft1");
+            $(".page3_wishTitle3").removeClass("animated fadeInRight1");
+            $(".page3_wishTitleC").removeClass("animated fadeOutLeft1");
+            $(".page3_wishTitleC").removeClass("animated fadeInRight1");
+        }
+            
 
-    //     if(-100<wishIndex<0){
-    //             wishIndex = wishIndex+maxIndex;
-    //         }
-    //     if(distanceX > minDistance){
-    //         console.log("往右滑");
+        if(-100<wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+
+        if(distanceX > minDistance){
+            console.log("往右滑");
             
             
-    //         switch(wishIndex){
-    //             case 0:    
+            switch(wishIndex){
+                case 0:    
 
-    //                 $(".page3_wishTitle1").addClass("animated fadeOutRight1");
+                    $(".page3_wishTitle1").addClass("animated fadeOutRight1");
                     
 
-    //                 $(".page3_wishTitle2").removeClass("f-ann");
-    //                 $(".page3_wishTitle2").addClass("animated fadeInLeft1");
-    //                 $(".page3_wishTitle3").addClass("f-ann");
-    //                 $(".page3_wishTitleC").addClass("f-ann");
+                    $(".page3_wishTitle2").removeClass("f-ann");
+                    $(".page3_wishTitle2").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle3").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
                     
-    //                 wishIndex++;
+                    wishIndex++;
 
                                
-    //                 break;
+                    break;
 
-    //             case 1:
+                case 1:
 
-    //                 $(".page3_wishTitle2").addClass("animated fadeOutRight1");
+                    $(".page3_wishTitle2").addClass("animated fadeOutRight1");
                 
-    //                 $(".page3_wishTitle3").removeClass("f-ann");
-    //                 $(".page3_wishTitle3").addClass("animated fadeInLeft1");
-    //                 $(".page3_wishTitle1").addClass("f-ann");
-    //                 $(".page3_wishTitleC").addClass("f-ann");
+                    $(".page3_wishTitle3").removeClass("f-ann");
+                    $(".page3_wishTitle3").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle1").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
                     
-    //                 wishIndex++;
+                    wishIndex++;
                     
-    //                 break;
+                    break;
 
-    //             case 2:
+                case 2:
 
-    //                 $(".page3_wishTitle3").addClass("animated fadeOutRight1");
+                    $(".page3_wishTitle3").addClass("animated fadeOutRight1");
                    
-    //                 $(".page3_wishTitle1").removeClass("f-ann");
-    //                 $(".page3_wishTitle1").addClass("animated fadeInLeft1");
-    //                 $(".page3_wishTitle2").addClass("f-ann");
-    //                 $(".page3_wishTitleC").addClass("f-ann");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle2").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
                    
-    //                 wishIndex++;
-    //                 break;
+                    wishIndex++;
+                    break;
 
-    //             default:
-    //                 $(".page3_wishTitleC").addClass("animated fadeOutRight1");
-    //                 $(".page3_wishTitle1").removeClass("f-ann");
-    //                 $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                default:
+                    $(".page3_wishTitleC").addClass("animated fadeOutRight1");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInLeft1");
                     
                     
-    //                 wishIndex =0;
-    //                 break;
+                    wishIndex =0;
+                    break;
 
 
-    //         }
+            }
 
             
 
@@ -982,57 +1008,57 @@ $(function(){
            
 
             
-    //     }else if (distanceX < minDistance*(-1)){//往左滑
-    //         console.log("往左滑");
+        }else if (distanceX < minDistance*(-1)){//往左滑
+            console.log("往左滑");
 
-    //         if(-100<wishIndex<0){
-    //             wishIndex = wishIndex+maxIndex;
-    //         }
+            if(-100<wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
 
-    //         switch(wishIndex){
-    //             case 0:
-    //                 $(".page3_wishTitle1").addClass("animated fadeOutLeft1");
-    //                 $(".page3_wishTitle2").addClass("f-ann");
-    //                 $(".page3_wishTitle3").removeClass("f-ann");
-    //                 $(".page3_wishTitle3").addClass("animated fadeInRight1");
-    //                 $(".page3_wishTitleC").addClass("f-ann");
-    //                 wishIndex--;
-    //                 break;
+            switch(wishIndex){
+                case 0:
+                    $(".page3_wishTitle1").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle2").addClass("f-ann");
+                    $(".page3_wishTitle3").removeClass("f-ann");
+                    $(".page3_wishTitle3").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    wishIndex--;
+                    break;
 
-    //             case 1:
-    //                  $(".page3_wishTitle2").addClass("animated fadeOutLeft1");
-    //                  $(".page3_wishTitle3").addClass("f-ann");
-    //                 $(".page3_wishTitle1").removeClass("f-ann");
-    //                 $(".page3_wishTitle1").addClass("animated fadeInRight1");
-    //                 $(".page3_wishTitleC").addClass("f-ann");
+                case 1:
+                     $(".page3_wishTitle2").addClass("animated fadeOutLeft1");
+                     $(".page3_wishTitle3").addClass("f-ann");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
 
-    //                 wishIndex--;
-    //                 break;
+                    wishIndex--;
+                    break;
 
-    //             case 2:
-    //                 $(".page3_wishTitle3").addClass("animated fadeOutLeft1");
-    //                 $(".page3_wishTitle1").addClass("f-ann");
-    //                 $(".page3_wishTitle2").removeClass("f-ann");
-    //                 $(".page3_wishTitle2").addClass("animated fadeInRight1");
-    //                 $(".page3_wishTitleC").addClass("f-ann");
+                case 2:
+                    $(".page3_wishTitle3").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle1").addClass("f-ann");
+                    $(".page3_wishTitle2").removeClass("f-ann");
+                    $(".page3_wishTitle2").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
 
-    //                 wishIndex--;
-    //                 break;
+                    wishIndex--;
+                    break;
 
-    //             case 3:
-    //                 $(".page3_wishTitleC").addClass("animated fadeOutLeft1");
-    //                 $(".page3_wishTitle1").removeClass("f-ann");
-    //                 $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                case 3:
+                    $(".page3_wishTitleC").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInRight1");
                     
-    //                 wishIndex = 0;
+                    wishIndex = 0;
                     
-    //                 break;
+                    break;
 
-    //         }
+            }
 
            
-    //     }
-    // }
+        }
+    }
   
 
 
@@ -1094,7 +1120,7 @@ $(function(){
         $(".wish-screen").removeClass("f-dn");
     })
 
-    $("#wishC_2").html($("#input_wishcus").val()); 
+    // $("#wishC_2").html($("#input_wishcus").val()); 
 
     
 

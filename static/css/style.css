@@ -741,7 +741,7 @@ body .page3_coupon{
     position: absolute;
     width: 56.09%; /*359/640*/
     top:20.7%;
-    left: 27.8%;
+    left: 28.3%;
 }
 
 
@@ -926,6 +926,7 @@ body .page3_cus{
     width: 15%; /*96/640*/
     top: 76%;
     left: 42.5%;
+    z-index: 10001;
     
 }
 
@@ -972,6 +973,8 @@ body .page3_send{
 }
 
 /*step3 888时尚大福袋*/
+
+
 
 body .page4_coupon{
     position: absolute;
