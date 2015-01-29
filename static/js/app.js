@@ -65,20 +65,6 @@ function hideWeiXinHint(){
 
 
 $(function(){
-    $.ajax({
-        url: '/shareInfos',
-        type: 'put',
-        dataType: 'json',
-        data: {
-            openid:'openid',
-            shareid:'shareid',
-            title:'title',
-            content:'test'
-        },
-        success:function(responseObj){
-            alert(response.success);
-        }
-    }); 
 
     var weixin = 0,
         firstA = 0;
@@ -103,9 +89,6 @@ $(function(){
         jsapiTimestamp = parseInt(jsapiElements[1]),
         jsapiNonceStr = jsapiElements[2],
         jsapiSignature = jsapiElements[3];
-
-    
-
     
     wx.config({
 	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -134,6 +117,12 @@ $(function(){
     {
         shareUrl = shareUrl + "?shareid="+shareid;
     }
+    var shareData = {
+                    openid:openid,
+                    shareid:shareid,
+                    title:title,
+                    content:'test'
+                };
     
     wx.ready(function(){
         var random = Math.random();
@@ -147,20 +136,15 @@ $(function(){
 		    success: function () { 
 		        // 用户确认分享后执行的回调函数
                 // wxShareSuccess('分享给好友','wx js-sdk test',shareid);
-               var shareData = {
-                        openid:'openid',
-                        shareid:'shareid',
-                        title:'title',
-                        content:'test'
-                    };
+               
                 alert(shareData.title);
                 $.ajax({
                     url: '/shareInfos',
-                    type: 'put',
+                    type: 'post',
                     dataType: 'json',
                     data: shareData,
                     success:function(responseObj){
-                        alert(response.success);
+                        // alert(response.success);
                     }
                 }); 
 		    },
@@ -178,16 +162,11 @@ $(function(){
 		        // 用户确认分享后执行的回调函数
                 $.ajax({
                     url: '/shareInfos',
-                    type: 'put',
+                    type: 'post',
                     dataType: 'json',
-                    data: {
-                        openid:openid,
-                        shareid:shareid,
-                        title:title,
-                        content:"test"
-                    },
+                    data: shareData,
                     success:function(responseObj){
-                        alert(response.success);
+                        // alert(response.success);
                     }
                 });
 		    },
@@ -195,33 +174,6 @@ $(function(){
 		        // 用户取消分享后执行的回调函数
 		    }
 		});
-
-		var serverId;
-		$("#chooseImg").click(function(){
-			wx.chooseImage({
-		    success: function (res) {
-		        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-		        wx.uploadImage({
-				    localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
-				    isShowProgressTips: 1, // 默认为1，显示进度提示
-				    success: function (res) {
-				        serverId = res.serverId; // 返回图片的服务器端ID
-				    }
-				});
-		    }
-			});
-		});
-
-		$("#downloadImg").click(function(){
-			wx.downloadImage({
-			    serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-			    isShowProgressTips: 1, // 默认为1，显示进度提示
-			    success: function (res) {
-			        var localId = res.localId; // 返回图片下载后的本地ID
-			    }
-			});
-		})
-
 	});
     var imgURL = "",
         baseUrl = getHostUrl(),
@@ -646,7 +598,7 @@ $(function(){
         }
         $.ajax({
             url: '/lottery',
-            type: 'put',
+            type: 'post',
             dataType: 'json',
             data: { mobile: phone,
                     openid:openid,
@@ -695,7 +647,7 @@ $(function(){
         }
          $.ajax({
             url: '/lottery',
-            type: 'put',
+            type: 'post',
             dataType: 'json',
             data: { mobile: phone,
                     openid:openid,

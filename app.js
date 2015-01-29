@@ -355,7 +355,7 @@ app.get('/wxoauth_callback', function(req, res, next){
 })
 
 //提交手机号码
-app.put('/lottery', function(req, res, next){
+app.post('/lottery', function(req, res, next){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(req.body);
 
@@ -429,7 +429,7 @@ app.put('/lottery', function(req, res, next){
     });
 });
 
-app.put('/shareInfos', function(req, res, next) {
+app.post('/shareInfos', function(req, res, next) {
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(req.body);
 
