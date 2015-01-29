@@ -77,6 +77,15 @@ function wxShareSuccess(title,content,shareid){
 
 $(function(){
 
+
+    var weixin = 0,
+        firstA = 0;
+        firstPrize = 1,
+        usedNumber = 0,
+        tooLate = 0;
+
+    var pics = new Array();
+
     var Request = new Object();
         Request = GetRequest();
     var shareBy = Request['shareid'] == undefined?'':Request['shareid'];
@@ -117,15 +126,14 @@ $(function(){
         var random = Math.random();
         var title = random<0.5?'福袋已打包送到，我真的只能帮你到这儿了…':'福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~';
         shareData = {
-                        openid : encodeURIComponent(openid),
-                        shareid : encodeURIComponent(shareid),
-                        title : encodeURIComponent(title),
-                        content: encodeURIComponent("wx test")
+                        openid : openid,
+                        shareid : shareid,
+                        title : title,
+                        content: "test"
                     };
-        alert(shareData.title);
 
 		wx.onMenuShareAppMessage({
-		    title: '分享给好友', // 分享标题
+		    title: title, // 分享标题
 		    desc: 'wx js-sdk test', // 分享描述
 		    link: shareUrl, // 分享链接
 		    imgUrl: shareImg, // 分享图标
@@ -288,13 +296,7 @@ $(function(){
      * progressCallBack 加载中回调函数
      * completeCallback 图片加载完成回调函数
      */
-    var weixin = 0,
-        firstA = 0;
-        firstPrize = 1,
-        usedNumber = 0,
-        tooLate = 0;
-
-    var pics = new Array();
+    
     
     $(document).find(".preload").each(function(e){
         
