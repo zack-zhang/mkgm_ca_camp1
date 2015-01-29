@@ -230,7 +230,7 @@ $(function(){
      */
     var weixin = 0,
         firstA = 0;
-        firstPrize = 1,
+        firstPrize = 0,
         usedNumber = 0,
         tooLate = 0;
 
@@ -728,6 +728,12 @@ $(function(){
     
 
     //自定义祝福语
+    var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”",""];
+
+    console.log(wishTitleContent[0]);
+    var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
+
+
 
 
     var swipeDirection2 = function(tsPoint,tePoint){
@@ -858,7 +864,7 @@ $(function(){
                     wishIndex--;
                     break;
 
-                case 3:
+                 default:
                     $(".page4_wishTitleC").addClass("animated fadeOutLeft1");
                     $(".page4_wishTitle1").removeClass("f-ann");
                     $(".page4_wishTitle1").addClass("animated fadeInRight1");
@@ -1045,7 +1051,7 @@ $(function(){
                     wishIndex--;
                     break;
 
-                case 3:
+                 default:
                     $(".page3_wishTitleC").addClass("animated fadeOutLeft1");
                     $(".page3_wishTitle1").removeClass("f-ann");
                     $(".page3_wishTitle1").addClass("animated fadeInRight1");
@@ -1125,9 +1131,11 @@ $(function(){
     
 
     $(".confirmWish_Btn").click(function(e){
+
         $(".wish-screen").addClass("f-dn");
         $("#wishC_2").html($("#input_wishcus").val()); 
         $("#wishC").html($("#input_wishcus").val());
+
         //console.log($("#wishC_2").html());
         $(".page3_wishTitle1").addClass("f-ann");
         $(".page3_wishTitle2").addClass("f-ann");
@@ -1137,8 +1145,11 @@ $(function(){
         $(".page4_wishTitle2").addClass("f-ann");
         $(".page4_wishTitle3").addClass("f-ann");
         $(".page4_wishTitleC").removeClass("f-ann");
+        wishContent[3]=$("#input_wishcus").val();
+        
+        console.log(wishContent[3]);
 
-        WishIndex=-100;
+        wishIndex=-100;
       
 
     })

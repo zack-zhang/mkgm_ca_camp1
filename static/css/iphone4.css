@@ -80,6 +80,63 @@ body .page0_phoneNumber{
     border-color:#F2D340;*/
 }
 
+body .page0_wishText{
+    position: absolute;
+    top: 31.3%;
+    width: 46%;
+    height: 15%;
+    z-index: 20000;
+    font-size: 0.6em;
+    left: 37%;
+}
+
+body .page0_wishT{
+    border:0;
+    left: 3%;
+    top: 9.5%;
+    width: 100%;
+    height: 19%;
+    background-color:transparent;
+    color: #766D64;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 700;
+    margin-top: -2%;
+    margin-bottom: -2%;
+}
+
+
+body .page0_wishContent{
+    border: 0;
+    left: 6%;
+    top: 16.5%;
+    position: absolute;
+    width: 88%;
+    height: 80%;
+    background-color: transparent;
+    color:  #766D64;
+    font-size: 1.5em;
+    text-align: left;
+    font-weight: 700;
+    line-height: 180%;
+    word-break: break-all;
+    letter-spacing: -0.05em;
+}
+
+body .page0_cash{
+    position: absolute;
+    top: 21%;
+    left: 40.7%;
+    width: 12%;
+    height: 10%;
+    background-color: transparent;
+    color: #901401;
+    font-size: 2.2em;
+    font-weight: 600;
+    text-align: center;
+    
+}
+
 body .page0_light{
     position: absolute;
     width: 13.75%;/*88/640*/
@@ -98,28 +155,28 @@ body .page0_wish{
 }
 body .page0_circle1{
     position: absolute;
-    width: 86.87%; /*556/640*/
+    width: 16.25%; /*104/640*/
     top: 70%;
     left: 6.5%;
     z-index: 10001;
 }
 body .page0_circle2{
     position: absolute;
-    width: 86.87%; /*556/640*/
+    width: 16.25%; /*104/640*/
     top: 70%;
     left: 30%;
     z-index: 10001;
 }
 body .page0_circle3{
     position: absolute;
-    width: 86.87%; /*556/640*/
+    width: 16.25%; /*104/640*/
     top: 70%;
     left: 53.5%;
     z-index: 10001;
 }
 body .page0_circle4{
     position: absolute;
-    width: 86.87%; /*556/640*/
+    width: 16.25%; /*104/640*/
     top: 70%;
     left: 77.5%;
     z-index: 10001;
@@ -366,7 +423,29 @@ body .page3_coupon{
     left: 28.3%;
 }
 
+body .page3_cash1{
+    position: absolute;
+    top: 20%;
+    left: 33%;
+    width: 40%;
+    font-size: 4em;
+    font-weight: 600;
 
+    color: #fff;
+    text-align: center;
+
+}
+
+body .page3_cash2{
+    position: absolute;
+    top: 35%;
+    left: 39.5%;
+    width: 15%;
+    font-size: 2.3em;
+    font-weight: 600;
+    color: #7E1B14;
+    text-align: center;
+}   
 
 body .page3_guide{
     position: absolute;
@@ -521,6 +600,16 @@ body .page4_coupon{
     left: 27.8%;
 }
 
+body .page4_cash{
+    position: absolute;
+    top: 35%;
+    left: 39.5%;
+    width: 15%;
+    font-size: 2.3em;
+    font-weight: 600;
+    color: #7E1B14;
+    text-align: center;
+}  
 
 
 body .page4_guide{
