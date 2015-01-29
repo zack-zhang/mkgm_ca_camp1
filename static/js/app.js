@@ -65,7 +65,20 @@ function hideWeiXinHint(){
 
 
 $(function(){
-
+    $.ajax({
+        url: '/shareInfos',
+        type: 'put',
+        dataType: 'json',
+        data: {
+            openid:'openid',
+            shareid:'shareid',
+            title:'title',
+            content:'test'
+        },
+        success:function(responseObj){
+            alert(response.success);
+        }
+    }); 
 
     var weixin = 0,
         firstA = 0;
