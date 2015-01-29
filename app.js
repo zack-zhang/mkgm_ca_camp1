@@ -353,7 +353,7 @@ app.get('/wxoauth_callback', function(req, res, next){
     });
 })
 
-app.put('/lottery', function(req, res, next){
+app.post('/lottery', function(req, res, next){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(req.body);
 
@@ -392,24 +392,37 @@ app.put('/lottery', function(req, res, next){
                     
                 
                 //call message api to send sms
-                if (rows[0].value != 888) {
+                if (rows[0].value !== 888) {
                     var sms = config.smsNormal;
                     sms = sms.replace("【变量1】", rows[0].value);
                     sms = sms.replace("【变量2】", rows[0].code);
                     request.post({
-                                url:'http://121.199.16.178/webservice/sms.php?method=Submit',
-                                form: {
-                                    account: 'cf_obizsoft',
-                                    password: 'a123456',
-                                    mobile: '13764211365',
-                                    content: sms
-                                }
-                            }, function(err, res, bd){
-                                console.log(bd);
+                            url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                            form: {
+                                account: 'cf_obizsoft',
+                                password: 'a123456',
+                                mobile: input.mobile,
+                                content: sms
                             }
+                        }, function(err, res, bd){
+                            console.log(bd);
+                        }
                     );
                 }else{
-    
+                    var sms = config.sms888;
+                    sms = sms.replace("【变量1】", rows[0].code);
+                    request.post({
+                            url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                            form: {
+                                account: 'cf_obizsoft',
+                                password: 'a123456',
+                                mobile: input.mobile,
+                                content: sms
+                            }
+                        }, function(err, res, bd){
+                            console.log(bd);
+                        }
+                    );
                 }
     
                 res.json({
@@ -452,59 +465,19 @@ app.put('/shareInfos', function(req, res, next) {
 
 
 app.get('/users', function(req, res, next){
-      
-    /*
-pg.connect(conString, function(err, client, done) {
-        if(err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query('SELECT mobile, name from user_reg', function(err, result) {
-            //call `done()` to release the client back to the pool
-            done();
-            if(err) {
-              return console.error('error running query', err);
-            }
-            console.log(result.rows[0].mobile);
-            //output: 1
-            var r = {
-                mobile: result.rows[0].mobile,
-                name: result.rows[0].name
-            }
-            res.json(r);
-        });
-    });
-*/ 
-    db.select().from('user_reg').where('mobile', '13764211365').rows(function(err, rows){
+    var input = JSON.parse(JSON.stringify(req.body));
+    
+    client.query("select b.openid, b.nickname, b.headimgurl from lottery_record a join auth_users b on a.openid=b.openid   where a.sharedby=$1", [input.sharedby], 
+                function(err, result){
         if(err) {  
           console.error('error running query', err);
           next(err);
           return;
         }
-        console.log(rows[0].mobile);
-        var r = {
-            mobile: rows[0].mobile,
-            name: rows[0].name
-        }
-        //call message api to send sms
-        var sms = config.smsNormal;
-        sms = sms.replace("【变量1】", '50');
-        sms = sms.replace("【变量2】", '55555555');
-        /*
-request.post({
-                    url:'http://121.199.16.178/webservice/sms.php?method=Submit', 
-                    form: { 
-                        account: 'cf_obizsoft',
-                        password: 'a123456',
-                        mobile: '13764211365',
-                        content: sms
-                    }
-                }, function(err, res, bd){
-                    console.log(bd);
-                }
-        );
-*/
-        res.json(r);
+                
+        return res.json(result.rows);
     });
+    
 });
 
 // catch 404 and forward to error handler
