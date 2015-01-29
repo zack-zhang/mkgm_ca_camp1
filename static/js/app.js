@@ -136,8 +136,6 @@ $(function(){
     }
     
     wx.ready(function(){
-
-
         var random = Math.random();
         var title = random<0.5?'福袋已打包送到，我真的只能帮你到这儿了…':'福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~';
 
@@ -150,9 +148,9 @@ $(function(){
 		        // 用户确认分享后执行的回调函数
                 // wxShareSuccess('分享给好友','wx js-sdk test',shareid);
                var shareData = {
-                        openid:openid,
-                        shareid:shareid,
-                        title:title,
+                        openid:'openid',
+                        shareid:'shareid',
+                        title:'title',
                         content:'test'
                     };
                 alert(shareData.title);
@@ -430,6 +428,11 @@ $(function(){
       return numPics[countN];
 
     }
+
+    var shareTitle = $(".sharedTitle").html().trim();
+    var shareContent = $(".sharedContent").html().trim();
+
+
 
 
    // $("#num1").html(count1.toString());
