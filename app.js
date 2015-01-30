@@ -58,7 +58,7 @@ var authFilter = function(req, res, next){
             if(err) {
                 return console.error('error running query', err);
             }
-            console.log(result.rows[0].number);
+            
             if(result.rows.length > 0 && result.rows[0]){
                 next();
             }else{
@@ -222,7 +222,67 @@ app.get('/', function(req, res, next) {
         
                 
         res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
-        db.run(function (client,  getTotalLuckyBagNumberCb){
+        
+        pg.connect(conString, function(err, client, done) {
+            if(err) {
+                return console.error('error fetching client from pool', err);
+            }
+            client.query('select count(*) from lottery_record where used=$1', [true], function(err, result) {
+                //call `done()` to release the client back to the pool
+                done();
+                var luckybagNumber = luckybagSeed;
+                if(err){
+                    //doesn't matter, we just give a number
+                    
+                }else{
+                    luckybagNumber += parseInt(result.rows[0].count);
+                }
+                
+                if(sharedby){
+                    pg.connect(conString, function(err, client, done) {
+                        if(err) {
+                            return console.error('error fetching client from pool', err);
+                        }
+                        client.query("select nickname, headimgurl, a.openid from auth_users a join lottery_record b on a.openid=b.openid where b.sharedby=$1", [sharedby], function(err, result){
+                            done();
+                            var friends = false;
+                            if(err || result.rows.length === 0){
+                                //doen't matter
+                            }else{
+                                friends = result.rows;
+                            }
+                            
+                            console.log("query friends result callback : " + result.rows);
+                            pg.connect(conString, function(err, client, done) {
+                                if(err) {
+                                    return console.error('error fetching client from pool', err);
+                                }
+                                client.query("select title, content from share_info where shareid=$1", 
+                                        [shareid], function(err, result){
+                                    done();
+                                    var title = '',
+                                        content = '';
+                                    if(err || result.rows.length === 0){
+                                        //now result, should provide a default
+                                    }else{
+                                        title = result.rows[0].title;
+                                        content = result.rows[0].content;
+                                    }
+                                    res.render('index', { luckybagNumber : luckybagNumber, 
+                                            friends: friends, title: title, content: content});
+                                });
+                            });
+                            
+                        });
+                    });
+                }else{
+                    res.render('index', { luckybagNumber : luckybagNumber, friends: false, title:'', content: ''});
+                }
+                    
+            });
+        });
+        
+        db.run(function (client,  callback){
             // client is a node-postgres client object
             client.query("select count(*) from lottery_record where used=$1", [true], function(err, result){
                 var luckybagNumber = luckybagSeed;
@@ -265,6 +325,7 @@ app.get('/', function(req, res, next) {
                 
             });
         
+            
         });
         
     });
