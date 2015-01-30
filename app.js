@@ -17,9 +17,9 @@ var conString = config.dbConStr;
 var db = require('pg-bricks').configure(conString);
 db.pg.defaults.poolSize = 20;
 
-//var pg = require('pg');
+var pg = require('pg');
 //set connection pool size to 20
-//pg.defaults.poolSize = 20;
+pg.defaults.poolSize = 1;
 
 var routes = require('./routes/index');
 var html_dir = './static';
@@ -48,7 +48,33 @@ var authFilter = function(req, res, next){
             +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
     }
     
-    db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT * from auth_users where openid=$1', [openid], function(err, result) {
+            //call `done()` to release the client back to the pool
+            done();
+            
+            if(err) {
+                return console.error('error running query', err);
+            }
+            
+            if(result.rows.length > 0 && result.rows[0]){
+                next();
+            }else{
+                console.log("could not find any record associated with this openid");
+                //else need redirect to weixin for auth
+                return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
+                    + config.wxAppId + "&redirect_uri=" 
+                    + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
+                    +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
+            }
+        //output: 1
+        });
+    });
+    /*
+db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
         if(err) {  
           console.error('error running query', err);
           next(err);
@@ -62,10 +88,11 @@ var authFilter = function(req, res, next){
             //else need redirect to weixin for auth
             return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
                 + config.wxAppId + "&redirect_uri=" 
-                + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=http://campaign.canda.cn/users")
+                + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
                 +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
         }
-    });    
+    }); 
+*/   
 }
 
 // view engine setup
@@ -196,7 +223,67 @@ app.get('/', function(req, res, next) {
         
                 
         res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
-        db.run(function (client,  getTotalLuckyBagNumberCb){
+        
+        pg.connect(conString, function(err, client, done) {
+            if(err) {
+                return console.error('error fetching client from pool', err);
+            }
+            client.query('select count(*) from lottery_record where used=$1', [true], function(err, result) {
+                //call `done()` to release the client back to the pool
+                done();
+                var luckybagNumber = luckybagSeed;
+                if(err){
+                    //doesn't matter, we just give a number
+                    
+                }else{
+                    luckybagNumber += parseInt(result.rows[0].count);
+                }
+                
+                if(sharedby){
+                    pg.connect(conString, function(err, client, done) {
+                        if(err) {
+                            return console.error('error fetching client from pool', err);
+                        }
+                        client.query("select nickname, headimgurl, a.openid from auth_users a join lottery_record b on a.openid=b.openid where b.sharedby=$1", [sharedby], function(err, result){
+                            done();
+                            var friends = false;
+                            if(err || result.rows.length === 0){
+                                //doen't matter
+                            }else{
+                                friends = result.rows;
+                            }
+                            
+                            console.log("query friends result callback : " + result.rows);
+                            pg.connect(conString, function(err, client, done) {
+                                if(err) {
+                                    return console.error('error fetching client from pool', err);
+                                }
+                                client.query("select title, content from share_info where shareid=$1", 
+                                        [shareid], function(err, result){
+                                    done();
+                                    var title = '',
+                                        content = '';
+                                    if(err || result.rows.length === 0){
+                                        //now result, should provide a default
+                                    }else{
+                                        title = result.rows[0].title;
+                                        content = result.rows[0].content;
+                                    }
+                                    res.render('index', { luckybagNumber : luckybagNumber, 
+                                            friends: friends, title: title, content: content});
+                                });
+                            });
+                            
+                        });
+                    });
+                }else{
+                    res.render('index', { luckybagNumber : luckybagNumber, friends: false, title:'', content: ''});
+                }
+                    
+            });
+        });
+        
+        db.run(function (client,  callback){
             // client is a node-postgres client object
             client.query("select count(*) from lottery_record where used=$1", [true], function(err, result){
                 var luckybagNumber = luckybagSeed;
@@ -239,6 +326,7 @@ app.get('/', function(req, res, next) {
                 
             });
         
+            
         });
         
     });
@@ -274,6 +362,9 @@ app.get('/wxoauth_callback', function(req, res, next){
             var access_token = resData.access_token;
     		var refresh_token = resData.refresh_token;
     		var openid = resData.openid;
+    		
+    		res.cookie('openid', openid, { maxAge: 365 * 24 * 60 * 60 * 1000 }); //Save openid for 365 days
+    		
             var getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" 
                     + access_token + "&openid=" + openid + "&lang=zh_CN";
             request.get(getUserInfoUrl, function(err, response, body){
@@ -319,8 +410,8 @@ app.get('/wxoauth_callback', function(req, res, next){
                                   return next(err);
                                 }
                                 //set the openid in cookie
-                                res.cookie('openid', openid, { maxAge: 365 * 24 * 60 * 60 * 1000 }); //Save openid for 365 days
-        	
+                                console.log("Reset openid in cookie : " + openid);
+                                
                                 return res.redirect(req.query.redirect);
                             });
                     }else{
@@ -344,7 +435,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                   console.error('error running query', err);
                                   return next(err);
                                 }
-                                res.cookie('openid', openid, { maxAge: 365 * 24 * 60 * 60 * 1000  });
+                                
                                 return res.redirect(req.query.redirect);
                             });
                     }
@@ -354,7 +445,10 @@ app.get('/wxoauth_callback', function(req, res, next){
     });
 })
 
+<<<<<<< HEAD
 //提交手机号码
+=======
+>>>>>>> upstream/master
 app.post('/lottery', function(req, res, next){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(req.body);
@@ -396,10 +490,11 @@ app.post('/lottery', function(req, res, next){
                     
                 
                 //call message api to send sms
-                if (rows[0].value != 888) {
+                if (rows[0].value !== 888) {
                     var sms = config.smsNormal;
                     sms = sms.replace("【变量1】", rows[0].value);
                     sms = sms.replace("【变量2】", rows[0].code);
+<<<<<<< HEAD
                     // request.post({
                     //             url:'http://121.199.16.178/webservice/sms.php?method=Submit',
                     //             form: {
@@ -412,8 +507,35 @@ app.post('/lottery', function(req, res, next){
                     //             console.log(bd);
                     //         }
                     // );
+=======
+                    request.post({
+                            url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                            form: {
+                                account: 'cf_obizsoft',
+                                password: 'a123456',
+                                mobile: input.mobile,
+                                content: sms
+                            }
+                        }, function(err, res, bd){
+                            console.log(bd);
+                        }
+                    );
+>>>>>>> upstream/master
                 }else{
-    
+                    var sms = config.sms888;
+                    sms = sms.replace("【变量1】", rows[0].code);
+                    request.post({
+                            url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                            form: {
+                                account: 'cf_obizsoft',
+                                password: 'a123456',
+                                mobile: input.mobile,
+                                content: sms
+                            }
+                        }, function(err, res, bd){
+                            console.log(bd);
+                        }
+                    );
                 }
     
                 res.json({
@@ -458,59 +580,19 @@ app.post('/shareInfos', function(req, res, next) {
 
 
 app.get('/users', function(req, res, next){
-      
-    /*
-pg.connect(conString, function(err, client, done) {
-        if(err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query('SELECT mobile, name from user_reg', function(err, result) {
-            //call `done()` to release the client back to the pool
-            done();
-            if(err) {
-              return console.error('error running query', err);
-            }
-            console.log(result.rows[0].mobile);
-            //output: 1
-            var r = {
-                mobile: result.rows[0].mobile,
-                name: result.rows[0].name
-            }
-            res.json(r);
-        });
-    });
-*/ 
-    db.select().from('user_reg').where('mobile', '13764211365').rows(function(err, rows){
+    var input = JSON.parse(JSON.stringify(req.body));
+    
+    client.query("select b.openid, b.nickname, b.headimgurl from lottery_record a join auth_users b on a.openid=b.openid   where a.sharedby=$1", [input.sharedby], 
+                function(err, result){
         if(err) {  
           console.error('error running query', err);
           next(err);
           return;
         }
-        console.log(rows[0].mobile);
-        var r = {
-            mobile: rows[0].mobile,
-            name: rows[0].name
-        }
-        //call message api to send sms
-        var sms = config.smsNormal;
-        sms = sms.replace("【变量1】", '50');
-        sms = sms.replace("【变量2】", '55555555');
-        /*
-request.post({
-                    url:'http://121.199.16.178/webservice/sms.php?method=Submit', 
-                    form: { 
-                        account: 'cf_obizsoft',
-                        password: 'a123456',
-                        mobile: '13764211365',
-                        content: sms
-                    }
-                }, function(err, res, bd){
-                    console.log(bd);
-                }
-        );
-*/
-        res.json(r);
+                
+        return res.json(result.rows);
     });
+    
 });
 
 // catch 404 and forward to error handler

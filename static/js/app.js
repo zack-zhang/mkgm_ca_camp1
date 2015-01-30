@@ -62,7 +62,24 @@ function hideWeiXinHint(){
     $("#weixin_hint").addClass("f-dn");
 }
 
+<<<<<<< HEAD
 
+
+$(function(){
+
+=======
+function GetRequest() {
+   var url = location.search; //获取url中"?"符后的字串
+   var theRequest = new Object();
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+      }
+   }
+   return theRequest;
+}
 
 $(function(){
 
@@ -71,6 +88,7 @@ $(function(){
         firstPrize = 1,
         usedNumber = 0,
         tooLate = 0;
+
     var wishIndex = 0;
     var pics = new Array();
      //自定义祝福语
@@ -78,13 +96,16 @@ $(function(){
 
     var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
 
+    //获取url中 shareid参数作为shareby
     var Request = new Object();
         Request = GetRequest();
     var shareBy = Request['shareid'] == undefined?'':Request['shareid'];
+    //如果有shareid话说明是分享进去的
     if (shareBy.length>0) 
     {
         weixin = 1;
     };
+    //cookie中获取微信config需要的参数，后台给
 
     var jsapiTicket = $.cookie("jsticket"),
         openid = $.cookie("openid"),
@@ -93,6 +114,7 @@ $(function(){
         jsapiTimestamp = parseInt(jsapiElements[1]),
         jsapiNonceStr = jsapiElements[2],
         jsapiSignature = jsapiElements[3];
+
     
     wx.config({
 	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -103,6 +125,7 @@ $(function(){
 	    jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 	});
 
+    //分享各个参数初始化
     var localUrl = location.href,
         shareid = openid+"_"+ Date.parse(new Date()),
         shareUrl = localUrl,
@@ -113,7 +136,7 @@ $(function(){
     {
         weixin = 1;
     };
-    console.log(shareid);
+    // 替换url中shareid为自己的id
     if (weixin == 1) 
     {
         shareUrl = shareUrl.replace(shareBy,shareid);
@@ -123,13 +146,15 @@ $(function(){
         shareUrl = shareUrl + "?shareid="+shareid;
     }
 
+
+    //微信分享朋友，分享朋友圈逻辑
     function weixinShare(){
         var arrayIndex = wishIndex;
         if (arrayIndex<=-100) 
         {
             arrayIndex = 3;
         };
-        alert("index = "+ arrayIndex + "content="+ wishContent[arrayIndex]);
+        //分享给朋友
         wx.onMenuShareAppMessage({
                 title: title, // 分享标题
                 desc: wishContent[arrayIndex], // 分享描述
@@ -137,7 +162,7 @@ $(function(){
                 imgUrl: shareImg, // 分享图标
                 success: function () { 
                     // 用户确认分享后执行的回调函数
-                    // wxShareSuccess('分享给好友','wx js-sdk test',shareid);
+                    //分享成功后调用后台接口
                     $.ajax({
                         url: '/shareInfos',
                         type: 'post',
@@ -157,10 +182,10 @@ $(function(){
                     // 用户取消分享后执行的回调函数
                 }
             });
-
+            //分享给朋友圈
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
-                desc:wishContent[arrayIndex],
+                desc:wishContent[wishIndex<=-100?3:wishIndex],
                 link: shareUrl, // 分享链接
                 imgUrl:shareImg, // 分享图标
                 success: function () { 
@@ -187,7 +212,7 @@ $(function(){
     }
 
 
-
+    //微信接口初始化
     wx.ready(function(){
         
         // var arrayIndex = ;
@@ -200,6 +225,7 @@ $(function(){
         weixinShare();
 
 	});
+
     var imgURL = "",
         baseUrl = getHostUrl(),
         userMobile = "",
@@ -208,42 +234,6 @@ $(function(){
         deviceHeight = $(window).height(),
         trackingCampaign = "color_riche" ;
 
-//set body height according to the device width
-    
-        
-    // var mySwiper, bgWidth = 640,
-    //     mpImage,
-    //     maxImageWidth = 640, 
-    //     canvasWidth = 1440,
-    //     canvasHeight = 1920,
-    //     currentThemeId = themeYH,
-    //     bgHeight = 1016,
-    //     deviceWidth = $(window).width(),
-    //     deviceHeight = $(window).height(),
-    //     infoMasked = !1,
-    //     showTip = !0,
-    //     pickThemeSwiper,
-    //     pickThemeSwiper2,
-    //     ptSwiperTop = deviceWidth/640 * 96, 
-    //     ptSwiperHeight = deviceWidth/640 * 588,
-    //     ptSlideHeight = deviceWidth/640 * 492,
-    //     ptSlideWidth = 327.5 * deviceWidth/640,
-    //     ptScreenLeft = (640-327.5)/2 * deviceWidth/640,
-    //     ptScreenWidth = 299 * ptSlideHeight/476,
-    //     ptScreenLeft = (ptSlideWidth - ptScreenWidth)/2
-    //     peditorWidth = 450 * deviceWidth/640, //Editor at slide6
-    //     peditorLeft = (deviceWidth - peditorWidth)/2, 
-    //     peditorHeight = ( 599 / 450) * peditorWidth,
-    //     peditorTop = deviceWidth/640 * 120;
-        
-    //     if(deviceHeight<=450){
-        
-    //     ptSwiperTop = deviceWidth/640 * 80, 
-    //     ptSwiperHeight = deviceWidth/640 * 480,
-    //     ptSlideHeight = deviceWidth/640 * 392;
- 
-            
-    //         }
 
     var  infoMasked = !1;
         
@@ -264,6 +254,7 @@ $(function(){
         $(".page4_ip4").attr("src", "images/page3_bg_origin2.jpg");
         $(".loading_ip4").attr("src","images/loading_image.jpg");
         $(".campInfo_ip4").attr("src","images/campInfo_origin.jpg");
+        $(".confirmWish_ip4").attr("src","images/confirmWish_origin.png");
 
 
     };
@@ -300,7 +291,6 @@ $(function(){
      * progressCallBack 加载中回调函数
      * completeCallback 图片加载完成回调函数
      */
-    
     
     $(document).find(".preload").each(function(e){
         
@@ -355,6 +345,7 @@ $(function(){
              //console.log(w);
               var per = parseInt(w);
                 //console.log(per);
+                $(".m-progress").removeClass("f-dn");
                 $(".loading_num").html(w);
                 $(".loading_page").find(".animated").removeClass("f-dn");
 
@@ -389,6 +380,7 @@ $(function(){
 
     var count = parseInt($(".luckybag").html().trim());
     var count1 = parseInt(count/1000000);
+    var count1 = parseInt(count/1000000) ;
     var count2 = parseInt(count/100000)%10;
     var count3 = parseInt(count/10000)%10;
     var count4 = parseInt(count/1000)%10;
@@ -410,9 +402,6 @@ $(function(){
     var shareContent = $(".sharedContent").html().trim();
 
     console.log("title = " + shareTitle + " content = " + shareContent);
-
-
-
 
    // $("#num1").html(count1.toString());
     // $("#num1").css("background-image","url("+changeNum(count1)+")");
@@ -621,61 +610,8 @@ $(function(){
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
 
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
-                    alert("您输入的手机号有误")
+                    alert("您输入的手机号有误");
 
-        }
-        else
-        {
-            $.ajax({
-            url: '/lottery',
-            type: 'post',
-            dataType: 'json',
-            data: { mobile: phone,
-                    openid:openid,
-                    sharedby:shareBy},
-            success:function(data){
-                if (data.success) 
-                {
-                    console.log("value: "+data.data.value + "code: "+data.data.code);
-                    if (data.data.value == 888) 
-                    {
-                        firstPrize = 1;
-                    }
-                    else{
-                        firstPrize = 0;
-                    }
-                    $('.page2_confirm').removeClass("f-dn");
-                    $('.page2_info').removeClass("f-dn");
-                }
-                else{
-                    if (data.errorCode == 'PHONE_USED') 
-                    {
-                        $('.usedNumber').removeClass("f-dn");
-                        $('.usedBtn').removeClass("f-dn");
-                    }
-                    else if (data.errorCode == 'OVER') 
-                    {
-                        //活动结束
-                    };
-
-                }
-            }
-        });  
-        }
-        
-  
-
-    }); 
-
-    $(".page0_confirmPhone").click(function(e){
-
-        var phone = $("#input-mobile2").val();
-       
-        var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-        console.log(phone);
-
-        if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
-                    alert("您输入的手机号有误")
         }
         else{
             $.ajax({
@@ -712,8 +648,62 @@ $(function(){
 
                 }
             }
+        });  
+        
+        
+  
+
+    }); 
+
+    $(".page0_confirmPhone").click(function(e){
+
+        var phone = $("#input-mobile2").val();
+       
+        var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
+        console.log(phone);
+
+        if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
+                    alert("您输入的手机号有误");
+        }
+        else{
+            $.ajax({
+            url: '/lottery',
+            type: 'post',
+            dataType: 'json',
+            data: { mobile: phone,
+                    openid:openid,
+                    sharedby:shareBy},
+            success:function(data){
+                if (data.success) 
+                {
+                    console.log("value: "+data.data.value + "code: "+data.data.code);
+                    if (data.data.value == 888) 
+                    {
+                        firstPrize = 1;
+                    }
+                    else{
+                        firstPrize = 0;
+                        $(".page3_cash1").html(parseInt(data.data.value));
+                        $(".page3_cash2").html(200-parseInt(data.data.value));
+                    }
+                    $('.page2_confirm').removeClass("f-dn");
+                    $('.page2_info').removeClass("f-dn");
+                }
+                else{
+                    if (data.errorCode == 'PHONE_USED') 
+                    {
+                        $('.usedNumber').removeClass("f-dn");
+                        $('.usedBtn').removeClass("f-dn");
+                    }
+                    else if (data.errorCode == 'OVER') 
+                    {
+                        //活动结束
+                    };
+
+                }
+            }
         });
-        }  
+          
     }); 
 
     $('.usedBtn').click(function(e){
@@ -787,9 +777,12 @@ $(function(){
 
     })
 
+
+
+
     //滑动祝福语
-        
-        var maxIndex=3,
+
+    var maxIndex=3,
         minDistance = 30;
 
     var tsPoint = {
@@ -816,7 +809,382 @@ $(function(){
         
     }
 
+    var swipeEvent2 = function(e){
+        console.log(e)
+        var type = e.type;
+        var touch = e.touches[0];
+        switch(type){
+            case "touchstart":
+                
+                tsPoint.x = touch.pageX
+                tsPoint.y = touch.pageY
+                tePoint.x = touch.pageX
+                tePoint.y = touch.pageY
+                break;
 
+            case "touchend":
+              
+                swipeDirection2(tsPoint,tePoint);
+                swpieDistance(tsPoint,tePoint);
+                break;
+            case "touchmove":
+                tePoint.x=touch.pageX
+                tePoint.y=touch.pageY
+                break;
+
+        }
+        
+
+    }
+
+
+    var wishSwiper2 = document.getElementById("wishSwiper2");
+    wishSwiper2.addEventListener("touchstart",swipeEvent2);
+    wishSwiper2.addEventListener("touchmove",swipeEvent2);
+    wishSwiper2.addEventListener("touchend",swipeEvent2);
+
+    
+
+    //自定义祝福语
+    // var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”",""];
+
+    // console.log(wishTitleContent[0]);
+    // var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
+
+
+
+
+    var swipeDirection2 = function(tsPoint,tePoint){
+        var distanceX = tePoint.x - tsPoint.x
+        wishIndex = wishIndex%maxIndex;
+        console.log(wishIndex);
+        if (distanceX > minDistance || distanceX < minDistance*(-1) ) {
+            $(".page4_wishTitle1").removeClass("animated fadeOutRight1");
+            $(".page4_wishTitle1").removeClass("animated fadeInLeft1");
+            $(".page4_wishTitle2").removeClass("animated fadeOutRight1");
+            $(".page4_wishTitle2").removeClass("animated fadeInLeft1");
+            $(".page4_wishTitle3").removeClass("animated fadeOutRight1");
+            $(".page4_wishTitle3").removeClass("animated fadeInLeft1");
+            $(".page4_wishTitleC").removeClass("animated fadeOutRight1");
+            $(".page4_wishTitleC").removeClass("animated fadeInLeft1");
+
+            $(".page4_wishTitle1").removeClass("animated fadeOutLeft1");
+            $(".page4_wishTitle1").removeClass("animated fadeInRight1");
+            $(".page4_wishTitle2").removeClass("animated fadeOutLeft1");
+            $(".page4_wishTitle2").removeClass("animated fadeInRight1");
+            $(".page4_wishTitle3").removeClass("animated fadeOutLeft1");
+            $(".page4_wishTitle3").removeClass("animated fadeInRight1");
+            $(".page4_wishTitleC").removeClass("animated fadeOutLeft1");
+            $(".page4_wishTitleC").removeClass("animated fadeInRight1");
+        }
+            
+
+        if(distanceX > minDistance){
+            console.log("往右滑");
+            
+            
+            switch(wishIndex){
+                case 0:    
+
+                    $(".page4_wishTitle1").addClass("animated fadeOutRight1");
+                    
+
+                    $(".page4_wishTitle2").removeClass("f-ann");
+                    $(".page4_wishTitle2").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle3").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+
+                               
+                    break;
+
+                case 1:
+
+                    $(".page4_wishTitle2").addClass("animated fadeOutRight1");
+                    
+                    $(".page4_wishTitle3").removeClass("f-ann");
+                    $(".page4_wishTitle3").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle1").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+                    
+                    break;
+
+                case 2:
+
+                    $(".page4_wishTitle3").addClass("animated fadeOutRight1");
+                   
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle2").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                   
+                    wishIndex++;
+                    break;
+
+                default:
+                    $(".page4_wishTitleC").addClass("animated fadeOutRight1");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+                    
+                    
+                    wishIndex =0;
+                    break;
+
+
+            }
+
+            
+
+
+            
+           
+
+            
+        }else if (distanceX < minDistance*(-1)){//往左滑
+            console.log("往左滑");
+
+            
+
+            switch(wishIndex){
+                case 0:
+                    $(".page4_wishTitle1").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle2").addClass("f-ann");
+                    $(".page4_wishTitle3").removeClass("f-ann");
+                    $(".page4_wishTitle3").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    wishIndex--;
+                    break;
+
+                case 1:
+                     $(".page4_wishTitle2").addClass("animated fadeOutLeft1");
+                     $(".page4_wishTitle3").addClass("f-ann");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                case 2:
+                    $(".page4_wishTitle3").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle1").addClass("f-ann");
+                    $(".page4_wishTitle2").removeClass("f-ann");
+                    $(".page4_wishTitle2").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                 default:
+                    $(".page4_wishTitleC").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInRight1");
+                    
+                    wishIndex = 0;
+                    
+                    break;
+
+            }
+
+           
+        }
+        if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+         weixinShare();//重新初始化分享接口，动态改变分享描述
+    }
+
+   //普通福袋祝福语
+
+  
+
+    var swipeEvent = function(e){
+        
+        var type = e.type;
+        var touch = e.touches[0];
+        switch(type){
+            case "touchstart":
+                
+                tsPoint.x = touch.pageX
+                tsPoint.y = touch.pageY
+                tePoint.x = touch.pageX
+                tePoint.y = touch.pageY
+                break;
+
+            case "touchend":
+              
+                swipeDirection(tsPoint,tePoint);
+                swpieDistance(tsPoint,tePoint);
+                break;
+            case "touchmove":
+                
+                tePoint.x=touch.pageX
+                tePoint.y=touch.pageY
+                break;
+
+        }
+        
+
+    }
+    
+    var wishSwiper = document.getElementById("wishSwiper");
+    wishSwiper.addEventListener("touchstart",swipeEvent);
+    wishSwiper.addEventListener("touchmove",swipeEvent);
+    wishSwiper.addEventListener("touchend",swipeEvent);
+
+  
+    var swipeDirection = function(tsPoint,tePoint){
+        var distanceX = tePoint.x - tsPoint.x
+        wishIndex = wishIndex%maxIndex;
+        console.log(wishIndex);
+        console.log("startX:"+tsPoint.x);
+        console.log("endX:"+tePoint.x);
+
+        if (distanceX > minDistance || distanceX < minDistance*(-1) ) {
+            $(".page3_wishTitle1").removeClass("animated fadeOutRight1");
+            $(".page3_wishTitle1").removeClass("animated fadeInLeft1");
+            $(".page3_wishTitle2").removeClass("animated fadeOutRight1");
+            $(".page3_wishTitle2").removeClass("animated fadeInLeft1");
+            $(".page3_wishTitle3").removeClass("animated fadeOutRight1");
+            $(".page3_wishTitle3").removeClass("animated fadeInLeft1");
+            $(".page3_wishTitleC").removeClass("animated fadeOutRight1");
+            $(".page3_wishTitleC").removeClass("animated fadeInLeft1");
+
+            $(".page3_wishTitle1").removeClass("animated fadeOutLeft1");
+            $(".page3_wishTitle1").removeClass("animated fadeInRight1");
+            $(".page3_wishTitle2").removeClass("animated fadeOutLeft1");
+            $(".page3_wishTitle2").removeClass("animated fadeInRight1");
+            $(".page3_wishTitle3").removeClass("animated fadeOutLeft1");
+            $(".page3_wishTitle3").removeClass("animated fadeInRight1");
+            $(".page3_wishTitleC").removeClass("animated fadeOutLeft1");
+            $(".page3_wishTitleC").removeClass("animated fadeInRight1");
+        }
+            
+
+        
+
+        if(distanceX > minDistance){
+            console.log("往右滑");
+            
+            
+            switch(wishIndex){
+                case 0:    
+
+                    $(".page3_wishTitle1").addClass("animated fadeOutRight1");
+                    
+
+                    $(".page3_wishTitle2").removeClass("f-ann");
+                    $(".page3_wishTitle2").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle3").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+
+                               
+                    break;
+
+                case 1:
+
+                    $(".page3_wishTitle2").addClass("animated fadeOutRight1");
+                
+                    $(".page3_wishTitle3").removeClass("f-ann");
+                    $(".page3_wishTitle3").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle1").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+                    
+                    break;
+
+                case 2:
+
+                    $(".page3_wishTitle3").addClass("animated fadeOutRight1");
+                   
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle2").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                   
+                    wishIndex++;
+                    break;
+
+                default:
+                    $(".page3_wishTitleC").addClass("animated fadeOutRight1");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                    
+                    
+                    wishIndex =0;
+                    break;
+
+
+            }
+
+            
+
+
+            
+           
+
+            
+        }else if (distanceX < minDistance*(-1)){//往左滑
+            console.log("往左滑");
+
+            // if(-100<wishIndex<
+
+            switch(wishIndex){
+                case 0:
+                    $(".page3_wishTitle1").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle2").addClass("f-ann");
+                    $(".page3_wishTitle3").removeClass("f-ann");
+                    $(".page3_wishTitle3").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    wishIndex--;
+                    break;
+
+                case 1:
+                     $(".page3_wishTitle2").addClass("animated fadeOutLeft1");
+                     $(".page3_wishTitle3").addClass("f-ann");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                case 2:
+                    $(".page3_wishTitle3").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle1").addClass("f-ann");
+                    $(".page3_wishTitle2").removeClass("f-ann");
+                    $(".page3_wishTitle2").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                 default:
+                    $(".page3_wishTitleC").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                    
+                    wishIndex = 0;
+                    
+                    break;
+
+            }
+
+           
+        }
+        if (wishIndex>-100&&wishIndex<0) 
+        {
+            wishIndex += maxIndex;
+        };
+        weixinShare();//重新初始化分享接口，动态改变分享描述
+    }
+  
     var swipeEvent2 = function(e){
         console.log(e)
         var type = e.type;
@@ -1231,11 +1599,12 @@ $(function(){
 
     //福袋已抢完  
 
+
     //滑动祝福语
     var i = 0;
-    $(".page4_arrowR").click(function(e){
-        $(".")
-    })
+    // $(".page4_arrowR").click(function(e){
+    //     $(".")
+    // })
     
     $(".page4_send").click(function(e){
         $(".share-screen").removeClass("f-dn");
@@ -1251,10 +1620,12 @@ $(function(){
         $(".wish-screen").removeClass("f-dn");
     })
 
+    // $("#wishC_2").html($("#input_wishcus").val()); 
 
+    
 
     $(".confirmWish_Btn").click(function(e){
-         $(".wish-screen").addClass("f-dn");
+        $(".wish-screen").addClass("f-dn");
         $("#wishC_2").html($("#input_wishcus").val()); 
         $("#wishC").html($("#input_wishcus").val());
 
